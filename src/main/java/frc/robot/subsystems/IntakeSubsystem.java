@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
+  
   private final PWMSparkMax motor = new PWMSparkMax(0);
     
   public IntakeSubsystem() {}
