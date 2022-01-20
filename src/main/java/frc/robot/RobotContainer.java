@@ -7,6 +7,8 @@ package frc.robot;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -22,11 +24,15 @@ public class RobotContainer {
   private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
   private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
 
+  //creates field for simmulation
+  private Field2d field = new Field2d();
 
   public RobotContainer() {
     intakeSubsystem.setDefaultCommand(intake);
 
     configureButtonBindings();
+
+    SmartDashboard.putData("Field", field);
   }
 
   private void configureButtonBindings() {

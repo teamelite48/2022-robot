@@ -11,14 +11,29 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/ExampleSubsystem": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "bottom": 900,
+        "height": 8.229599952697754,
+        "image": "field\\2022-field.png",
+        "left": 74,
+        "right": 1774,
+        "top": 50,
+        "width": 16.459199905395508,
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "Plot": {
     "Plot <0>": {
       "plots": [
         {
-          "height": 326,
+          "height": -9,
           "series": [
             {
               "color": [
