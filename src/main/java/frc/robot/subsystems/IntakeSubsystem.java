@@ -6,10 +6,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.config.PwmPorts;
 
 public class IntakeSubsystem extends SubsystemBase {
   
-  private final PWMSparkMax motor = new PWMSparkMax(0);
+  private final PWMSparkMax motor = new PWMSparkMax(PwmPorts.IntakeMotor);
     
   public IntakeSubsystem() {}
 
