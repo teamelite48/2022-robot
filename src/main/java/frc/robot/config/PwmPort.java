@@ -1,6 +1,6 @@
 package frc.robot.config;
 
-public class PwmPorts {
+public class PwmPort {
     
     public static final int IntakeMotor = 0;
 

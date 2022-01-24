@@ -1,6 +1,6 @@
 package frc.robot.config;
 
-public class PneumaticChannels {
+public class PneumaticChannel {
     
     public static final int LeftArmForward = 0;
     public static final int LeftArmReverse = 1;
