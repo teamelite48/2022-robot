@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.PneumaticChannels;
-import frc.robot.config.PwmPorts;
+import frc.robot.config.PneumaticChannel;
+import frc.robot.config.PwmPort;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -20,15 +20,15 @@ public class DriveSubsystem extends SubsystemBase {
   // TODO: add new motors to controller groups
   // TODO: add right solenoid
 
-  PWMSparkMax leftFrontMotor = new PWMSparkMax(PwmPorts.LeftFrontDriveMotor);
+  PWMSparkMax leftFrontMotor = new PWMSparkMax(PwmPort.LeftFrontDriveMotor);
   MotorControllerGroup leftControllerGroup = new MotorControllerGroup (leftFrontMotor);
 
-  PWMSparkMax rightFrontMotor = new PWMSparkMax(PwmPorts.RightFrontDriveMotor);
+  PWMSparkMax rightFrontMotor = new PWMSparkMax(PwmPort.RightFrontDriveMotor);
   MotorControllerGroup rightControllerGroup = new MotorControllerGroup(rightFrontMotor);
 
   DifferentialDrive driveTrain = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
 
-  Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannels.LeftGearShiftForward);
+  Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftGearShiftForward);
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     leftControllerGroup.setInverted(true);

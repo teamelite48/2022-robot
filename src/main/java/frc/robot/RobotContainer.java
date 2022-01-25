@@ -5,45 +5,48 @@
 package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
+import frc.robot.config.JoystickPort;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 
 public class RobotContainer {
-  
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  
-  private final Command intake = new RunCommand(() -> intakeSubsystem.intake(), intakeSubsystem); 
-  private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
-  private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
-  private final Command drive = new RunCommand(() -> driveSubsystem.tankDrive(leftPilotJoystick.getYAxis(), rightPilotJoystick.getYAxis()), driveSubsystem);
+    private final Joystick leftPilotJoystick = new Joystick(JoystickPort.LeftPilotJoystick);
+    private final Joystick rightPilotJoystick = new Joystick(JoystickPort.RightPilotJoystick);
 
-  //creates field for simmulation
-  private Field2d field = new Field2d();
+    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-  public RobotContainer() {
-    driveSubsystem.setDefaultCommand(drive);
+    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-    configureButtonBindings();
+    private final Command intake = new RunCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
+    private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
+    private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
+    private final Command drive = new RunCommand( () -> driveSubsystem.tankDrive(leftPilotJoystick.getY(), rightPilotJoystick.getY()), driveSubsystem);
 
-    SmartDashboard.putData("Field", field);
-  }
+    // creates field for simmulation
+    private Field2d field = new Field2d();
 
-  private void configureButtonBindings() {
-    
-  }
+    public RobotContainer() {
+        driveSubsystem.setDefaultCommand(drive);
 
-  public Command getAutonomousCommand() {
-    return m_autoCommand;
-  }
+        configureButtonBindings();
+
+        SmartDashboard.putData("Field", field);
+    }
+
+    private void configureButtonBindings() {
+
+    }
+
+    public Command getAutonomousCommand() {
+        return m_autoCommand;
+    }
 }
