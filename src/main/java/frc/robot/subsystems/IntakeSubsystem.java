@@ -16,19 +16,18 @@ public class IntakeSubsystem extends SubsystemBase {
   
   private final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
   private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.IntakeForward);
-  private boolean isIntakeDeployed = false;
-  
+
   public IntakeSubsystem() {
-    intakeSolenoid.set(false);
+    intakeSolenoid.set(false);    
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Intake Deployed", isIntakeDeployed);
+    SmartDashboard.putBoolean("Intake Deployed", isIntakeDeployed());
   }
   
   public void intake() {
-    if (isIntakeDeployed == false) {
+    if (isIntakeDeployed() == false) {
       deploy();
     }
 
@@ -45,11 +44,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void deploy(){
     intakeSolenoid.set(true);
-    isIntakeDeployed = true; 
   }
 
   public void retract(){
     intakeSolenoid.set(false);
-    isIntakeDeployed = false;
+  }
+
+  public boolean isIntakeDeployed() {
+    return intakeSolenoid.get();
   }
 }
