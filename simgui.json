@@ -31,6 +31,11 @@
       }
     }
   },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "open": true
+    }
+  },
   "NetworkTables View": {
     "visible": false
   },
@@ -38,7 +43,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 502,
+          "height": 347,
           "series": [
             {
               "color": [

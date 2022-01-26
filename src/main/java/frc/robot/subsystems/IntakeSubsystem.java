@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.PneumaticChannel;
 import frc.robot.config.PwmPort;
@@ -14,14 +15,16 @@ import frc.robot.config.PwmPort;
 public class IntakeSubsystem extends SubsystemBase {
   
   private final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
-  private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH,PneumaticChannel.IntakeForward);
+  private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.IntakeForward);
   private boolean isIntakeDeployed = false;
   
-  public IntakeSubsystem() {}
+  public IntakeSubsystem() {
+    intakeSolenoid.set(false);
+  }
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putBoolean("Intake Deployed", isIntakeDeployed);
   }
   
   public void intake() {
