@@ -15,21 +15,24 @@ import frc.robot.config.PwmPort;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  // TODO: 2 additional left motors
-  // TODO: 2 additional right motors
-  // TODO: add new motors to controller groups
-  // TODO: add right solenoid
 
   PWMSparkMax leftFrontMotor = new PWMSparkMax(PwmPort.LeftFrontDriveMotor);
-  MotorControllerGroup leftControllerGroup = new MotorControllerGroup (leftFrontMotor);
+  PWMSparkMax leftMidMotor = new PWMSparkMax(PwmPort.LeftMidDriveMotor);
+  PWMSparkMax leftRearMotor = new PWMSparkMax(PwmPort.LeftRearDriveMotor);
+
+  MotorControllerGroup leftControllerGroup = new MotorControllerGroup (leftFrontMotor, leftMidMotor, leftRearMotor);
 
   PWMSparkMax rightFrontMotor = new PWMSparkMax(PwmPort.RightFrontDriveMotor);
-  MotorControllerGroup rightControllerGroup = new MotorControllerGroup(rightFrontMotor);
+  PWMSparkMax rightMidMotor = new PWMSparkMax(PwmPort.RightMidDriveMotor);
+  PWMSparkMax rightRearMotor = new PWMSparkMax(PwmPort.RightRearDriveMotor);
+
+  MotorControllerGroup rightControllerGroup = new MotorControllerGroup(rightFrontMotor,rightMidMotor, rightRearMotor);
 
   DifferentialDrive driveTrain = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
 
   Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftGearShiftForward);
-  /** Creates a new DriveSubsystem. */
+  Solenoid rightShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightGearShiftForward);
+
   public DriveSubsystem() {
     leftControllerGroup.setInverted(true);
   }
@@ -44,8 +47,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
   public void shiftHighGear() {
     leftShifterSolenoid.set(true);
-    // TODO: also activate right solenoid 
+    rightShifterSolenoid.set(true);
   }
 
-  // TODO: method to shift into low gear
-}
+  public void shiftLowGear() {
+    leftShifterSolenoid.set(false);
+    rightShifterSolenoid.set(false);
+  }
+  }
+
