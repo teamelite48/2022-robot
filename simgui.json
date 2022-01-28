@@ -36,14 +36,11 @@
       "open": true
     }
   },
-  "NetworkTables View": {
-    "visible": false
-  },
   "Plot": {
     "Plot <0>": {
       "plots": [
         {
-          "height": 347,
+          "height": 502,
           "series": [
             {
               "color": [

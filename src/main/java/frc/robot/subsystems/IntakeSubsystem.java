@@ -13,29 +13,36 @@ import frc.robot.config.PneumaticChannel;
 import frc.robot.config.PwmPort;
 
 public class IntakeSubsystem extends SubsystemBase {
-  
+
   private final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
   private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.IntakeForward);
 
+  private final double motorSpeed = 0.5;
+
   public IntakeSubsystem() {
-    intakeSolenoid.set(false);    
+    intakeSolenoid.set(false);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Intake Deployed", isIntakeDeployed());
   }
-  
+
   public void intake() {
     if (isIntakeDeployed() == false) {
       deploy();
     }
 
-    motor.set(0.5);
+    motor.set(motorSpeed);
   }
-  
+
   public void outtake() {
-    motor.set(-0.5);
+    if (isIntakeDeployed() == true){
+      motor.set(motorSpeed * -1);
+    }
+    else {
+      stop();
+    }
   }
 
   public void stop() {
