@@ -4,37 +4,27 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.PneumaticChannel;
 import frc.robot.config.PwmPort;
 
 public class DriveSubsystem extends SubsystemBase {
 
-
   PWMSparkMax leftFrontMotor = new PWMSparkMax(PwmPort.LeftFrontDriveMotor);
-  PWMSparkMax leftMidMotor = new PWMSparkMax(PwmPort.LeftMidDriveMotor);
   PWMSparkMax leftRearMotor = new PWMSparkMax(PwmPort.LeftRearDriveMotor);
-
-  MotorControllerGroup leftControllerGroup = new MotorControllerGroup (leftFrontMotor, leftMidMotor, leftRearMotor);
-
   PWMSparkMax rightFrontMotor = new PWMSparkMax(PwmPort.RightFrontDriveMotor);
-  PWMSparkMax rightMidMotor = new PWMSparkMax(PwmPort.RightMidDriveMotor);
   PWMSparkMax rightRearMotor = new PWMSparkMax(PwmPort.RightRearDriveMotor);
 
-  MotorControllerGroup rightControllerGroup = new MotorControllerGroup(rightFrontMotor,rightMidMotor, rightRearMotor);
+  MotorControllerGroup leftControllerGroup = new MotorControllerGroup (leftFrontMotor, leftRearMotor);
+  MotorControllerGroup rightControllerGroup = new MotorControllerGroup(rightFrontMotor, rightRearMotor);
 
   DifferentialDrive driveTrain = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
 
-  Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftGearShiftForward);
-  Solenoid rightShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightGearShiftForward);
-
   public DriveSubsystem() {
     leftControllerGroup.setInverted(true);
+    driveTrain.setMaxOutput(.3);
   }
 
   @Override
@@ -45,14 +35,5 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDrive(double leftSpeed, double rightSpeed) {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }
-  public void shiftHighGear() {
-    leftShifterSolenoid.set(true);
-    rightShifterSolenoid.set(true);
-  }
 
-  public void shiftLowGear() {
-    leftShifterSolenoid.set(false);
-    rightShifterSolenoid.set(false);
-  }
-  }
-
+}
