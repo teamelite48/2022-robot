@@ -1,5 +1,12 @@
 {
   "HALProvider": {
+    "Other Devices": {
+      "AnalogGyro[1]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
     "PWM Outputs": {
       "window": {
         "visible": true
@@ -13,6 +20,7 @@
       "/LiveWindow/ExampleSubsystem": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/ShooterSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/AnalogGyro[1]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/Field": "Field2d"
@@ -35,6 +43,9 @@
   "NetworkTables": {
     "LiveWindow": {
       "Ungrouped": {
+        "Encoder[0]": {
+          "open": true
+        },
         "Talon FX [0]": {
           "open": true
         },

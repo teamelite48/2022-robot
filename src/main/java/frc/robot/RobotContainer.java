@@ -7,8 +7,6 @@ package frc.robot;
 import frc.robot.config.JoystickPort;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -19,17 +17,12 @@ public class RobotContainer {
 
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-    private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(leftPilotJoystick.getY(), rightPilotJoystick.getY()), driveSubsystem);
-
-    // creates field for simmulation
-    private Field2d field = new Field2d();
+    private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
 
         configureButtonBindings();
-
-        SmartDashboard.putData("Field", field);
     }
 
     private void configureButtonBindings() {
