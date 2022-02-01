@@ -33,7 +33,7 @@ public class RobotContainer {
 
     private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-    private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(leftPilotJoystick.getY(), rightPilotJoystick.getY()), driveSubsystem);
+    private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
     private final Command intake = new RunCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
     private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
     private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
@@ -43,12 +43,12 @@ public class RobotContainer {
     // creates field for simmulation
     private Field2d field = new Field2d();
 
+
+
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
 
         configureButtonBindings();
-
-        SmartDashboard.putData("Field", field);
     }
 
     private void configureButtonBindings() {
