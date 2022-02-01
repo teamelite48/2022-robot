@@ -11,6 +11,6 @@ public class PwmPort {
     public static final int RightMidDriveMotor = 5;
     public static final int RightFrontDriveMotor = 6;
 
-    public static final int SortingMotor = 7;
-
+    public static final int ElevatorMotor = 7;
+    public static final int EscalatorMotor = 8;
 }
