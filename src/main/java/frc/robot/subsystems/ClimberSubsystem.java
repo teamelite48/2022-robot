@@ -33,8 +33,7 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
-  //TODO: Method to extend/retract right/left arms
-  //TODO: Method to toggle forward/back independently
+
 
   public void toggleLeftArm() {
     leftArmSolenoid.toggle();
