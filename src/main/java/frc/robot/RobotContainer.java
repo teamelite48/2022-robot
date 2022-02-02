@@ -11,6 +11,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,17 +29,15 @@ public class RobotContainer {
     private final Joystick rightPilotJoystick = new Joystick(JoystickPort.RightPilotJoystick);
     private final XboxController copilotGamepad = new XboxController(JoystickPort.CopilotGamepad);
 
-
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     private final ShooterFeedSubsystem shooterFeedSubsystem = new ShooterFeedSubsystem();
     private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
-
+    private final TurretSubsystem turretSubsystem = new TurretSubsystem();
 
     private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
-
 
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
     private final Command shiftLowGear = new InstantCommand(() -> driveSubsystem.shiftLowGear());
@@ -72,6 +71,9 @@ public class RobotContainer {
     private final Command sorterOut = new InstantCommand(() -> sorterSubsystem.out(), sorterSubsystem);
     private final Command sorterStop = new InstantCommand(() -> sorterSubsystem.stop(), sorterSubsystem);
 
+    private final Command rotateTurretClockwise = new InstantCommand(() -> turretSubsystem.rotateClockwise(), turretSubsystem);
+    private final Command rotateTurretCounterClockwise = new InstantCommand(() -> turretSubsystem.rotateCounterClockwise(), turretSubsystem);
+    private final Command stopTurret = new InstantCommand(() -> turretSubsystem.stop(), turretSubsystem);
 
     private final Command pickUpCargoAndShoot = new SequentialCommandGroup(
         ramseteCommandFactory.createCommand(TrajectoryType.GetReadyToShoot),
@@ -93,6 +95,7 @@ public class RobotContainer {
 
         JoystickButton shiftLowGearButton = new JoystickButton(leftPilotJoystick, 4);
         JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
+        JoystickButton shootButton = new JoystickButton(copilotGamepad, 2);
 
         intakeButton
             .whenPressed(intake)
@@ -138,6 +141,9 @@ public class RobotContainer {
 
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
         Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
+
+        JoystickButton rotateTurretClockwiseButton = new JoystickButton(copilotGamepad, 6);
+        JoystickButton rotateTurretCounterClockwiseButton = new JoystickButton(copilotGamepad, 5);
 
         toggleShooterButton
             .whenPressed(toggleShooter);
@@ -191,6 +197,14 @@ public class RobotContainer {
         sorterOutTrigger
             .whenActive(sorterOut)
             .whenInactive(sorterStop);
+
+        rotateTurretClockwiseButton
+            .whenPressed(rotateTurretClockwise)
+            .whenReleased(stopTurret);
+
+        rotateTurretCounterClockwiseButton
+            .whenPressed(rotateTurretCounterClockwise)
+            .whenReleased(stopTurret);
     }
 
     public Command getAutonomousCommand() {
