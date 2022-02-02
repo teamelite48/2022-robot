@@ -14,19 +14,19 @@ import frc.robot.config.CanBusId;
 import frc.robot.config.PneumaticChannel;
 
 public class ClimberSubsystem extends SubsystemBase {
-
-  //TODO: Create Solenoids x 2
-  //TODO: Create 2 WPILib Controllers
   
   private final WPI_TalonFX leftArmMotor = new WPI_TalonFX(CanBusId.LeftClimberMotor);
+  private final WPI_TalonFX rightArmMotor = new WPI_TalonFX(CanBusId.RightClimberMotor);
 
   private final DoubleSolenoid leftArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftArmForward, PneumaticChannel.LeftArmReverse);
+  private final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
 
   private final double motorSpeed = 0.5;
 
   public ClimberSubsystem() {
-    //TODO: Set default pos to back
+  
     leftArmSolenoid.set(Value.kReverse);
+    rightArmSolenoid.set(Value.kReverse);
 
   }
 
@@ -39,8 +39,15 @@ public class ClimberSubsystem extends SubsystemBase {
   public void toggleLeftArm() {
     leftArmSolenoid.toggle();
   }
+  public void toggleRightArm() {
+    rightArmSolenoid.toggle();
+  }
 
   public void extendLeftArm() {
     leftArmMotor.set(motorSpeed);
   }
+  public void extendRightArm(){
+    rightArmMotor.set(motorSpeed);
+  }
+  
 }
