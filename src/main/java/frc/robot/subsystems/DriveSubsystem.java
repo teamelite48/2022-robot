@@ -5,17 +5,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,22 +37,9 @@ public class DriveSubsystem extends SubsystemBase {
   private AnalogGyro gyro = new AnalogGyro(1);
 
   private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
-
-  private EncoderSim leftEncoderSim = new EncoderSim(leftEncoder);
-  private EncoderSim rightEncoderSim = new EncoderSim(rightEncoder);
-
-  private AnalogGyroSim gyroSim = new AnalogGyroSim(gyro);
-
-  private DifferentialDrivetrainSim driveSim = new DifferentialDrivetrainSim(
-    LinearSystemId.identifyDrivetrainSystem(DriveConfig.kvLinear, DriveConfig.kaLinear, DriveConfig.kvAngular, DriveConfig.kaAngular, DriveConfig.TrackWidthInMeters),
-    DCMotor.getNEO(3),
-    DriveConfig.GearingReduction,
-    DriveConfig.TrackWidthInMeters,
-    DriveConfig.WheelRadiusInMeters,
-    DriveConfig.EnocoderNoise
-  );
-
   private Field2d field = new Field2d();
+
+  private DriveSimulation simulation;
 
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
@@ -65,6 +47,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     initEncoders();
     initDashboard();
+
+    if (RobotBase.isSimulation()) {
+      simulation = new DriveSimulation(leftEncoder, rightEncoder, gyro);
+    }
   }
 
   @Override
@@ -80,21 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void simulationPeriodic() {
-
-    driveSim.setInputs(
-      leftControllerGroup.get() * RobotController.getInputVoltage(),
-      rightControllerGroup.get() * RobotController.getInputVoltage()
-    );
-
-    driveSim.update(0.02);
-
-    leftEncoderSim.setDistance(driveSim.getLeftPositionMeters());
-    leftEncoderSim.setRate(driveSim.getLeftVelocityMetersPerSecond());
-
-    rightEncoderSim.setDistance(driveSim.getRightPositionMeters());
-    rightEncoderSim.setRate(driveSim.getRightVelocityMetersPerSecond());
-
-    gyroSim.setAngle(-driveSim.getHeading().getDegrees());
+    simulation.update(leftControllerGroup.get(), rightControllerGroup.get());
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
