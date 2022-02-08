@@ -6,11 +6,13 @@ package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
 import frc.robot.config.JoystickPort;
-import frc.robot.subsystems.ClimberSubsystem;
+
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.climber.ArmLengthAdjustment;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
@@ -40,34 +43,29 @@ public class RobotContainer {
     private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
     private final Command retractIntake = new InstantCommand(() -> intakeSubsystem.retract(), intakeSubsystem);
     private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
-   
+
     private final Command enableClimber = new InstantCommand ( ()-> climberSubsystem.enableClimber(), climberSubsystem);
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
     private final Command toggleRightArmPosition = new InstantCommand(() -> climberSubsystem.toggleRightArmPosition(), climberSubsystem);
-    private final Command adjustArmLengths = new RunCommand(() -> climberSubsystem.adjustArmLengths(-copilotGamepad.getLeftY(), -copilotGamepad.getRightY()), climberSubsystem);
 
-    // creates field for simmulation
-    private Field2d field = new Field2d();
+    private final Command extendLeftArm = new InstantCommand(() -> climberSubsystem.adjustLeftArmLength(ArmLengthAdjustment.Longer), climberSubsystem);
+    private final Command retractLeftArm = new InstantCommand(() -> climberSubsystem.adjustLeftArmLength(ArmLengthAdjustment.Shorter), climberSubsystem);
+    private final Command stopLeftArm = new InstantCommand(() -> climberSubsystem.stopLeftArm(), climberSubsystem);
 
-
+    // TODO: Add commands to extend, retract, and stop the right arm.
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
-        climberSubsystem.setDefaultCommand(adjustArmLengths);    
 
-        configureButtonBindings();
+        configurePilotButtonBindings();
+        configureCopilotButtonBindings();
     }
 
-    private void configureButtonBindings() {
+    private void configurePilotButtonBindings() {
         JoystickButton intakeButton = new JoystickButton(leftPilotJoystick, 6);
         JoystickButton outtakeButton = new JoystickButton(rightPilotJoystick, 11);
         JoystickButton retractIntakeButton = new JoystickButton(rightPilotJoystick, 10);
-        JoystickButton toggleLeftArmPositionButton = new JoystickButton(copilotGamepad, 9);
-        JoystickButton toggleRightArmPositionButton = new JoystickButton(copilotGamepad, 10);
-        JoystickButton shootButton = new JoystickButton(copilotGamepad, 2);
-        JoystickButton enableClimberButtonA = new JoystickButton(copilotGamepad, 7);
-        JoystickButton enableClimberButtonB = new JoystickButton(copilotGamepad, 8);
-    
+
         intakeButton
             .whenPressed(intake)
             .whenReleased(stopIntake);
@@ -78,18 +76,45 @@ public class RobotContainer {
 
         retractIntakeButton
             .whenPressed(retractIntake);
+    }
+
+    private void configureCopilotButtonBindings() {
+
+        JoystickButton shootButton = new JoystickButton(copilotGamepad, 2);
+
+        JoystickButton enableClimberButtonA = new JoystickButton(copilotGamepad, 7);
+        JoystickButton enableClimberButtonB = new JoystickButton(copilotGamepad, 8);
+
+        JoystickButton toggleLeftArmPositionButton = new JoystickButton(copilotGamepad, 9);
+        JoystickButton toggleRightArmPositionButton = new JoystickButton(copilotGamepad, 10);
+
+        Trigger extendLeftArmTrigger = new Trigger(() -> copilotGamepad.getLeftY() < -0.5);
+        Trigger retractLeftArmTrigger = new Trigger(() -> copilotGamepad.getLeftY() > 0.5);
+
+        // TODO: Add triggers to extend and retract the right arm.
 
         shootButton
             .whileHeld(shoot);
-        
+
+        enableClimberButtonA.and(enableClimberButtonB)
+            .whenActive(enableClimber);
+
         toggleLeftArmPositionButton
             .whenPressed(toggleLeftArmPosition);
 
         toggleRightArmPositionButton
             .whenPressed(toggleRightArmPosition);
 
-        enableClimberButtonA.and(enableClimberButtonB)
-            .whenActive(enableClimber);
+        extendLeftArmTrigger
+            .whenActive(extendLeftArm)
+            .whenInactive(stopLeftArm);
+
+        retractLeftArmTrigger
+            .whenActive(retractLeftArm)
+            .whenInactive(stopLeftArm);
+
+        // TODO: Bind the extend and retract commands to the extend and retract buttons.
+        //       Don't forget to stop the arm when the triggers are inactive.
     }
 
     public Command getAutonomousCommand() {
