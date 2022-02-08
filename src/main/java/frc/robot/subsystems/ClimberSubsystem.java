@@ -74,35 +74,27 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void toggleLeftArmPosition() {
-    if (isClimberEnabled == false){
-      return;
+    if (isClimberEnabled == true){
+      leftArmSolenoid.toggle();
     }
-
-    leftArmSolenoid.toggle();
   }
 
   public void toggleRightArmPosition() {
-    if (isClimberEnabled == false){
-      return;
+    if (isClimberEnabled == true){
+      rightArmSolenoid.toggle();
     }
-
-    rightArmSolenoid.toggle();
   }
 
   public void extendLeftArm() {
-    if (isClimberEnabled == false) {
-      return;
+    if (isClimberEnabled == true) {
+      leftArmMotor.set(motorSpeed);
     }
-
-    leftArmMotor.set(motorSpeed);
   }
 
   public void retractLeftArm() {
-    if (isClimberEnabled == false) {
-      return;
+    if (isClimberEnabled == true) {
+      leftArmMotor.set(-motorSpeed);
     }
-
-    leftArmMotor.set(-motorSpeed);
   }
 
   public void stopLeftArm() {
