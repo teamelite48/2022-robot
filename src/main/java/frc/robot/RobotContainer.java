@@ -114,7 +114,7 @@ public class RobotContainer {
             .whenActive(retractLeftArm)
             .whenInactive(stopLeftArm);
 
-        // TODO: Bind the extend and retract commands to the extend and retract buttons for the right arm.
+        // TODO: Bind the extend and retract commands to the extend and retract triggers for the right arm.
         //       Don't forget to stop the arm when the triggers are inactive.
     }
 

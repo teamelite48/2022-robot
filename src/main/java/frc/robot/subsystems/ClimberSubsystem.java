@@ -22,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX rightArmMotor = new WPI_TalonFX(CanBusId.RightClimberMotor);
 
   private TalonFXSimCollection leftArmSim;
-  // TODO: Add a TalonFX sim collection for right arm.
+  // TODO: Add a TalonFX sim collection for the right arm.
 
   private final DoubleSolenoid leftArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftArmForward, PneumaticChannel.LeftArmReverse);
   private final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
