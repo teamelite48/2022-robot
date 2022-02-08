@@ -6,16 +6,15 @@ package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
 import frc.robot.config.JoystickPort;
-
-import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.climber.ArmLengthAdjustment;
+
+
+import frc.robot.subsystems.ClimberSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -37,22 +36,23 @@ public class RobotContainer {
 
     private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
     private final Command intake = new RunCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
     private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
     private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
     private final Command retractIntake = new InstantCommand(() -> intakeSubsystem.retract(), intakeSubsystem);
+
     private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
 
     private final Command enableClimber = new InstantCommand ( ()-> climberSubsystem.enableClimber(), climberSubsystem);
+
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
     private final Command toggleRightArmPosition = new InstantCommand(() -> climberSubsystem.toggleRightArmPosition(), climberSubsystem);
 
-    private final Command extendLeftArm = new InstantCommand(() -> climberSubsystem.adjustLeftArmLength(ArmLengthAdjustment.Longer), climberSubsystem);
-    private final Command retractLeftArm = new InstantCommand(() -> climberSubsystem.adjustLeftArmLength(ArmLengthAdjustment.Shorter), climberSubsystem);
+    private final Command extendLeftArm = new InstantCommand(() -> climberSubsystem.extendLeftArm(), climberSubsystem);
+    private final Command retractLeftArm = new InstantCommand(() -> climberSubsystem.retractLeftArm(), climberSubsystem);
     private final Command stopLeftArm = new InstantCommand(() -> climberSubsystem.stopLeftArm(), climberSubsystem);
-
-    // TODO: Add commands to extend, retract, and stop the right arm.
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
@@ -62,6 +62,7 @@ public class RobotContainer {
     }
 
     private void configurePilotButtonBindings() {
+
         JoystickButton intakeButton = new JoystickButton(leftPilotJoystick, 6);
         JoystickButton outtakeButton = new JoystickButton(rightPilotJoystick, 11);
         JoystickButton retractIntakeButton = new JoystickButton(rightPilotJoystick, 10);
@@ -113,7 +114,7 @@ public class RobotContainer {
             .whenActive(retractLeftArm)
             .whenInactive(stopLeftArm);
 
-        // TODO: Bind the extend and retract commands to the extend and retract buttons.
+        // TODO: Bind the extend and retract commands to the extend and retract buttons for the right arm.
         //       Don't forget to stop the arm when the triggers are inactive.
     }
 

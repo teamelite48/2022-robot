@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.climber;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -42,10 +42,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
     if (RobotBase.isSimulation() == true) {
       leftArmSim = leftArmMotor.getSimCollection();
+
       // TODO: Initialize the right arm sim collection.
       //       Notice how the if statement only allows this to happen in simulation mode.
       //       We wouldn't want our simulation logic affecting the sensors during a real match.
-
     }
   }
 
@@ -89,33 +89,35 @@ public class ClimberSubsystem extends SubsystemBase {
     rightArmSolenoid.toggle();
   }
 
-  public void adjustLeftArmLength(ArmLengthAdjustment adjustment) {
+  public void extendLeftArm() {
     if (isClimberEnabled == false) {
       return;
     }
 
-    if (adjustment == ArmLengthAdjustment.Longer) {
-      leftArmMotor.set(motorSpeed);
+    leftArmMotor.set(motorSpeed);
+  }
+
+  public void retractLeftArm() {
+    if (isClimberEnabled == false) {
+      return;
     }
-    else if (adjustment == ArmLengthAdjustment.Shorter) {
-      leftArmMotor.set(-motorSpeed);
-    }
-    else {
-      stopLeftArm();
-    }
+
+    leftArmMotor.set(-motorSpeed);
   }
 
   public void stopLeftArm() {
     leftArmMotor.set(0);
   }
 
-  public void adjustRightArmLength(ArmLengthAdjustment adjustment) {
-    // TODO: Run the right arm motor forwards or backwards based on the adjustment value.
-    // TODO: If the adjustment value is neither longer or shorter we should stop the motor,
-    //       because this behavior is undefined.
+  public void extendRightArm() {
+    // TODO: extend the left arm
+  }
+
+  public void retractRightArm() {
+    // TODO: retract the right arm
   }
 
   public void stopRightArm() {
-    // TODO: Stop the right arm motor.
+    // TODO: stop the right arm
   }
 }
