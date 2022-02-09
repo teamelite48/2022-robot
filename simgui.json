@@ -46,6 +46,9 @@
         "Encoder[0]": {
           "open": true
         },
+        "Solenoid[1,4]": {
+          "open": true
+        },
         "Talon FX [0]": {
           "open": true
         },
@@ -92,7 +95,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [

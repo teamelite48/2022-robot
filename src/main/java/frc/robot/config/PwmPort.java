@@ -1,16 +1,17 @@
 package frc.robot.config;
 
 public class PwmPort {
-    
-    public static final int IntakeMotor = 0;
 
-    public static final int LeftRearDriveMotor = 1;
-    public static final int LeftMidDriveMotor = 2;
-    public static final int LeftFrontDriveMotor = 3;
-    public static final int RightRearDriveMotor = 4;
-    public static final int RightMidDriveMotor = 5;
-    public static final int RightFrontDriveMotor = 6;
 
-    public static final int ElevatorMotor = 7;
-    public static final int EscalatorMotor = 8;
+
+    public static final int LeftRearDriveMotor = 0;
+    public static final int LeftMidDriveMotor = 1;
+    public static final int LeftFrontDriveMotor = 2;
+    public static final int RightRearDriveMotor = 3;
+    public static final int RightMidDriveMotor = 4;
+    public static final int RightFrontDriveMotor = 5;
+
+    public static final int IntakeMotor = 6;
+
+    public static final int SorterMotor = 8;
 }

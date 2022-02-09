@@ -4,22 +4,24 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.config.CanBusId;
 import frc.robot.config.ElevatorConfig;
-import frc.robot.config.PwmPort;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class ShooterFeedSubsystem extends SubsystemBase {
 
-  private final PWMSparkMax motor = new PWMSparkMax(PwmPort.ElevatorMotor);
- 
-  public ElevatorSubsystem() {}
+  private final CANSparkMax motor = new CANSparkMax(CanBusId.ShooterFeedMotor, MotorType.kBrushless);
+
+  public ShooterFeedSubsystem() {}
 
   @Override
   public void periodic() {
-    
+
   }
-  
+
   public void up(){
     motor.set(ElevatorConfig.MotorSpeed);
   }

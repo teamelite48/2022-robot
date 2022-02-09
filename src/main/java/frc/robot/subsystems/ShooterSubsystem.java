@@ -11,14 +11,21 @@ import frc.robot.config.CanBusId;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  private final WPI_TalonFX motor= new WPI_TalonFX(CanBusId.ShooterMotor);
+  private final WPI_TalonFX topMotor= new WPI_TalonFX(CanBusId.TopShooterMotor);
+  private final WPI_TalonFX bottomMotor = new WPI_TalonFX(CanBusId.BottomShooterMotor);
 
-  public ShooterSubsystem() {}
+  public ShooterSubsystem() {
+
+    topMotor.configFactoryDefault();
+    bottomMotor.configFactoryDefault();
+
+    bottomMotor.follow(topMotor);
+  }
 
   @Override
   public void periodic() {}
 
   public void shoot() {
-    motor.set(1.0);
+    topMotor.set(1.0);
   }
 }
