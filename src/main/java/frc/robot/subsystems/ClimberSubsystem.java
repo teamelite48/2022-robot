@@ -22,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonFX rightArmMotor = new WPI_TalonFX(CanBusId.RightClimberMotor);
 
   private TalonFXSimCollection leftArmSim;
-  // TODO: Add a TalonFX sim collection for the right arm.
+  private TalonFXSimCollection rightArmSim;
 
   private final DoubleSolenoid leftArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftArmForward, PneumaticChannel.LeftArmReverse);
   private final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
@@ -39,13 +39,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
     // TODO: We need to invert one of the motors, but I'm not sure which one yet.
     // leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
+    // or rightArmMotor.setInverted(TalonFXInvertType.Clockwise);
 
     if (RobotBase.isSimulation() == true) {
       leftArmSim = leftArmMotor.getSimCollection();
 
-      // TODO: Initialize the right arm sim collection.
-      //       Notice how the if statement only allows this to happen in simulation mode.
-      //       We wouldn't want our simulation logic affecting the sensors during a real match.
+    if (RobotBase.isSimulation() == true){
+      rightArmSim = rightArmMotor.getSimCollection();
+    }
+
     }
   }
 
@@ -63,10 +65,12 @@ public class ClimberSubsystem extends SubsystemBase {
     double currentLeftArmPosition = leftArmMotor.getSensorCollection().getIntegratedSensorPosition();
     int newLeftArmPosition = (int) (currentLeftArmPosition + leftArmSim.getMotorOutputLeadVoltage() * ticksPerPeriodic);
 
-    leftArmSim.setIntegratedSensorRawPosition(newLeftArmPosition);
+    double currentRightArmPosition = rightArmMotor.getSensorCollection().getIntegratedSensorPosition();
+    int newRightArmPosition = (int) (currentRightArmPosition + rightArmSim.getMotorOutputLeadVoltage() * ticksPerPeriodic);
 
-    // TODO: Simulate the right arm sensor position, similar to the left arm above.
-    //       We'll use this for testing the arm length limits in the simulator.
+    leftArmSim.setIntegratedSensorRawPosition(newLeftArmPosition);
+    rightArmSim.setIntegratedSensorRawPosition(newRightArmPosition);
+
   }
 
   public void enableClimber() {
@@ -102,14 +106,18 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void extendRightArm() {
-    // TODO: extend the left arm
+    if (isClimberEnabled) {
+      rightArmMotor.set(motorSpeed);
+    }
   }
 
   public void retractRightArm() {
-    // TODO: retract the right arm
+    if (isClimberEnabled){
+      rightArmMotor.set(-motorSpeed);
+    }
   }
 
   public void stopRightArm() {
-    // TODO: stop the right arm
+    rightArmMotor.set(0);
   }
 }
