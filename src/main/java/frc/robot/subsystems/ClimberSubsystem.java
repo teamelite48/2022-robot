@@ -46,7 +46,7 @@ public class ClimberSubsystem extends SubsystemBase {
     rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.reverseLimit, 30);
     rightArmMotor.configForwardSoftLimitEnable (true, 30);
     rightArmMotor.configReverseSoftLimitEnable(true, 30);
-    
+
 
     // TODO: We need to invert one of the motors, but I'm not sure which one yet.
     // leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -63,6 +63,8 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
     SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get().toString());
     SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get().toString());
+    SmartDashboard.putNumber("Left Arm Length", 100 * leftArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.forwardLimit);
+    SmartDashboard.putNumber("Right Arm Length", 100 * rightArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.forwardLimit);
   }
 
   public void simulationPeriodic() {
