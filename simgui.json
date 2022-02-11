@@ -1,6 +1,11 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "ADIS16470[0]": {
+        "header": {
+          "open": true
+        }
+      },
       "AnalogGyro[1]": {
         "header": {
           "open": true
@@ -61,7 +66,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 502,
+          "height": 277,
           "series": [
             {
               "color": [
@@ -92,7 +97,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
