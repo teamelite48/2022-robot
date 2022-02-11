@@ -6,8 +6,9 @@ package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -45,9 +46,9 @@ public class DriveSubsystem extends SubsystemBase {
   private Encoder leftEncoder = new Encoder(DioPort.LeftEncoderChannelA, DioPort.LeftEncoderChannelB);
   private Encoder rightEncoder = new Encoder(DioPort.RightEncoderChannelA, DioPort.RightEncoderChannelB);
 
-  private AnalogGyro gyro = new AnalogGyro(1);
+  private ADIS16470_IMU gyro = new ADIS16470_IMU();
 
-  private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+  private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getAngle()));
   private Field2d field = new Field2d();
 
   private DriveSimulation simulation;
@@ -68,12 +69,13 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
 
     odometry.update(
-      gyro.getRotation2d(),
+      Rotation2d.fromDegrees(gyro.getAngle()),
       leftEncoder.getDistance(),
       rightEncoder.getDistance()
     );
 
     field.setRobotPose(odometry.getPoseMeters());
+    SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
   }
 
   public void simulationPeriodic() {
