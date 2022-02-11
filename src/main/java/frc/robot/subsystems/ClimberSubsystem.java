@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.CanBusId;
+import frc.robot.config.ClimberConfig;
 import frc.robot.config.PneumaticChannel;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -28,7 +29,6 @@ public class ClimberSubsystem extends SubsystemBase {
   private final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
 
   private boolean isClimberEnabled = false;
-  private final double motorSpeed = 0.5;
 
   public ClimberSubsystem() {
     leftArmSolenoid.set(Value.kReverse);
@@ -37,17 +37,24 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
 
+    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.forwardLimit, 30);
+    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.reverseLimit, 30);
+    leftArmMotor.configForwardSoftLimitEnable (true, 30);
+    leftArmMotor.configReverseSoftLimitEnable(true, 30);
+
+    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.forwardLimit, 30);
+    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.reverseLimit, 30);
+    rightArmMotor.configForwardSoftLimitEnable (true, 30);
+    rightArmMotor.configReverseSoftLimitEnable(true, 30);
+    
+
     // TODO: We need to invert one of the motors, but I'm not sure which one yet.
     // leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
     // or rightArmMotor.setInverted(TalonFXInvertType.Clockwise);
 
     if (RobotBase.isSimulation() == true) {
       leftArmSim = leftArmMotor.getSimCollection();
-
-    if (RobotBase.isSimulation() == true){
       rightArmSim = rightArmMotor.getSimCollection();
-    }
-
     }
   }
 
@@ -91,13 +98,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void extendLeftArm() {
     if (isClimberEnabled) {
-      leftArmMotor.set(motorSpeed);
+      leftArmMotor.set(ClimberConfig.motorSpeed);
     }
   }
 
   public void retractLeftArm() {
     if (isClimberEnabled) {
-      leftArmMotor.set(-motorSpeed);
+      leftArmMotor.set(-ClimberConfig.motorSpeed);
     }
   }
 
@@ -107,13 +114,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void extendRightArm() {
     if (isClimberEnabled) {
-      rightArmMotor.set(motorSpeed);
+      rightArmMotor.set(ClimberConfig.motorSpeed);
     }
   }
 
   public void retractRightArm() {
     if (isClimberEnabled){
-      rightArmMotor.set(-motorSpeed);
+      rightArmMotor.set(-ClimberConfig.motorSpeed);
     }
   }
 
