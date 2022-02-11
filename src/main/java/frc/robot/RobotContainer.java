@@ -54,6 +54,11 @@ public class RobotContainer {
     private final Command retractLeftArm = new InstantCommand(() -> climberSubsystem.retractLeftArm(), climberSubsystem);
     private final Command stopLeftArm = new InstantCommand(() -> climberSubsystem.stopLeftArm(), climberSubsystem);
 
+
+    private final Command extendRightArm = new InstantCommand(() -> climberSubsystem.extendRightArm(), climberSubsystem);
+    private final Command retractRightArm = new InstantCommand(() -> climberSubsystem.retractRightArm(), climberSubsystem);
+    private final Command stopRightArm = new InstantCommand(() -> climberSubsystem.stopRightArm(), climberSubsystem);
+
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
 
@@ -92,7 +97,9 @@ public class RobotContainer {
         Trigger extendLeftArmTrigger = new Trigger(() -> copilotGamepad.getLeftY() < -0.5);
         Trigger retractLeftArmTrigger = new Trigger(() -> copilotGamepad.getLeftY() > 0.5);
 
-        // TODO: Add triggers to extend and retract the right arm.
+        Trigger extendRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
+        Trigger retractRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
+
 
         shootButton
             .whileHeld(shoot);
@@ -114,8 +121,13 @@ public class RobotContainer {
             .whenActive(retractLeftArm)
             .whenInactive(stopLeftArm);
 
-        // TODO: Bind the extend and retract commands to the extend and retract triggers for the right arm.
-        //       Don't forget to stop the arm when the triggers are inactive.
+        extendRightArmTrigger
+            .whenActive(extendRightArm)
+            .whenInactive(stopRightArm);
+
+        retractRightArmTrigger
+            .whenActive(retractRightArm)
+            .whenInactive(stopRightArm);
     }
 
     public Command getAutonomousCommand() {
