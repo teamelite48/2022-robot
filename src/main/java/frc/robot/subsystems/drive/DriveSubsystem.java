@@ -99,6 +99,7 @@ public class DriveSubsystem extends SubsystemBase {
     double metersPerPulse = 2 * DriveConfig.WheelRadiusInMeters * Math.PI / DriveConfig.EncoderResolution;
 
     leftEncoder.setDistancePerPulse(metersPerPulse);
+    leftEncoder.setReverseDirection(true);
     rightEncoder.setDistancePerPulse(metersPerPulse);
   }
 

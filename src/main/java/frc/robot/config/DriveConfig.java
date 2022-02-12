@@ -22,6 +22,6 @@ public final class DriveConfig {
 
     public static final Vector<N7> EnocoderNoise = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
 
-    public static final double MaxOutput = 0.3;
+    public static final double MaxOutput = 0.6;
     public static final int EncoderResolution = 2048;
 }
