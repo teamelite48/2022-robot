@@ -126,7 +126,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "CANEncoder:Talon FX[1]/Integrated Sensor-position"
+              "id": "PWM[0]"
             },
             {
               "color": [
@@ -135,7 +135,7 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "CANEncoder:Talon FX[2]/Integrated Sensor-position"
+              "id": "PWM[4]"
             }
           ]
         }

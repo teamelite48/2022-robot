@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
@@ -60,8 +61,8 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
-    SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get().toString());
-    SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get().toString());
+    SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get() == Value.kForward ? "Forward" : "Reverse");
+    SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get() == Value.kForward ? "Forward" : "Reverse");
     SmartDashboard.putNumber("Left Arm Length", 100 * leftArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.forwardLimit);
     SmartDashboard.putNumber("Right Arm Length", 100 * rightArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.forwardLimit);
   }
