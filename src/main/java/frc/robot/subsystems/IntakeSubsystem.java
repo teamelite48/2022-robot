@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.PneumaticChannel;
-import frc.robot.config.PwmPort;
+import frc.robot.config.roborio.PneumaticChannel;
+import frc.robot.config.roborio.PwmPort;
 
 public class IntakeSubsystem extends SubsystemBase {
 

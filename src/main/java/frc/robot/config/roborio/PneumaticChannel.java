@@ -1,7 +1,7 @@
-package frc.robot.config;
+package frc.robot.config.roborio;
 
 public class PneumaticChannel {
-    
+
     public static final int LeftArmForward = 0;
     public static final int LeftArmReverse = 1;
     public static final int RightArmForward = 2;

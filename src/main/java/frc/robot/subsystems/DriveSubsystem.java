@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -17,10 +17,11 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.PneumaticChannel;
-import frc.robot.config.DioPort;
-import frc.robot.config.DriveConfig;
-import frc.robot.config.PwmPort;
+import frc.robot.config.roborio.DioPort;
+import frc.robot.config.roborio.PneumaticChannel;
+import frc.robot.config.roborio.PwmPort;
+import frc.robot.config.subsystems.DriveConfig;
+import frc.robot.simulation.DriveSimulation;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -55,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
-    driveTrain.setMaxOutput(DriveConfig.MaxOutput);
+    driveTrain.setMaxOutput(DriveConfig.maxOutput);
 
     initEncoders();
     initDashboard();
@@ -96,7 +97,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   private void initEncoders() {
-    double metersPerPulse = 2 * DriveConfig.WheelRadiusInMeters * Math.PI / DriveConfig.EncoderResolution;
+    double metersPerPulse = 2 * DriveConfig.wheelRadiusInMeters * Math.PI / DriveConfig.encoderResolution;
 
     leftEncoder.setDistancePerPulse(metersPerPulse);
     leftEncoder.setReverseDirection(true);

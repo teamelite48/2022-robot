@@ -10,12 +10,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.CanBusId;
-import frc.robot.config.ClimberConfig;
-import frc.robot.config.PneumaticChannel;
+import frc.robot.config.roborio.CanBusId;
+import frc.robot.config.roborio.PneumaticChannel;
+import frc.robot.config.subsystems.ClimberConfig;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -31,8 +30,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private boolean isClimberEnabled = false;
 
   public ClimberSubsystem() {
-    leftArmSolenoid.set(Value.kReverse);
-    rightArmSolenoid.set(Value.kReverse);
+    leftArmSolenoid.set(ClimberConfig.initialArmPosition);
+    rightArmSolenoid.set(ClimberConfig.initialArmPosition);
 
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
@@ -69,7 +68,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void simulationPeriodic() {
 
-    int ticksPerPeriodic = 100;
+    int ticksPerPeriodic = 1;
 
     double currentLeftArmPosition = leftArmMotor.getSensorCollection().getIntegratedSensorPosition();
     int newLeftArmPosition = (int) (currentLeftArmPosition + leftArmSim.getMotorOutputLeadVoltage() * ticksPerPeriodic);

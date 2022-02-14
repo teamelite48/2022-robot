@@ -8,8 +8,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.CanBusId;
-import frc.robot.config.ElevatorConfig;
+import frc.robot.config.roborio.CanBusId;
+import frc.robot.config.subsystems.ElevatorConfig;
 
 public class ShooterFeedSubsystem extends SubsystemBase {
 
@@ -23,11 +23,11 @@ public class ShooterFeedSubsystem extends SubsystemBase {
   }
 
   public void up(){
-    motor.set(ElevatorConfig.MotorSpeed);
+    motor.set(ElevatorConfig.motorSpeed);
   }
 
   public void down(){
-    motor.set(-ElevatorConfig.MotorSpeed);
+    motor.set(-ElevatorConfig.motorSpeed);
   }
 
   public void stop(){

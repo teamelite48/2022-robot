@@ -1,4 +1,4 @@
-package frc.robot.config;
+package frc.robot.config.subsystems;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
@@ -14,14 +14,14 @@ public final class DriveConfig {
     public static final double kaAngular = 0.3;
 
     // TODO: Get real values
-    public static final double GearingReduction = 7.29;
-    public static final double TrackWidthInMeters = 0.7112;
+    public static final double gearingReduction = 7.29;
+    public static final double trackWidthInMeters = 0.7112;
 
     // TODO: Get real values
-    public static final double WheelRadiusInMeters = Units.inchesToMeters(3);
+    public static final double wheelRadiusInMeters = Units.inchesToMeters(4);
 
-    public static final Vector<N7> EnocoderNoise = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
+    public static final Vector<N7> enocoderNoise = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
 
-    public static final double MaxOutput = 0.6;
-    public static final int EncoderResolution = 2048;
+    public static final double maxOutput = 0.6;
+    public static final int encoderResolution = 360;
 }
