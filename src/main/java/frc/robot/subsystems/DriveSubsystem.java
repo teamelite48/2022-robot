@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -94,6 +96,20 @@ public class DriveSubsystem extends SubsystemBase {
   public void shiftLowGear() {
     leftShifterSolenoid.set(false);
     rightShifterSolenoid.set(false);
+  }
+
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftControllerGroup.setVoltage(leftVolts);
+    rightControllerGroup.setVoltage(rightVolts);
+    driveTrain.feed();
   }
 
   private void initEncoders() {

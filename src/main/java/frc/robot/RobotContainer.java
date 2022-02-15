@@ -4,9 +4,8 @@
 
 package frc.robot;
 
-import frc.robot.commands.ExampleCommand;
 import frc.robot.config.roborio.JoystickPort;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.pathfollowing.RamseteFactory;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -27,15 +26,12 @@ public class RobotContainer {
     private final Joystick rightPilotJoystick = new Joystick(JoystickPort.RightPilotJoystick);
     private final XboxController copilotGamepad = new XboxController(JoystickPort.CopilotGamepad);
 
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
-    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+    private final RamseteFactory ramseteFactory = new RamseteFactory(driveSubsystem);
 
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
     private final Command intake = new RunCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
@@ -131,6 +127,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return m_autoCommand;
+        return ramseteFactory.simple();
     }
 }
