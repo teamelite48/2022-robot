@@ -41,7 +41,7 @@ public class RobotContainer {
 
     private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
 
-    private final Command enableClimber = new InstantCommand ( ()-> climberSubsystem.enableClimber(), climberSubsystem);
+    private final Command toggleClimber = new InstantCommand (()-> climberSubsystem.toggleClimber(), climberSubsystem);
 
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
     private final Command toggleRightArmPosition = new InstantCommand(() -> climberSubsystem.toggleRightArmPosition(), climberSubsystem);
@@ -101,7 +101,7 @@ public class RobotContainer {
             .whileHeld(shoot);
 
         enableClimberButtonA.and(enableClimberButtonB)
-            .whenActive(enableClimber);
+            .whenActive(toggleClimber);
 
         toggleLeftArmPositionButton
             .whenPressed(toggleLeftArmPosition);

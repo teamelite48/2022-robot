@@ -82,8 +82,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
 
-  public void enableClimber() {
-    isClimberEnabled = true;
+  public void toggleClimber() {
+    isClimberEnabled = !isClimberEnabled;
   }
 
   public void toggleLeftArmPosition() {

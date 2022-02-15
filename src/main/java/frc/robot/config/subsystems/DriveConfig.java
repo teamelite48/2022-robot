@@ -17,7 +17,6 @@ public final class DriveConfig {
 
     // TODO: Get real values
     public static final double wheelRadiusInMeters = Units.inchesToMeters(4);
-    public static final double trackWidthInMeters = 0.7112;
 
     public static final Vector<N7> enocoderNoise = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
 

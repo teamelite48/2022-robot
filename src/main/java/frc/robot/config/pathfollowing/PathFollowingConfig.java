@@ -12,7 +12,8 @@ public final class PathFollowingConfig {
   public static final double kaVoltSecondsSquaredPerMeter = 0.2;
   public static final double kPDriveVel = 8.5;
 
-  public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(DriveConfig.trackWidthInMeters);
+  public static final double trackWidthInMeters = 0.7112;
+  public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(trackWidthInMeters);
 
   public static final int kMaxSpeedMetersPerSecond = 3;
   public static final int kMaxAccelerationMetersPerSecondSquared = 3;
