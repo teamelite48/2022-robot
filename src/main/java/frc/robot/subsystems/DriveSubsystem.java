@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -44,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
-    driveTrain.setMaxOutput(DriveConfig.MaxOutput);
+    driveTrain.setMaxOutput(DriveConfig.maxOutput);
 
     initEncoders();
     initDashboard();
@@ -75,8 +77,22 @@ public class DriveSubsystem extends SubsystemBase {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }
 
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftControllerGroup.setVoltage(leftVolts);
+    rightControllerGroup.setVoltage(rightVolts);
+    driveTrain.feed();
+  }
+
   private void initEncoders() {
-    double metersPerPulse = 2 * DriveConfig.WheelRadiusInMeters * Math.PI / DriveConfig.EncoderResolution;
+    double metersPerPulse = 2 * DriveConfig.wheelRadiusInMeters * Math.PI / DriveConfig.encoderResolution;
 
     leftEncoder.setDistancePerPulse(metersPerPulse);
     leftEncoder.setReverseDirection(true);

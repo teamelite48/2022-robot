@@ -30,11 +30,11 @@ public class DriveSimulation {
     gyroSim = new ADIS16470_IMUSim(gyro);
 
     driveSim = new DifferentialDrivetrainSim(
-      LinearSystemId.identifyDrivetrainSystem(DriveConfig.kvLinear, DriveConfig.kaLinear, DriveConfig.kvAngular, DriveConfig.kaAngular, DriveConfig.TrackWidthInMeters),
+      LinearSystemId.identifyDrivetrainSystem(DriveConfig.kvLinear, DriveConfig.kaLinear, DriveConfig.kvAngular, DriveConfig.kaAngular, DriveConfig.trackWidthInMeters),
       DCMotor.getNEO(3),
-      DriveConfig.GearingReduction,
-      DriveConfig.TrackWidthInMeters,
-      DriveConfig.WheelRadiusInMeters,
+      DriveConfig.gearingReduction,
+      DriveConfig.trackWidthInMeters,
+      DriveConfig.wheelRadiusInMeters,
       DriveConfig.EnocoderNoise
     );
   }

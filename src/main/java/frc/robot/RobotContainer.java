@@ -4,7 +4,9 @@
 
 package frc.robot;
 
-import frc.robot.config.JoystickPort;
+import frc.robot.config.roborio.JoystickPort;
+import frc.robot.pathfollowing.RamseteFactory;
+
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,7 +17,10 @@ public class RobotContainer {
     private final Joystick leftPilotJoystick = new Joystick(JoystickPort.LeftPilotJoystick);
     private final Joystick rightPilotJoystick = new Joystick(JoystickPort.RightPilotJoystick);
 
+
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+
+    private final RamseteFactory ramseteFactory = new RamseteFactory(driveSubsystem);
 
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
 
@@ -28,5 +33,4 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
     }
-
 }
