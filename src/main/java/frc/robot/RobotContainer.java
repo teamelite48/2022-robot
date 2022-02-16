@@ -5,8 +5,8 @@
 package frc.robot;
 
 import frc.robot.config.roborio.JoystickPort;
+import frc.robot.pathfollowing.TrajectoryType;
 import frc.robot.pathfollowing.RamseteCommandFactory;
-import frc.robot.pathfollowing.PathType;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -149,6 +149,6 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
-        return ramseteCommandFactory.getCommand(PathType.BackOffLine);
+        return ramseteCommandFactory.createCommand(TrajectoryType.Test);
     }
 }
