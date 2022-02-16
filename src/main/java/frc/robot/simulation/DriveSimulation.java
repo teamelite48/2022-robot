@@ -1,14 +1,15 @@
-package frc.robot.subsystems;
+package frc.robot.simulation;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
-import frc.robot.config.subsystem.DriveConfig;
+import frc.robot.config.pathfollowing.PathFollowingConfig;
+import frc.robot.config.simulation.SimulationConfig;
+import frc.robot.config.subsystems.DriveConfig;
 import edu.wpi.first.wpilibj.simulation.ADIS16470_IMUSim;
 
 public class DriveSimulation {
@@ -30,12 +31,12 @@ public class DriveSimulation {
     gyroSim = new ADIS16470_IMUSim(gyro);
 
     driveSim = new DifferentialDrivetrainSim(
-      LinearSystemId.identifyDrivetrainSystem(DriveConfig.kvLinear, DriveConfig.kaLinear, DriveConfig.kvAngular, DriveConfig.kaAngular, DriveConfig.trackWidthInMeters),
+      LinearSystemId.identifyDrivetrainSystem(SimulationConfig.kvLinear, SimulationConfig.kaLinear, SimulationConfig.kvAngular, SimulationConfig.kaAngular, PathFollowingConfig.trackWidthInMeters),
       DCMotor.getNEO(3),
-      DriveConfig.gearingReduction,
-      DriveConfig.trackWidthInMeters,
+      SimulationConfig.gearingReduction,
+      PathFollowingConfig.trackWidthInMeters,
       DriveConfig.wheelRadiusInMeters,
-      DriveConfig.EnocoderNoise
+      SimulationConfig.EnocoderNoise
     );
   }
 
