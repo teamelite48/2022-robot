@@ -8,6 +8,7 @@ import frc.robot.config.roborio.JoystickPort;
 import frc.robot.pathfollowing.RamseteCommandFactory;
 import frc.robot.pathfollowing.PathType;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
@@ -31,6 +32,7 @@ public class RobotContainer {
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+    private final ShooterFeedSubsystem shooterFeedSubsystem = new ShooterFeedSubsystem();
 
     private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
@@ -54,6 +56,11 @@ public class RobotContainer {
     private final Command extendRightArm = new InstantCommand(() -> climberSubsystem.extendRightArm(), climberSubsystem);
     private final Command retractRightArm = new InstantCommand(() -> climberSubsystem.retractRightArm(), climberSubsystem);
     private final Command stopRightArm = new InstantCommand(() -> climberSubsystem.stopRightArm(), climberSubsystem);
+
+
+    private final Command shooterFeedUp = new InstantCommand(() -> shooterFeedSubsystem.up(), shooterSubsystem);
+    private final Command shooterFeedDown = new InstantCommand(() -> shooterFeedSubsystem.down(), shooterSubsystem);
+    private final Command shooterFeedStop = new InstantCommand(() -> shooterFeedSubsystem.stop(), shooterSubsystem);
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
@@ -96,6 +103,11 @@ public class RobotContainer {
         Trigger extendRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
         Trigger retractRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
 
+        JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 5);
+        JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 6);
+
+
+
 
         shootButton
             .whileHeld(shoot);
@@ -124,7 +136,17 @@ public class RobotContainer {
         retractRightArmTrigger
             .whenActive(retractRightArm)
             .whenInactive(stopRightArm);
+
+        shooterFeedUpButton
+            .whenPressed(shooterFeedUp)
+            .whenReleased(shooterFeedStop);
+
+        shooterFeedDownButton
+            .whenPressed(shooterFeedDown)
+            .whenReleased(shooterFeedStop);
     }
+
+
 
     public Command getAutonomousCommand() {
         return ramseteCommandFactory.getCommand(PathType.BackOffLine);

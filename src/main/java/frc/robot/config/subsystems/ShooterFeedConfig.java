@@ -1,5 +1,5 @@
 package frc.robot.config.subsystems;
 
-public final class ElevatorConfig {
+public final class ShooterFeedConfig {
     public static final double motorSpeed = 0.5;
 }

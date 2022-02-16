@@ -122,6 +122,17 @@
               "_source0": "network_table:///SmartDashboard/Gyro Angle",
               "_title": "Gyro Angle"
             }
+          },
+          "0,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter Feed Speed",
+              "_title": "Shooter Feed Speed"
+            }
           }
         }
       }

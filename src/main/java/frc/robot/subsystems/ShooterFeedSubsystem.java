@@ -7,9 +7,10 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
-import frc.robot.config.subsystems.ElevatorConfig;
+import frc.robot.config.subsystems.ShooterFeedConfig;
 
 public class ShooterFeedSubsystem extends SubsystemBase {
 
@@ -19,21 +20,23 @@ public class ShooterFeedSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("Shooter Feed Speed", motor.get());
   }
 
   public void up(){
-    motor.set(ElevatorConfig.motorSpeed);
+    motor.set(ShooterFeedConfig.motorSpeed);
   }
 
   public void down(){
-    motor.set(-ElevatorConfig.motorSpeed);
+    motor.set(-ShooterFeedConfig.motorSpeed);
   }
 
   public void stop(){
     motor.set(0);
 
   }
+
+
 
 
 
