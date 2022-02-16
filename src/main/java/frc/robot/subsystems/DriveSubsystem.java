@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.DioPort;
-import frc.robot.config.DriveConfig;
-import frc.robot.config.PwmPort;
+import frc.robot.config.roborio.DioPort;
+import frc.robot.config.roborio.PwmPort;
+import frc.robot.config.subsystem.DriveConfig;
 
 public class DriveSubsystem extends SubsystemBase {
 

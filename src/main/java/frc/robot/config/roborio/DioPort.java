@@ -1,4 +1,4 @@
-package frc.robot.config;
+package frc.robot.config.roborio;
 
 public final class DioPort {
     public static final int LeftEncoderChannelA = 2;

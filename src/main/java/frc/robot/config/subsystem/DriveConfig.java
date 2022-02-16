@@ -1,4 +1,4 @@
-package frc.robot.config;
+package frc.robot.config.subsystem;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;import edu.wpi.first.math.numbers.N7;

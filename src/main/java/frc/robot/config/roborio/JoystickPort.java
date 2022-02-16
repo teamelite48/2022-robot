@@ -1,4 +1,4 @@
-package frc.robot.config;
+package frc.robot.config.roborio;
 
 public final class JoystickPort {
     public final static int LeftPilotJoystick = 0;
