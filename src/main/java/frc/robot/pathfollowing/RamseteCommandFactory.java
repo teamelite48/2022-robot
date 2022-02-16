@@ -23,7 +23,7 @@ public class RamseteCommandFactory {
     driveSubsystem = _driveSubsystem;
   }
 
-  public Command getCommand(PathType pathType) {
+  public Command createCommand(TrajectoryType pathType) {
 
     RamseteCommand ramseteCommand = new RamseteCommand(
       TrajectoryFactory.getTrajectory(pathType),

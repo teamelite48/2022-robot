@@ -41,20 +41,33 @@ public final class TrajectoryFactory {
 
   private static final Trajectory backOffLine = TrajectoryGenerator.generateTrajectory(
     new Pose2d(0, 0, new Rotation2d(0)),
-    List.of(
-      new Translation2d(5, 5)
-    ),
-    new Pose2d(0, 0, new Rotation2d(180)),
+    List.of(),
+    new Pose2d(-1, 0, new Rotation2d(0),
     config
   );
 
-  public static Trajectory getTrajectory(PathType pathType) {
+  private static final Trajectory getReadyToShoot = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(0, 0, new Rotation2d(0)),
+    List.of(
+      new Translation2d(5.5, 2)
+    ),
+    new Pose2d(7.4, 2, new Rotation2d(Math.toRadians(70))),
+    config
+  );
+
+  public static Trajectory getTrajectory(TrajectoryType pathType) {
     switch (pathType) {
+
       case Test: {
         return testTrajectory;
       }
+
       case BackOffLine: {
         return backOffLine;
+      }
+
+      case GetReadyToShoot: {
+        return getReadyToShoot;
       }
     }
 

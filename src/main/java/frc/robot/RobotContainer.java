@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.config.roborio.JoystickPort;
-import frc.robot.pathfollowing.PathType;
+import frc.robot.pathfollowing.TrajectoryType;
 import frc.robot.pathfollowing.RamseteCommandFactory;
 
 import frc.robot.subsystems.DriveSubsystem;
@@ -34,6 +34,6 @@ public class RobotContainer {
     private void configureButtonBindings() {}
 
     public Command getAutonomousCommand() {
-        return ramseteCommandFactory.getCommand(PathType.Test);
+        return ramseteCommandFactory.createCommand(TrajectoryType.Test);
     }
 }
