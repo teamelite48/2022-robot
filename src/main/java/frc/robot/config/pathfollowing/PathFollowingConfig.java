@@ -1,7 +1,6 @@
 package frc.robot.config.pathfollowing;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import frc.robot.config.subsystems.DriveConfig;
 
 public final class PathFollowingConfig {
 
