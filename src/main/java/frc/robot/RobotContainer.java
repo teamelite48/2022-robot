@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -37,9 +38,9 @@ public class RobotContainer {
     private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
-    private final Command intake = new RunCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
+    private final Command intake = new InstantCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
     private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
-    private final Command stopIntake = new RunCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
+    private final Command stopIntake = new InstantCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
     private final Command retractIntake = new InstantCommand(() -> intakeSubsystem.retract(), intakeSubsystem);
 
     private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
@@ -61,6 +62,16 @@ public class RobotContainer {
     private final Command shooterFeedUp = new InstantCommand(() -> shooterFeedSubsystem.up(), shooterSubsystem);
     private final Command shooterFeedDown = new InstantCommand(() -> shooterFeedSubsystem.down(), shooterSubsystem);
     private final Command shooterFeedStop = new InstantCommand(() -> shooterFeedSubsystem.stop(), shooterSubsystem);
+
+    private final Command driveToGoal = ramseteCommandFactory.createCommand(TrajectoryType.GetReadyToShoot);
+
+    private final Command pickUpCargoAndShoot = new SequentialCommandGroup(
+        intake,
+        driveToGoal,
+        retractIntake,
+        shooterFeedUp,
+        shoot
+    );
 
     public RobotContainer() {
         driveSubsystem.setDefaultCommand(tankDrive);
@@ -149,6 +160,6 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
-        return ramseteCommandFactory.createCommand(TrajectoryType.Test);
+        return pickUpCargoAndShoot;
     }
 }

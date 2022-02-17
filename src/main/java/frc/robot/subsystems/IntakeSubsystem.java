@@ -26,6 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Intake Deployed", isIntakeDeployed());
+    SmartDashboard.putNumber("Intake Speed", motor.get());
   }
 
   public void intake() {
@@ -54,6 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void retract(){
+    stop();
     intakeSolenoid.set(false);
   }
 

@@ -133,6 +133,28 @@
               "_source0": "network_table:///SmartDashboard/Shooter Feed Speed",
               "_title": "Shooter Feed Speed"
             }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter Speed",
+              "_title": "Shooter Speed"
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Intake Speed",
+              "_title": "Intake Speed"
+            }
           }
         }
       }
@@ -335,6 +357,72 @@
               "_type": "Text View",
               "_source0": "network_table:///LiveWindow/Ungrouped/Talon FX [4]/Value",
               "_title": "Ungrouped/Talon FX [4]/Value"
+            }
+          },
+          "2,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]/setpoint",
+              "_title": "Ungrouped/PIDController[2]/setpoint"
+            }
+          },
+          "3,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]/d",
+              "_title": "Ungrouped/PIDController[1]/d"
+            }
+          },
+          "4,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]/i",
+              "_title": "Ungrouped/PIDController[1]/i"
+            }
+          },
+          "5,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]/p",
+              "_title": "Ungrouped/PIDController[1]/p"
+            }
+          },
+          "6,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]/d",
+              "_title": "Ungrouped/PIDController[2]/d"
+            }
+          },
+          "7,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]/i",
+              "_title": "Ungrouped/PIDController[2]/i"
             }
           }
         }
