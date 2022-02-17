@@ -24,20 +24,14 @@ public class ShooterFeedSubsystem extends SubsystemBase {
   }
 
   public void up(){
-    motor.set(ShooterFeedConfig.motorSpeed);
+    motor.set(ShooterFeedConfig.upSpeed);
   }
 
   public void down(){
-    motor.set(-ShooterFeedConfig.motorSpeed);
+    motor.set(ShooterFeedConfig.downSpeed);
   }
 
   public void stop(){
     motor.set(0);
-
   }
-
-
-
-
-
 }

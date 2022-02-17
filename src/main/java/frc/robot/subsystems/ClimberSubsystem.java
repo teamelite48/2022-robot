@@ -37,16 +37,15 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
 
-    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.forwardLimit, 30);
-    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.reverseLimit, 30);
+    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.armExtensionLimit, 30);
+    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.armRetractionLimit, 30);
     leftArmMotor.configForwardSoftLimitEnable (true, 30);
     leftArmMotor.configReverseSoftLimitEnable(true, 30);
 
-    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.forwardLimit, 30);
-    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.reverseLimit, 30);
+    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.armExtensionLimit, 30);
+    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.armRetractionLimit, 30);
     rightArmMotor.configForwardSoftLimitEnable (true, 30);
     rightArmMotor.configReverseSoftLimitEnable(true, 30);
-
 
     // TODO: We need to invert one of the motors, but I'm not sure which one yet.
     // leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -63,8 +62,8 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
     SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get() == Value.kForward ? "Forward" : "Reverse");
     SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get() == Value.kForward ? "Forward" : "Reverse");
-    SmartDashboard.putNumber("Left Arm Length", 100 * leftArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.forwardLimit);
-    SmartDashboard.putNumber("Right Arm Length", 100 * rightArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.forwardLimit);
+    SmartDashboard.putNumber("Left Arm Length", 100 * leftArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.armExtensionLimit);
+    SmartDashboard.putNumber("Right Arm Length", 100 * rightArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.armExtensionLimit);
   }
 
   public void simulationPeriodic() {
@@ -82,7 +81,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
 
-  public void toggleClimber() {
+  public void toggleClimberEnabled() {
     isClimberEnabled = !isClimberEnabled;
   }
 
@@ -100,13 +99,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void extendLeftArm() {
     if (isClimberEnabled) {
-      leftArmMotor.set(ClimberConfig.motorSpeed);
+      leftArmMotor.set(ClimberConfig.extendArmSpeed);
     }
   }
 
   public void retractLeftArm() {
     if (isClimberEnabled) {
-      leftArmMotor.set(-ClimberConfig.motorSpeed);
+      leftArmMotor.set(ClimberConfig.retractArmSpeed);
     }
   }
 
@@ -116,13 +115,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void extendRightArm() {
     if (isClimberEnabled) {
-      rightArmMotor.set(ClimberConfig.motorSpeed);
+      rightArmMotor.set(ClimberConfig.extendArmSpeed);
     }
   }
 
   public void retractRightArm() {
     if (isClimberEnabled){
-      rightArmMotor.set(-ClimberConfig.motorSpeed);
+      rightArmMotor.set(ClimberConfig.retractArmSpeed);
     }
   }
 

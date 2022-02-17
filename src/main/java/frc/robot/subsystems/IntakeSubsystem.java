@@ -11,16 +11,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.PneumaticChannel;
 import frc.robot.config.roborio.PwmPort;
+import frc.robot.config.subsystems.IntakeConfig;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   private final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
   private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.IntakeForward);
 
-  private final double motorSpeed = 0.5;
-
   public IntakeSubsystem() {
-    intakeSolenoid.set(false);
+    intakeSolenoid.set(IntakeConfig.retractValue);
   }
 
   @Override
@@ -34,12 +33,12 @@ public class IntakeSubsystem extends SubsystemBase {
       deploy();
     }
 
-    motor.set(motorSpeed);
+    motor.set(IntakeConfig.intakeSpeed);
   }
 
   public void outtake() {
     if (isIntakeDeployed() == true){
-      motor.set(motorSpeed * -1);
+      motor.set(IntakeConfig.outtakeSpeed);
     }
     else {
       stop();
@@ -51,12 +50,12 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void deploy(){
-    intakeSolenoid.set(true);
+    intakeSolenoid.set(IntakeConfig.deployValue);
   }
 
   public void retract(){
     stop();
-    intakeSolenoid.set(false);
+    intakeSolenoid.set(IntakeConfig.retractValue);
   }
 
   public boolean isIntakeDeployed() {

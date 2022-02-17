@@ -45,7 +45,7 @@ public class RobotContainer {
 
     private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
 
-    private final Command toggleClimber = new InstantCommand (()-> climberSubsystem.toggleClimber(), climberSubsystem);
+    private final Command toggleClimberEnabled = new InstantCommand (()-> climberSubsystem.toggleClimberEnabled(), climberSubsystem);
 
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
     private final Command toggleRightArmPosition = new InstantCommand(() -> climberSubsystem.toggleRightArmPosition(), climberSubsystem);
@@ -102,8 +102,8 @@ public class RobotContainer {
 
         JoystickButton shootButton = new JoystickButton(copilotGamepad, 2);
 
-        JoystickButton enableClimberButtonA = new JoystickButton(copilotGamepad, 7);
-        JoystickButton enableClimberButtonB = new JoystickButton(copilotGamepad, 8);
+        JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 7);
+        JoystickButton enableClimberButton2 = new JoystickButton(copilotGamepad, 8);
 
         JoystickButton toggleLeftArmPositionButton = new JoystickButton(copilotGamepad, 9);
         JoystickButton toggleRightArmPositionButton = new JoystickButton(copilotGamepad, 10);
@@ -117,14 +117,11 @@ public class RobotContainer {
         JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 5);
         JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 6);
 
-
-
-
         shootButton
             .whileHeld(shoot);
 
-        enableClimberButtonA.and(enableClimberButtonB)
-            .whenActive(toggleClimber);
+        enableClimberButton1.and(enableClimberButton2)
+            .whenActive(toggleClimberEnabled);
 
         toggleLeftArmPositionButton
             .whenPressed(toggleLeftArmPosition);
@@ -156,8 +153,6 @@ public class RobotContainer {
             .whenPressed(shooterFeedDown)
             .whenReleased(shooterFeedStop);
     }
-
-
 
     public Command getAutonomousCommand() {
         return pickUpCargoAndShoot;

@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.PwmPort;
-import frc.robot.config.subsystems.EscalatorConfig;
+import frc.robot.config.subsystems.SorterConfig;
 
 public class SorterSubsystem extends SubsystemBase {
 
@@ -21,11 +21,11 @@ public class SorterSubsystem extends SubsystemBase {
   }
 
   public void in(){
-    motor.set(EscalatorConfig.motorSpeed);
+    motor.set(SorterConfig.inSpeed);
   }
 
   public void out(){
-    motor.set(-EscalatorConfig.motorSpeed);
+    motor.set(SorterConfig.outSpeed);
   }
 
   public void stop(){

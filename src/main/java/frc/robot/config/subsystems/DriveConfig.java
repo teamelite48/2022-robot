@@ -16,10 +16,14 @@ public final class DriveConfig {
     public static final double gearingReduction = 7.29;
 
     // TODO: Get real values
-    public static final double wheelRadiusInMeters = Units.inchesToMeters(4);
+    public static final double wheelRadiusInMeters = Units.inchesToMeters(2);
 
     public static final Vector<N7> enocoderNoise = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
 
     public static final double maxOutput = 0.3;
     public static final int encoderResolution = 360;
+
+	public static boolean lowGearValue = false;
+    public static boolean highGearValue = !lowGearValue;
+
 }

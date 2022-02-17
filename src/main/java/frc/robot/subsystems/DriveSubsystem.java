@@ -89,13 +89,13 @@ public class DriveSubsystem extends SubsystemBase {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }
   public void shiftHighGear() {
-    leftShifterSolenoid.set(true);
-    rightShifterSolenoid.set(true);
+    leftShifterSolenoid.set(DriveConfig.highGearValue);
+    rightShifterSolenoid.set(DriveConfig.highGearValue);
   }
 
   public void shiftLowGear() {
-    leftShifterSolenoid.set(false);
-    rightShifterSolenoid.set(false);
+    leftShifterSolenoid.set(DriveConfig.lowGearValue);
+    rightShifterSolenoid.set(DriveConfig.lowGearValue);
   }
 
   public Pose2d getPose() {
@@ -116,8 +116,9 @@ public class DriveSubsystem extends SubsystemBase {
     double metersPerPulse = 2 * DriveConfig.wheelRadiusInMeters * Math.PI / DriveConfig.encoderResolution;
 
     leftEncoder.setDistancePerPulse(metersPerPulse);
-    leftEncoder.setReverseDirection(true);
     rightEncoder.setDistancePerPulse(metersPerPulse);
+
+    leftEncoder.setReverseDirection(true);
   }
 
   private void initDashboard() {
