@@ -10,8 +10,7 @@ import frc.robot.pathfollowing.RamseteCommandFactory;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
-
+import frc.robot.subsystems.SorterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,15 +28,20 @@ public class RobotContainer {
     private final Joystick rightPilotJoystick = new Joystick(JoystickPort.RightPilotJoystick);
     private final XboxController copilotGamepad = new XboxController(JoystickPort.CopilotGamepad);
 
+
     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
     private final ShooterFeedSubsystem shooterFeedSubsystem = new ShooterFeedSubsystem();
+    private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
+
 
     private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
+
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
+
     private final Command intake = new InstantCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
     private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
     private final Command stopIntake = new InstantCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
@@ -46,31 +50,27 @@ public class RobotContainer {
     private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
 
     private final Command toggleClimberEnabled = new InstantCommand (()-> climberSubsystem.toggleClimberEnabled(), climberSubsystem);
-
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
     private final Command toggleRightArmPosition = new InstantCommand(() -> climberSubsystem.toggleRightArmPosition(), climberSubsystem);
-
     private final Command extendLeftArm = new InstantCommand(() -> climberSubsystem.extendLeftArm(), climberSubsystem);
     private final Command retractLeftArm = new InstantCommand(() -> climberSubsystem.retractLeftArm(), climberSubsystem);
     private final Command stopLeftArm = new InstantCommand(() -> climberSubsystem.stopLeftArm(), climberSubsystem);
-
     private final Command extendRightArm = new InstantCommand(() -> climberSubsystem.extendRightArm(), climberSubsystem);
     private final Command retractRightArm = new InstantCommand(() -> climberSubsystem.retractRightArm(), climberSubsystem);
     private final Command stopRightArm = new InstantCommand(() -> climberSubsystem.stopRightArm(), climberSubsystem);
 
+    private final Command shooterFeedUp = new InstantCommand(() -> shooterFeedSubsystem.up(), shooterFeedSubsystem);
+    private final Command shooterFeedDown = new InstantCommand(() -> shooterFeedSubsystem.down(), shooterFeedSubsystem);
+    private final Command shooterFeedStop = new InstantCommand(() -> shooterFeedSubsystem.stop(), shooterFeedSubsystem);
 
-    private final Command shooterFeedUp = new InstantCommand(() -> shooterFeedSubsystem.up(), shooterSubsystem);
-    private final Command shooterFeedDown = new InstantCommand(() -> shooterFeedSubsystem.down(), shooterSubsystem);
-    private final Command shooterFeedStop = new InstantCommand(() -> shooterFeedSubsystem.stop(), shooterSubsystem);
+    private final Command sorterIn = new InstantCommand(() -> sorterSubsystem.in(), sorterSubsystem);
+    private final Command sorterOut = new InstantCommand(() -> sorterSubsystem.out(), sorterSubsystem);
+    private final Command sorterStop = new InstantCommand(() -> sorterSubsystem.stop(), sorterSubsystem);
 
-    private final Command driveToGoal = ramseteCommandFactory.createCommand(TrajectoryType.GetReadyToShoot);
 
     private final Command pickUpCargoAndShoot = new SequentialCommandGroup(
-        intake,
-        driveToGoal,
-        retractIntake,
-        shooterFeedUp,
-        shoot
+        ramseteCommandFactory.createCommand(TrajectoryType.GetReadyToShoot),
+        new InstantCommand(() -> shooterFeedSubsystem.up(), shooterFeedSubsystem)
     );
 
     public RobotContainer() {
@@ -114,8 +114,11 @@ public class RobotContainer {
         Trigger extendRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
         Trigger retractRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
 
-        JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 5);
-        JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 6);
+        JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
+        Trigger shooterFeedDownTrigger = new Trigger(() -> copilotGamepad.getRawAxis(3) > 0.5);
+
+        JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
+        Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
 
         shootButton
             .whileHeld(shoot);
@@ -149,9 +152,17 @@ public class RobotContainer {
             .whenPressed(shooterFeedUp)
             .whenReleased(shooterFeedStop);
 
-        shooterFeedDownButton
-            .whenPressed(shooterFeedDown)
-            .whenReleased(shooterFeedStop);
+        shooterFeedDownTrigger
+            .whenActive(shooterFeedDown)
+            .whenInactive(shooterFeedStop);
+
+        sorterInButton
+            .whenPressed(sorterIn)
+            .whenReleased(sorterStop);
+
+        sorterOutTrigger
+            .whenActive(sorterOut)
+            .whenInactive(sorterStop);
     }
 
     public Command getAutonomousCommand() {
