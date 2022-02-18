@@ -79,6 +79,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     field.setRobotPose(odometry.getPoseMeters());
     SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+    SmartDashboard.putNumber("Left Encoder", leftEncoder.getDistance());
+    SmartDashboard.putNumber("Right Encoder", rightEncoder.getDistance());
   }
 
   public void simulationPeriodic() {

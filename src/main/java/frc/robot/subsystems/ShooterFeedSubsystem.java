@@ -20,7 +20,7 @@ public class ShooterFeedSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter Feed Speed", motor.get());
+    SmartDashboard.putNumber("Feed Speed", motor.get());
   }
 
   public void up(){

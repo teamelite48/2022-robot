@@ -123,9 +123,9 @@
               "_title": "Gyro Angle"
             }
           },
-          "0,1": {
+          "0,2": {
             "size": [
-              2,
+              1,
               1
             ],
             "content": {
@@ -134,7 +134,7 @@
               "_title": "Shooter Feed Speed"
             }
           },
-          "4,1": {
+          "1,2": {
             "size": [
               1,
               1
@@ -145,7 +145,7 @@
               "_title": "Shooter Speed"
             }
           },
-          "0,2": {
+          "0,1": {
             "size": [
               1,
               1
@@ -154,6 +154,17 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Intake Speed",
               "_title": "Intake Speed"
+            }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Sorter Speed",
+              "_title": "Sorter Speed"
             }
           }
         }
