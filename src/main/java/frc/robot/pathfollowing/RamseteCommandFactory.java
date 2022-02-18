@@ -23,10 +23,10 @@ public class RamseteCommandFactory {
     driveSubsystem = _driveSubsystem;
   }
 
-  public Command createCommand(TrajectoryType pathType) {
+  public Command createCommand(TrajectoryType trajectoryType) {
 
     RamseteCommand ramseteCommand = new RamseteCommand(
-      TrajectoryFactory.getTrajectory(pathType),
+      TrajectoryFactory.createTrajectory(trajectoryType),
       driveSubsystem::getPose,
       new RamseteController(PathFollowingConfig.kRamseteB, PathFollowingConfig.kRamseteZeta),
       new SimpleMotorFeedforward(
