@@ -16,6 +16,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final WPI_TalonFX topMotor= new WPI_TalonFX(CanBusId.TopShooterMotor);
   private final WPI_TalonFX bottomMotor = new WPI_TalonFX(CanBusId.BottomShooterMotor);
 
+  private boolean isShooterOn = false;
+
   public ShooterSubsystem() {
 
     topMotor.configFactoryDefault();
@@ -29,7 +31,14 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Speed", topMotor.get());
   }
 
-  public void shoot() {
-    topMotor.set(ShooterConfig.shootSpeed);
+  public void toggleShooter() {
+    if (isShooterOn == false) {
+      topMotor.set(ShooterConfig.shootSpeed);
+      isShooterOn = true;
+    }
+    else {
+      topMotor.set(0);
+      isShooterOn = false;
+    }
   }
 }

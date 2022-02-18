@@ -47,7 +47,7 @@ public class RobotContainer {
     private final Command stopIntake = new InstantCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
     private final Command retractIntake = new InstantCommand(() -> intakeSubsystem.retract(), intakeSubsystem);
 
-    private final Command shoot = new RunCommand(() -> shooterSubsystem.shoot(), shooterSubsystem);
+    private final Command toggleShooter = new InstantCommand(() -> shooterSubsystem.toggleShooter(), shooterSubsystem);
 
     private final Command toggleClimberEnabled = new InstantCommand (()-> climberSubsystem.toggleClimberEnabled(), climberSubsystem);
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
@@ -100,7 +100,7 @@ public class RobotContainer {
 
     private void configureCopilotButtonBindings() {
 
-        JoystickButton shootButton = new JoystickButton(copilotGamepad, 2);
+        JoystickButton toggleShooterButton = new JoystickButton(copilotGamepad, 2);
 
         JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 7);
         JoystickButton enableClimberButton2 = new JoystickButton(copilotGamepad, 8);
@@ -120,8 +120,8 @@ public class RobotContainer {
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
         Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
 
-        shootButton
-            .whileHeld(shoot);
+        toggleShooterButton
+            .whenPressed(toggleShooter);
 
         enableClimberButton1.and(enableClimberButton2)
             .whenActive(toggleClimberEnabled);
