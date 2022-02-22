@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
-import frc.robot.config.pathfollowing.PathFollowingConfig;
 import frc.robot.config.subsystems.DriveConfig;
+import frc.robot.config.sysid.SysIdConfig;
 import edu.wpi.first.wpilibj.simulation.ADIS16470_IMUSim;
 
 public class DriveSimulation {
@@ -30,12 +30,12 @@ public class DriveSimulation {
     gyroSim = new ADIS16470_IMUSim(gyro);
 
     driveSim = new DifferentialDrivetrainSim(
-      LinearSystemId.identifyDrivetrainSystem(DriveConfig.kvLinear, DriveConfig.kaLinear, DriveConfig.kvAngular, DriveConfig.kaAngular, PathFollowingConfig.trackWidthInMeters),
+      LinearSystemId.identifyDrivetrainSystem(SysIdConfig.kvLinear, SysIdConfig.kaLinear, SysIdConfig.kvAngular, SysIdConfig.kaAngular, SysIdConfig.trackWidthInMeters),
       DCMotor.getNEO(3),
-      DriveConfig.gearingReduction,
-      PathFollowingConfig.trackWidthInMeters,
-      DriveConfig.wheelRadiusInMeters,
-      DriveConfig.enocoderNoise
+      SysIdConfig.gearingReduction,
+      SysIdConfig.trackWidthInMeters,
+      SysIdConfig.wheelRadiusInMeters,
+      SysIdConfig.enocoderNoise
     );
   }
 

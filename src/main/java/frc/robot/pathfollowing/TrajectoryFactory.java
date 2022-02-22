@@ -10,24 +10,24 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import frc.robot.config.pathfollowing.PathFollowingConfig;
+import frc.robot.config.sysid.SysIdConfig;
 
 public final class TrajectoryFactory {
 
   private static final DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
     new SimpleMotorFeedforward(
-      PathFollowingConfig.ksVolts,
-      PathFollowingConfig.kvVoltSecondsPerMeter,
-      PathFollowingConfig.kaVoltSecondsSquaredPerMeter),
-      PathFollowingConfig.kDriveKinematics,
+      SysIdConfig.ksVolts,
+      SysIdConfig.kvVoltSecondsPerMeter,
+      SysIdConfig.kaVoltSecondsSquaredPerMeter),
+      SysIdConfig.kDriveKinematics,
       10
     );
 
   private static final TrajectoryConfig config = new TrajectoryConfig(
-    PathFollowingConfig.kMaxSpeedMetersPerSecond,
-    PathFollowingConfig.kMaxAccelerationMetersPerSecondSquared
+    SysIdConfig.kMaxSpeedMetersPerSecond,
+    SysIdConfig.kMaxAccelerationMetersPerSecondSquared
   )
-  .setKinematics(PathFollowingConfig.kDriveKinematics)
+  .setKinematics(SysIdConfig.kDriveKinematics)
   .addConstraint(autoVoltageConstraint);
 
   private static final Trajectory testTrajectory = TrajectoryGenerator.generateTrajectory(
