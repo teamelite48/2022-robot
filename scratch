@@ -1,0 +1,20 @@
+normalMaxOutput = 0.5
+shiftingMaxOutput = normalMaxOutput - 0.2
+lastShiftTime = null
+shiftCoolDown = 1000
+
+init
+    motorGroups.set(normalMaxOutput)
+
+
+periodic
+    if (lastShiftOccured != null)
+        if (currentTime - lastShiftTime > shiftCoolDown)
+            motorGroups.set(normalMaxOutput)
+            lastShiftTime = null
+
+
+shift
+    motorGroups.set(shiftingMaxOutput)
+    doTheShift
+    lastShiftTime = currentTime

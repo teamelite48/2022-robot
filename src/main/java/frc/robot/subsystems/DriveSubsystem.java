@@ -53,11 +53,13 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getAngle()));
   private Field2d field = new Field2d();
 
+  private Long lastShiftMillis = null;
+
   private DriveSimulation simulation;
 
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
-    driveTrain.setMaxOutput(DriveConfig.maxOutput);
+    driveTrain.setMaxOutput(DriveConfig.normalMaxOutput);
 
     initEncoders();
     initDashboard();
@@ -69,6 +71,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    if (lastShiftMillis != null) {
+      Long currentMillis = System.currentTimeMillis();
+
+      if (currentMillis - lastShiftMillis > DriveConfig.shiftCoolDownMillis) {
+        driveTrain.setMaxOutput(DriveConfig.normalMaxOutput);
+        lastShiftMillis = null;
+      }
+    }
 
     odometry.update(
       Rotation2d.fromDegrees(gyro.getAngle()),
@@ -83,6 +94,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getDistance());
     SmartDashboard.putString("Left Gear", leftShifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
     SmartDashboard.putString("Right Gear", rightShifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
+    SmartDashboard.putNumber("Left Speed", leftControllerGroup.get());
+    SmartDashboard.putNumber("Right Speed", rightControllerGroup.get());
   }
 
   public void simulationPeriodic() {
@@ -93,13 +106,21 @@ public class DriveSubsystem extends SubsystemBase {
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }
   public void shiftHighGear() {
+    driveTrain.setMaxOutput(DriveConfig.shiftingMaxOutput);
+
     leftShifterSolenoid.set(DriveConfig.highGearValue);
     rightShifterSolenoid.set(DriveConfig.highGearValue);
+
+    lastShiftMillis = System.currentTimeMillis();
   }
 
   public void shiftLowGear() {
+    driveTrain.setMaxOutput(DriveConfig.shiftingMaxOutput);
+
     leftShifterSolenoid.set(DriveConfig.lowGearValue);
     rightShifterSolenoid.set(DriveConfig.lowGearValue);
+
+    lastShiftMillis = System.currentTimeMillis();
   }
 
   public Pose2d getPose() {

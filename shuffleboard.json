@@ -89,7 +89,7 @@
           },
           "6,0": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -131,7 +131,7 @@
               "_title": "Sorter Speed"
             }
           },
-          "6,2": {
+          "6,3": {
             "size": [
               1,
               1
@@ -153,7 +153,7 @@
               "_title": "Feed Speed"
             }
           },
-          "7,1": {
+          "7,2": {
             "size": [
               1,
               1
@@ -164,7 +164,7 @@
               "_title": "Right Encoder"
             }
           },
-          "6,1": {
+          "6,2": {
             "size": [
               1,
               1
@@ -175,7 +175,7 @@
               "_title": "Left Encoder"
             }
           },
-          "7,2": {
+          "7,3": {
             "size": [
               1,
               1
@@ -193,8 +193,30 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Shooter Target Speed",
-              "_title": "Shooter Target Speed"
+              "_source0": "network_table:///SmartDashboard/Target Speed",
+              "_title": "Target Speed"
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Right Speed",
+              "_title": "Right Speed"
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Speed",
+              "_title": "Left Speed"
             }
           }
         }
