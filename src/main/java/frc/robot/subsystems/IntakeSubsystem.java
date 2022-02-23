@@ -16,7 +16,7 @@ import frc.robot.config.subsystems.IntakeConfig;
 public class IntakeSubsystem extends SubsystemBase {
 
   private final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
-  private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.IntakeForward);
+  private final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Intake);
 
   public IntakeSubsystem() {
     intakeSolenoid.set(IntakeConfig.retractValue);

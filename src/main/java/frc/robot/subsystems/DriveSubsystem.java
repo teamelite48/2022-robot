@@ -42,8 +42,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   DifferentialDrive driveTrain = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
 
-  Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftGearShiftForward);
-  Solenoid rightShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightGearShiftForward);
+  Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftGearShift);
+  Solenoid rightShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightGearShift);
 
   private Encoder leftEncoder = new Encoder(DioPort.LeftEncoderChannelA, DioPort.LeftEncoderChannelB);
   private Encoder rightEncoder = new Encoder(DioPort.RightEncoderChannelA, DioPort.RightEncoderChannelB);
@@ -77,9 +77,12 @@ public class DriveSubsystem extends SubsystemBase {
     );
 
     field.setRobotPose(odometry.getPoseMeters());
+
     SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
     SmartDashboard.putNumber("Left Encoder", leftEncoder.getDistance());
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getDistance());
+    SmartDashboard.putString("Left Gear", leftShifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
+    SmartDashboard.putString("Right Gear", rightShifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
   }
 
   public void simulationPeriodic() {

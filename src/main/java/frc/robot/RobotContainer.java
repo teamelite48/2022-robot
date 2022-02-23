@@ -41,6 +41,8 @@ public class RobotContainer {
 
 
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
+    private final Command shiftLowGear = new InstantCommand(() -> driveSubsystem.shiftLowGear());
+    private final Command shiftHighGear = new InstantCommand(() -> driveSubsystem.shiftHighGear());
 
     private final Command intake = new InstantCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
     private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
@@ -86,6 +88,9 @@ public class RobotContainer {
         JoystickButton outtakeButton = new JoystickButton(rightPilotJoystick, 11);
         JoystickButton retractIntakeButton = new JoystickButton(rightPilotJoystick, 10);
 
+        JoystickButton shiftLowGearButton = new JoystickButton(leftPilotJoystick, 4);
+        JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
+
         intakeButton
             .whenPressed(intake)
             .whenReleased(stopIntake);
@@ -96,6 +101,13 @@ public class RobotContainer {
 
         retractIntakeButton
             .whenPressed(retractIntake);
+
+        shiftLowGearButton
+            .whenPressed(shiftLowGear);
+
+        shiftHighGearButton
+            .whenPressed(shiftHighGear);
+
     }
 
     private void configureCopilotButtonBindings() {
