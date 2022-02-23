@@ -50,6 +50,9 @@ public class RobotContainer {
     private final Command retractIntake = new InstantCommand(() -> intakeSubsystem.retract(), intakeSubsystem);
 
     private final Command toggleShooter = new InstantCommand(() -> shooterSubsystem.toggleShooter(), shooterSubsystem);
+    private final Command shootNear = new InstantCommand(() -> shooterSubsystem.setLowSpeed(), shooterSubsystem);
+    private final Command shootMedium = new InstantCommand(() -> shooterSubsystem.setMediumSpeed(), shooterSubsystem);
+    private final Command shootFar = new InstantCommand(() -> shooterSubsystem.setHighSpeed(), shooterSubsystem);
 
     private final Command toggleClimberEnabled = new InstantCommand (()-> climberSubsystem.toggleClimberEnabled(), climberSubsystem);
     private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
@@ -114,6 +117,10 @@ public class RobotContainer {
 
         JoystickButton toggleShooterButton = new JoystickButton(copilotGamepad, 2);
 
+        JoystickButton shootNearButton = new JoystickButton(copilotGamepad, 1);
+        JoystickButton shootMediumButton = new JoystickButton(copilotGamepad, 3);
+        JoystickButton shootFarButton = new JoystickButton(copilotGamepad, 4);
+
         JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 7);
         JoystickButton enableClimberButton2 = new JoystickButton(copilotGamepad, 8);
 
@@ -134,6 +141,15 @@ public class RobotContainer {
 
         toggleShooterButton
             .whenPressed(toggleShooter);
+
+        shootNearButton
+            .whenPressed(shootNear);
+
+        shootMediumButton
+            .whenPressed(shootMedium);
+
+        shootFarButton
+            .whenPressed(shootFar);
 
         enableClimberButton1.and(enableClimberButton2)
             .whenActive(toggleClimberEnabled);

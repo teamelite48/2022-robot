@@ -17,6 +17,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final WPI_TalonFX bottomMotor = new WPI_TalonFX(CanBusId.BottomShooterMotor);
 
   private boolean isShooterOn = false;
+  private double targetSpeed = ShooterConfig.lowSpeed;
 
   public ShooterSubsystem() {
 
@@ -28,17 +29,31 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    if (isShooterOn == false) {
+      topMotor.set(0);
+    }
+    else {
+      topMotor.set(targetSpeed);
+    }
+
     SmartDashboard.putNumber("Shooter Speed", topMotor.get());
+    SmartDashboard.putNumber("Shooter Target Speed", targetSpeed);
   }
 
   public void toggleShooter() {
-    if (isShooterOn == false) {
-      topMotor.set(ShooterConfig.shootSpeed);
-      isShooterOn = true;
-    }
-    else {
-      topMotor.set(0);
-      isShooterOn = false;
-    }
+    isShooterOn = !isShooterOn;
+  }
+
+  public void setLowSpeed() {
+    targetSpeed = ShooterConfig.lowSpeed;
+  }
+
+  public void setMediumSpeed() {
+    targetSpeed = ShooterConfig.mediumSpeed;
+  }
+
+  public void setHighSpeed() {
+    targetSpeed = ShooterConfig.highSpeed;
   }
 }
