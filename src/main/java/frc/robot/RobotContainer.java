@@ -95,7 +95,6 @@ public class RobotContainer {
 
         JoystickButton shiftLowGearButton = new JoystickButton(leftPilotJoystick, 4);
         JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
-        JoystickButton shootButton = new JoystickButton(copilotGamepad, 2);
 
         intakeButton
             .whenPressed(intake)
@@ -142,8 +141,8 @@ public class RobotContainer {
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
         Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
 
-        JoystickButton rotateTurretClockwiseButton = new JoystickButton(copilotGamepad, 6);
-        JoystickButton rotateTurretCounterClockwiseButton = new JoystickButton(copilotGamepad, 5);
+        Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
+        Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
 
         toggleShooterButton
             .whenPressed(toggleShooter);
@@ -198,13 +197,13 @@ public class RobotContainer {
             .whenActive(sorterOut)
             .whenInactive(sorterStop);
 
-        rotateTurretClockwiseButton
-            .whenPressed(rotateTurretClockwise)
-            .whenReleased(stopTurret);
+        rotateTurretClockwiseTrigger
+            .whenActive(rotateTurretClockwise)
+            .whenInactive(stopTurret);
 
-        rotateTurretCounterClockwiseButton
-            .whenPressed(rotateTurretCounterClockwise)
-            .whenReleased(stopTurret);
+        rotateTurretCounterClockwiseTrigger
+            .whenActive(rotateTurretCounterClockwise)
+            .whenInactive(stopTurret);
     }
 
     public Command getAutonomousCommand() {

@@ -5,9 +5,14 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
+import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.TurretConfig;
@@ -19,7 +24,9 @@ public class TurretSubsystem extends SubsystemBase {
   private final RelativeEncoder encoder = motor.getEncoder();
 
   public TurretSubsystem() {
-
+    if (RobotBase.isSimulation()) {
+      REVPhysicsSim.getInstance().addSparkMax(motor, DCMotor.getNEO(1));
+    }
   }
 
   @Override
@@ -28,21 +35,19 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void simulationPeriodic() {
-    // int encoderTicksPerPeriodic = 100;
-    // int newPosition = (int) (encoder.getPosition() + (motor.getAppliedOutput() * encoderTicksPerPeriodic));
-    // encoder.setPosition(newPosition);
+    REVPhysicsSim.getInstance().run();
   }
 
   public void rotateClockwise() {
-    motor.set(TurretConfig.motorSpeed);
+    motor.setVoltage(TurretConfig.clockwiseSpeed);
   }
 
   public void rotateCounterClockwise() {
-    motor.set(-TurretConfig.motorSpeed);
+    motor.setVoltage(TurretConfig.counterClockwiseSpeed);
   }
 
   public void stop() {
-    motor.set(0);
+    motor.setVoltage(0);
   }
 
   // method to auto aim

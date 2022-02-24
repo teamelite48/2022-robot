@@ -37,8 +37,8 @@ public class ShooterSubsystem extends SubsystemBase {
       topMotor.set(targetSpeed);
     }
 
-    SmartDashboard.putNumber("Shooter Speed", topMotor.get());
     SmartDashboard.putNumber("Target Speed", targetSpeed);
+    SmartDashboard.putBoolean("Shooter On", isShooterOn);
   }
 
   public void toggleShooter() {
