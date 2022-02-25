@@ -198,11 +198,11 @@ public class RobotContainer {
             .whenInactive(sorterStop);
 
         rotateTurretClockwiseTrigger
-            .whenActive(rotateTurretClockwise)
+            .whileActiveContinuous(rotateTurretClockwise)
             .whenInactive(stopTurret);
 
         rotateTurretCounterClockwiseTrigger
-            .whenActive(rotateTurretCounterClockwise)
+            .whileActiveContinuous(rotateTurretCounterClockwise)
             .whenInactive(stopTurret);
     }
 

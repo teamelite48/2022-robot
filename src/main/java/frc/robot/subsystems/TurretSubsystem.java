@@ -5,28 +5,28 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
-import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.config.TurretConfig;
 import frc.robot.config.roborio.CanBusId;
+import frc.robot.config.subsystems.TurretConfig;
 
 public class TurretSubsystem extends SubsystemBase {
 
   private final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
 
+  long lastSimulationPeriodicMillis = System.currentTimeMillis();
+
+
   public TurretSubsystem() {
-    if (RobotBase.isSimulation()) {
-      REVPhysicsSim.getInstance().addSparkMax(motor, DCMotor.getNEO(1));
-    }
+
+    // motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    // motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    // motor.setSoftLimit(SoftLimitDirection.kForward, TurretConfig.encoderLimit);
+    // motor.setSoftLimit(SoftLimitDirection.kReverse, -TurretConfig.encoderLimit);
   }
 
   @Override
@@ -35,23 +35,36 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void simulationPeriodic() {
-    REVPhysicsSim.getInstance().run();
+
+    long millisSinceLastPeriodic = System.currentTimeMillis() - lastSimulationPeriodicMillis;
+    double elapsedSeconds = (millisSinceLastPeriodic / 1000.0);
+    double rotationsSinceLastPeriodic = motor.get() * elapsedSeconds * TurretConfig.nominalMotorRotationsPerSecond;
+
+    encoder.setPosition(encoder.getPosition() + rotationsSinceLastPeriodic);
+
+    lastSimulationPeriodicMillis = System.currentTimeMillis();
   }
 
   public void rotateClockwise() {
-    motor.setVoltage(TurretConfig.clockwiseSpeed);
+
+    if(encoder.getPosition() >= TurretConfig.encoderLimit){
+      motor.set(0);
+    }
+    else {
+      motor.set(TurretConfig.clockwiseSpeed);
+    }
   }
 
   public void rotateCounterClockwise() {
-    motor.setVoltage(TurretConfig.counterClockwiseSpeed);
+    if(encoder.getPosition() <= -TurretConfig.encoderLimit){
+      motor.set(0);
+    }
+    else {
+      motor.set(TurretConfig.counterClockwiseSpeed);
+    }
   }
 
   public void stop() {
-    motor.setVoltage(0);
+    motor.set(0);
   }
-
-  // method to auto aim
-  // if the target is in view than try to lock on
-  // calcluate new speed
-  // adjust motor if the desired speed won't turn the turret outside of it's allowed range
 }
