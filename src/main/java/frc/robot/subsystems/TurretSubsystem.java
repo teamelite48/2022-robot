@@ -18,7 +18,7 @@ public class TurretSubsystem extends SubsystemBase {
   private final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
 
-  long lastSimulationPeriodicMillis = System.currentTimeMillis();
+  long lastSimulationPeriodicMillis = 0;
 
 
   public TurretSubsystem() {

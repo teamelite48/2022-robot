@@ -50,7 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   private ADIS16470_IMU gyro = new ADIS16470_IMU();
 
-  private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getAngle()));
+  private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(88), new Pose2d(9, 6.5, new Rotation2d()));
   private Field2d field = new Field2d();
 
   private Long lastShiftMillis = null;

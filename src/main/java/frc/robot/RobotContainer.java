@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.commands.ShooterFeedStop;
+import frc.robot.commands.ShooterFeedUp;
+import frc.robot.commands.ToggleShooter;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.pathfollowing.TrajectoryType;
 import frc.robot.pathfollowing.RamseteCommandFactory;
@@ -18,8 +21,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -36,8 +41,6 @@ public class RobotContainer {
     private final ShooterFeedSubsystem shooterFeedSubsystem = new ShooterFeedSubsystem();
     private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
     private final TurretSubsystem turretSubsystem = new TurretSubsystem();
-
-    private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
     private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
     private final Command shiftLowGear = new InstantCommand(() -> driveSubsystem.shiftLowGear());
@@ -75,9 +78,27 @@ public class RobotContainer {
     private final Command rotateTurretCounterClockwise = new InstantCommand(() -> turretSubsystem.rotateCounterClockwise(), turretSubsystem);
     private final Command stopTurret = new InstantCommand(() -> turretSubsystem.stop(), turretSubsystem);
 
-    private final Command pickUpCargoAndShoot = new SequentialCommandGroup(
-        ramseteCommandFactory.createCommand(TrajectoryType.GetReadyToShoot),
-        new InstantCommand(() -> shooterFeedSubsystem.up(), shooterFeedSubsystem)
+    private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
+
+    private final Command fourBallAuto = new SequentialCommandGroup(
+        intake,
+        sorterIn,
+        ramseteCommandFactory.createCommand(TrajectoryType.BackUp),
+        new ParallelCommandGroup(
+            ramseteCommandFactory.createCommand(TrajectoryType.PullForward),
+            new ToggleShooter(shooterSubsystem)
+        ),
+        new ShooterFeedUp(shooterFeedSubsystem),
+        new WaitCommand(1),
+        new ShooterFeedStop(shooterFeedSubsystem),
+        new ToggleShooter(shooterSubsystem),
+        ramseteCommandFactory.createCommand(TrajectoryType.SeriouslyBackUp),
+        new ToggleShooter(shooterSubsystem),
+        ramseteCommandFactory.createCommand(TrajectoryType.SeriouslyPullForward),
+        new ShooterFeedUp(shooterFeedSubsystem),
+        new WaitCommand(1),
+        new ToggleShooter(shooterSubsystem),
+        new ShooterFeedStop(shooterFeedSubsystem)
     );
 
     public RobotContainer() {
@@ -207,6 +228,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return pickUpCargoAndShoot;
+        return fourBallAuto;
     }
 }
