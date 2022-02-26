@@ -18,6 +18,23 @@ import frc.robot.config.sysid.SysIdConfig;
 
 public final class TrajectoryFactory {
 
+  private static final Trajectory getTrajectoryFromFile(String filename) {
+
+    String trajectoryJson = "paths/" + filename;
+
+    Trajectory trajectory = null;
+
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    }
+    catch ( Exception ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, ex.getStackTrace());
+    }
+
+    return trajectory;
+  }
+
   private static final DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
     new SimpleMotorFeedforward(
       SysIdConfig.ksVolts,
@@ -44,86 +61,6 @@ public final class TrajectoryFactory {
     config
   );
 
-  private static final Trajectory backOffLine = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
-    List.of(new Translation2d(2, 0)),
-    new Pose2d(3, 3, new Rotation2d(Math.toRadians(0))),
-    config
-  );
-
-  private static final Trajectory getReadyToShoot = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0, 0, new Rotation2d(0)),
-    List.of(
-      new Translation2d(5.5, 2)
-    ),
-    new Pose2d(7.4, 2, new Rotation2d(Math.toRadians(70))),
-    config
-  );
-
-  private static final Trajectory getBackUpTrajectory() {
-
-    String trajectoryJSON = "paths/BackUp.wpilib.json";
-    Trajectory trajectory = null;
-
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    }
-    catch ( Exception ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-
-    return trajectory;
-  }
-
-  private static final Trajectory getPullForwardTrajectory() {
-
-    String trajectoryJSON = "paths/PullForward.wpilib.json";
-    Trajectory trajectory = null;
-
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    }
-    catch ( Exception ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-
-    return trajectory;
-  }
-
-  private static final Trajectory getSeriouslyBackUpTrajectory() {
-
-    String trajectoryJSON = "paths/SeriouslyBackUp.wpilib.json";
-    Trajectory trajectory = null;
-
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    }
-    catch ( Exception ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-
-    return trajectory;
-  }
-
-  private static final Trajectory getSeriouslyPullForwardTrajectory() {
-
-    String trajectoryJSON = "paths/SeriouslyPullForward.wpilib.json";
-    Trajectory trajectory = null;
-
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    }
-    catch ( Exception ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-
-    return trajectory;
-  }
-
   public static Trajectory getTrajectory(TrajectoryType pathType) {
     switch (pathType) {
 
@@ -131,28 +68,20 @@ public final class TrajectoryFactory {
         return testTrajectory;
       }
 
-      case BackOffLine: {
-        return backOffLine;
-      }
-
-      case GetReadyToShoot: {
-        return getReadyToShoot;
-      }
-
       case BackUp: {
-        return getBackUpTrajectory();
+        return getTrajectoryFromFile("BackUp.wpilib.json");
       }
 
       case PullForward: {
-        return getPullForwardTrajectory();
+        return getTrajectoryFromFile("PullForward.wpilib.json");
       }
 
       case SeriouslyBackUp: {
-        return getSeriouslyBackUpTrajectory();
+        return getTrajectoryFromFile("SeriouslyBackUp.wpilib.json");
       }
 
       case SeriouslyPullForward: {
-        return getSeriouslyPullForwardTrajectory();
+        return getTrajectoryFromFile("SeriouslyPullForward.wpilib.json");
       }
     }
 
