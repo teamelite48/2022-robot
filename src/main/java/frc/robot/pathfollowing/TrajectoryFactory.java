@@ -68,20 +68,20 @@ public final class TrajectoryFactory {
         return testTrajectory;
       }
 
-      case BackUp: {
-        return getTrajectoryFromFile("BackUp.wpilib.json");
+      case FourBall1: {
+        return getTrajectoryFromFile("FourBall1.wpilib.json");
       }
 
-      case PullForward: {
-        return getTrajectoryFromFile("PullForward.wpilib.json");
+      case FourBall2: {
+        return getTrajectoryFromFile("FourBall2.wpilib.json");
       }
 
-      case SeriouslyBackUp: {
-        return getTrajectoryFromFile("SeriouslyBackUp.wpilib.json");
+      case FourBall3: {
+        return getTrajectoryFromFile("FourBall3.wpilib.json");
       }
 
-      case SeriouslyPullForward: {
-        return getTrajectoryFromFile("SeriouslyPullForward.wpilib.json");
+      case FourBall4: {
+        return getTrajectoryFromFile("FourBall4.wpilib.json");
       }
     }
 

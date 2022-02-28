@@ -2,8 +2,8 @@ package frc.robot.pathfollowing;
 
 public enum TrajectoryType {
     Test,
-    BackUp,
-    PullForward,
-    SeriouslyBackUp,
-    SeriouslyPullForward
+    FourBall1,
+    FourBall2,
+    FourBall3,
+    FourBall4
 }
