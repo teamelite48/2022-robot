@@ -4,12 +4,36 @@
 
 package frc.robot;
 
-import frc.robot.commands.ShooterFeedStop;
-import frc.robot.commands.ShooterFeedUp;
-import frc.robot.commands.ToggleShooter;
+import frc.robot.commands.auto.FourBallAuto;
+import frc.robot.commands.climber.ExtendLeftArm;
+import frc.robot.commands.climber.ExtendRightArm;
+import frc.robot.commands.climber.RetractLeftArm;
+import frc.robot.commands.climber.RetractRightArm;
+import frc.robot.commands.climber.StopLeftArm;
+import frc.robot.commands.climber.StopRightArm;
+import frc.robot.commands.climber.ToggleClimberEnabled;
+import frc.robot.commands.climber.ToggleLeftArmPosition;
+import frc.robot.commands.climber.ToggleRightArmPosition;
+import frc.robot.commands.drive.ShiftHighGear;
+import frc.robot.commands.drive.ShiftLowGear;
+import frc.robot.commands.intake.Intake;
+import frc.robot.commands.intake.Outtake;
+import frc.robot.commands.intake.RetractIntake;
+import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.shooter.ShootFar;
+import frc.robot.commands.shooter.ShootMedium;
+import frc.robot.commands.shooter.ShootNear;
+import frc.robot.commands.shooter.ToggleShooter;
+import frc.robot.commands.shooterfeed.ShooterFeedDown;
+import frc.robot.commands.shooterfeed.ShooterFeedStop;
+import frc.robot.commands.shooterfeed.ShooterFeedUp;
+import frc.robot.commands.sorter.SorterIn;
+import frc.robot.commands.sorter.SorterOut;
+import frc.robot.commands.sorter.SorterStop;
+import frc.robot.commands.turret.RotateTurretClockwise;
+import frc.robot.commands.turret.RotateTurretCounterClockwise;
+import frc.robot.commands.turret.StopTurret;
 import frc.robot.config.roborio.JoystickPort;
-import frc.robot.pathfollowing.TrajectoryType;
-import frc.robot.pathfollowing.RamseteCommandFactory;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -20,10 +44,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -41,65 +62,11 @@ public class RobotContainer {
     private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
     private final TurretSubsystem turretSubsystem = new TurretSubsystem();
 
-    private final Command tankDrive = new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem);
-    private final Command shiftLowGear = new InstantCommand(() -> driveSubsystem.shiftLowGear());
-    private final Command shiftHighGear = new InstantCommand(() -> driveSubsystem.shiftHighGear());
-
-    private final Command intake = new InstantCommand(() -> intakeSubsystem.intake(), intakeSubsystem);
-    private final Command outtake = new RunCommand(() -> intakeSubsystem.outtake(), intakeSubsystem);
-    private final Command stopIntake = new InstantCommand(() -> intakeSubsystem.stop(), intakeSubsystem);
-    private final Command retractIntake = new InstantCommand(() -> intakeSubsystem.retract(), intakeSubsystem);
-
-    private final Command toggleShooter = new InstantCommand(() -> shooterSubsystem.toggleShooter(), shooterSubsystem);
-    private final Command shootNear = new InstantCommand(() -> shooterSubsystem.setLowSpeed(), shooterSubsystem);
-    private final Command shootMedium = new InstantCommand(() -> shooterSubsystem.setMediumSpeed(), shooterSubsystem);
-    private final Command shootFar = new InstantCommand(() -> shooterSubsystem.setHighSpeed(), shooterSubsystem);
-
-    private final Command toggleClimberEnabled = new InstantCommand (()-> climberSubsystem.toggleClimberEnabled(), climberSubsystem);
-    private final Command toggleLeftArmPosition = new InstantCommand(() -> climberSubsystem.toggleLeftArmPosition(), climberSubsystem);
-    private final Command toggleRightArmPosition = new InstantCommand(() -> climberSubsystem.toggleRightArmPosition(), climberSubsystem);
-    private final Command extendLeftArm = new InstantCommand(() -> climberSubsystem.extendLeftArm(), climberSubsystem);
-    private final Command retractLeftArm = new InstantCommand(() -> climberSubsystem.retractLeftArm(), climberSubsystem);
-    private final Command stopLeftArm = new InstantCommand(() -> climberSubsystem.stopLeftArm(), climberSubsystem);
-    private final Command extendRightArm = new InstantCommand(() -> climberSubsystem.extendRightArm(), climberSubsystem);
-    private final Command retractRightArm = new InstantCommand(() -> climberSubsystem.retractRightArm(), climberSubsystem);
-    private final Command stopRightArm = new InstantCommand(() -> climberSubsystem.stopRightArm(), climberSubsystem);
-
-    private final Command shooterFeedUp = new InstantCommand(() -> shooterFeedSubsystem.up(), shooterFeedSubsystem);
-    private final Command shooterFeedDown = new InstantCommand(() -> shooterFeedSubsystem.down(), shooterFeedSubsystem);
-    private final Command shooterFeedStop = new InstantCommand(() -> shooterFeedSubsystem.stop(), shooterFeedSubsystem);
-
-    private final Command sorterIn = new InstantCommand(() -> sorterSubsystem.in(), sorterSubsystem);
-    private final Command sorterOut = new InstantCommand(() -> sorterSubsystem.out(), sorterSubsystem);
-    private final Command sorterStop = new InstantCommand(() -> sorterSubsystem.stop(), sorterSubsystem);
-
-    private final Command rotateTurretClockwise = new InstantCommand(() -> turretSubsystem.rotateClockwise(), turretSubsystem);
-    private final Command rotateTurretCounterClockwise = new InstantCommand(() -> turretSubsystem.rotateCounterClockwise(), turretSubsystem);
-    private final Command stopTurret = new InstantCommand(() -> turretSubsystem.stop(), turretSubsystem);
-
-    private final RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
-
-    private final Command fourBallAuto = new SequentialCommandGroup(
-        intake,
-        sorterIn,
-        ramseteCommandFactory.createCommand(TrajectoryType.BackUp),
-        new ToggleShooter(shooterSubsystem),
-        ramseteCommandFactory.createCommand(TrajectoryType.PullForward),
-        new ShooterFeedUp(shooterFeedSubsystem),
-        new WaitCommand(1),
-        new ShooterFeedStop(shooterFeedSubsystem),
-        new ToggleShooter(shooterSubsystem),
-        ramseteCommandFactory.createCommand(TrajectoryType.SeriouslyBackUp),
-        new ToggleShooter(shooterSubsystem),
-        ramseteCommandFactory.createCommand(TrajectoryType.SeriouslyPullForward),
-        new ShooterFeedUp(shooterFeedSubsystem),
-        new WaitCommand(1),
-        new ToggleShooter(shooterSubsystem),
-        new ShooterFeedStop(shooterFeedSubsystem)
-    );
-
     public RobotContainer() {
-        driveSubsystem.setDefaultCommand(tankDrive);
+
+        driveSubsystem.setDefaultCommand(
+            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem)
+        );
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
@@ -115,21 +82,21 @@ public class RobotContainer {
         JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
 
         intakeButton
-            .whenPressed(intake)
-            .whenReleased(stopIntake);
+            .whenPressed(new Intake(intakeSubsystem))
+            .whenReleased(new StopIntake(intakeSubsystem));
 
         outtakeButton
-            .whileHeld(outtake)
-            .whenInactive(stopIntake);
+            .whileHeld(new Outtake(intakeSubsystem))
+            .whenInactive(new StopIntake(intakeSubsystem));
 
         retractIntakeButton
-            .whenPressed(retractIntake);
+            .whenPressed(new RetractIntake(intakeSubsystem));
 
         shiftLowGearButton
-            .whenPressed(shiftLowGear);
+            .whenPressed(new ShiftLowGear(driveSubsystem));
 
         shiftHighGearButton
-            .whenPressed(shiftHighGear);
+            .whenPressed(new ShiftHighGear(driveSubsystem));
 
     }
 
@@ -163,68 +130,68 @@ public class RobotContainer {
         Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
 
         toggleShooterButton
-            .whenPressed(toggleShooter);
+            .whenPressed(new ToggleShooter(shooterSubsystem));
 
         shootNearButton
-            .whenPressed(shootNear);
+            .whenPressed(new ShootNear(shooterSubsystem));
 
         shootMediumButton
-            .whenPressed(shootMedium);
+            .whenPressed(new ShootMedium(shooterSubsystem));
 
         shootFarButton
-            .whenPressed(shootFar);
+            .whenPressed(new ShootFar(shooterSubsystem));
 
         enableClimberButton1.and(enableClimberButton2)
-            .whenActive(toggleClimberEnabled);
+            .whenActive(new ToggleClimberEnabled(climberSubsystem));
 
         toggleLeftArmPositionButton
-            .whenPressed(toggleLeftArmPosition);
+            .whenPressed(new ToggleLeftArmPosition(climberSubsystem));
 
         toggleRightArmPositionButton
-            .whenPressed(toggleRightArmPosition);
+            .whenPressed(new ToggleRightArmPosition(climberSubsystem));
 
         extendLeftArmTrigger
-            .whenActive(extendLeftArm)
-            .whenInactive(stopLeftArm);
+            .whenActive(new ExtendLeftArm(climberSubsystem))
+            .whenInactive(new StopLeftArm(climberSubsystem));
 
         retractLeftArmTrigger
-            .whenActive(retractLeftArm)
-            .whenInactive(stopLeftArm);
+            .whenActive(new RetractLeftArm(climberSubsystem))
+            .whenInactive(new StopLeftArm(climberSubsystem));
 
         extendRightArmTrigger
-            .whenActive(extendRightArm)
-            .whenInactive(stopRightArm);
+            .whenActive(new ExtendRightArm(climberSubsystem))
+            .whenInactive(new StopRightArm(climberSubsystem));
 
         retractRightArmTrigger
-            .whenActive(retractRightArm)
-            .whenInactive(stopRightArm);
+            .whenActive(new RetractRightArm(climberSubsystem))
+            .whenInactive(new StopRightArm(climberSubsystem));
 
         shooterFeedUpButton
-            .whenPressed(shooterFeedUp)
-            .whenReleased(shooterFeedStop);
+            .whenPressed(new ShooterFeedUp(shooterFeedSubsystem))
+            .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
 
         shooterFeedDownTrigger
-            .whenActive(shooterFeedDown)
-            .whenInactive(shooterFeedStop);
+            .whenActive(new ShooterFeedDown(shooterFeedSubsystem))
+            .whenInactive(new ShooterFeedStop(shooterFeedSubsystem));
 
         sorterInButton
-            .whenPressed(sorterIn)
-            .whenReleased(sorterStop);
+            .whenPressed(new SorterIn(sorterSubsystem))
+            .whenReleased(new SorterStop(sorterSubsystem));
 
         sorterOutTrigger
-            .whenActive(sorterOut)
-            .whenInactive(sorterStop);
+            .whenActive(new SorterOut(sorterSubsystem))
+            .whenInactive(new SorterStop(sorterSubsystem));
 
         rotateTurretClockwiseTrigger
-            .whileActiveContinuous(rotateTurretClockwise)
-            .whenInactive(stopTurret);
+            .whileActiveContinuous(new RotateTurretClockwise(turretSubsystem))
+            .whenInactive(new StopTurret(turretSubsystem));
 
         rotateTurretCounterClockwiseTrigger
-            .whileActiveContinuous(rotateTurretCounterClockwise)
-            .whenInactive(stopTurret);
+            .whileActiveContinuous(new RotateTurretCounterClockwise(turretSubsystem))
+            .whenInactive(new StopTurret(turretSubsystem));
     }
 
     public Command getAutonomousCommand() {
-        return fourBallAuto;
+        return new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem);
     }
 }
