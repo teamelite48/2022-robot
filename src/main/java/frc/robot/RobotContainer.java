@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.auto.FourBallAuto;
+import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.climber.ExtendLeftArm;
 import frc.robot.commands.climber.ExtendRightArm;
 import frc.robot.commands.climber.RetractLeftArm;
@@ -43,6 +44,8 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -62,6 +65,8 @@ public class RobotContainer {
     private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
     private final TurretSubsystem turretSubsystem = new TurretSubsystem();
 
+    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     public RobotContainer() {
 
         driveSubsystem.setDefaultCommand(
@@ -70,7 +75,13 @@ public class RobotContainer {
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
+
+        autoChooser.setDefaultOption("Four Ball",new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+
+        SmartDashboard.putData(autoChooser);
     }
+
 
     private void configurePilotButtonBindings() {
 
@@ -192,6 +203,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem);
+        return autoChooser.getSelected();
     }
 }

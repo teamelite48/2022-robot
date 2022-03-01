@@ -6,6 +6,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.Intake;
 import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
@@ -34,9 +35,9 @@ public class FourBallAuto extends SequentialCommandGroup {
 
     RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
-    driveSubsystem.resetOdometry(9, 6.5, 88);
 
     addCommands(
+      new ResetOdometry(9, 6.5, 88, driveSubsystem),
       new Intake(intakeSubsystem),
       new SorterIn(sorterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall1),

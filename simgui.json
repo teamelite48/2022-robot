@@ -56,7 +56,8 @@
       "/LiveWindow/Ungrouped/Talon FX [3]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [4]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
       "/SmartDashboard/Field": {
@@ -67,6 +68,11 @@
         "right": 1774,
         "top": 50,
         "width": 16.459199905395508,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
         }
@@ -92,6 +98,9 @@
       }
     },
     "SmartDashboard": {
+      "SendableChooser[0]": {
+        "open": true
+      },
       "open": true
     }
   },
@@ -144,7 +153,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }
