@@ -34,6 +34,8 @@ public class FourBallAuto extends SequentialCommandGroup {
 
     RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
+    driveSubsystem.resetOdometry(9, 6.5, 88);
+
     addCommands(
       new Intake(intakeSubsystem),
       new SorterIn(sorterSubsystem),

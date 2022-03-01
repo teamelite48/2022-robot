@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
-import frc.robot.config.subsystems.DriveConfig;
 import frc.robot.config.sysid.SysIdConfig;
 import edu.wpi.first.wpilibj.simulation.ADIS16470_IMUSim;
 
