@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.commands.auto.TestAuto;
 import frc.robot.commands.auto.TwoBallAuto;
@@ -79,7 +80,9 @@ public class RobotContainer {
 
         autoChooser.setDefaultOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
         autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        autoChooser.addOption("Back Off Line", new BackOffLineAuto(driveSubsystem));
         autoChooser.addOption("Test", new TestAuto(driveSubsystem));
+
 
         SmartDashboard.putData(autoChooser);
     }
