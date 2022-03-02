@@ -5,5 +5,7 @@ public enum TrajectoryType {
     FourBall1,
     FourBall2,
     FourBall3,
-    FourBall4
+    FourBall4,
+    TwoBall1,
+    TwoBall2
 }

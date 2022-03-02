@@ -83,7 +83,19 @@ public final class TrajectoryFactory {
       case FourBall4: {
         return getTrajectoryFromFile("FourBall4.wpilib.json");
       }
+
+      case TwoBall1: {
+        return getTrajectoryFromFile("TwoBall1.wpilib.json");
+      }
+
+      case TwoBall2:{
+        return getTrajectoryFromFile("TwoBall2.wpilib.json");
+      }
+
+
     }
+
+
 
     return null;
   }
