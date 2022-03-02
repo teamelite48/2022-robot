@@ -23,8 +23,6 @@ public class TwoBallAuto extends SequentialCommandGroup {
 
         RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
-
-
         addCommands(
             new ResetOdometry(10.5, 3.1, -136, driveSubsystem),
             new Intake(intakeSubsystem)

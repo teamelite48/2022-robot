@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.Intake;
+import frc.robot.commands.shooter.ShooterOff;
+import frc.robot.commands.shooter.ShooterOn;
 import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.ShooterFeedUp;
@@ -41,19 +43,19 @@ public class FourBallAuto extends SequentialCommandGroup {
       new Intake(intakeSubsystem),
       new SorterIn(sorterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall1),
-      new ToggleShooter(shooterSubsystem),
+      new ShooterOn(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall2),
       new ShooterFeedUp(shooterFeedSubsystem),
       new WaitCommand(1),
       new ShooterFeedStop(shooterFeedSubsystem),
-      new ToggleShooter(shooterSubsystem),
+      new ShooterOff(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall3),
-      new ToggleShooter(shooterSubsystem),
+      new ShooterOn(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall4),
       new ShooterFeedUp(shooterFeedSubsystem),
       new WaitCommand(1),
-      new ToggleShooter(shooterSubsystem),
-      new ShooterFeedStop(shooterFeedSubsystem)
+      new ShooterFeedStop(shooterFeedSubsystem),
+      new ShooterOff(shooterSubsystem)
     );
   }
 }

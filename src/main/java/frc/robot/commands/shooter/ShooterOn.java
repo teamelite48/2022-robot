@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShootFar extends InstantCommand {
+public class ShooterOn extends InstantCommand {
 
   private ShooterSubsystem shooterSubsystem;
 
-  public ShootFar(ShooterSubsystem shooterSubsystem) {
+  public ShooterOn(ShooterSubsystem shooterSubsystem) {
     addRequirements(shooterSubsystem);
 
     this.shooterSubsystem = shooterSubsystem;
@@ -20,6 +20,6 @@ public class ShootFar extends InstantCommand {
 
   @Override
   public void initialize() {
-    shooterSubsystem.setHighSpeed();
+    shooterSubsystem.shooterOn();
   }
 }

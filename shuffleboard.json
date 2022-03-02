@@ -231,6 +231,17 @@
               "_source0": "network_table:///SmartDashboard/Target Speed",
               "_title": "Target Speed"
             }
+          },
+          "3,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/SendableChooser[0]",
+              "_title": "SendableChooser[0]"
+            }
           }
         }
       }

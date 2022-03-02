@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.auto.FourBallAuto;
+import frc.robot.commands.auto.TestAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.climber.ExtendLeftArm;
 import frc.robot.commands.climber.ExtendRightArm;
@@ -76,8 +77,9 @@ public class RobotContainer {
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
 
-        autoChooser.setDefaultOption("Four Ball",new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        autoChooser.setDefaultOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
         autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        autoChooser.addOption("Test", new TestAuto(driveSubsystem));
 
         SmartDashboard.putData(autoChooser);
     }

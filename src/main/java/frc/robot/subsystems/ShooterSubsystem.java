@@ -45,6 +45,14 @@ public class ShooterSubsystem extends SubsystemBase {
     isShooterOn = !isShooterOn;
   }
 
+  public void shooterOn() {
+    isShooterOn = true;
+  }
+
+  public void shooterOff() {
+    isShooterOn = false;
+  }
+
   public void setLowSpeed() {
     targetSpeed = ShooterConfig.lowSpeed;
   }
