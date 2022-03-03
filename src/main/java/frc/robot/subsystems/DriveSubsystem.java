@@ -42,8 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   DifferentialDrive driveTrain = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
 
-  Solenoid leftShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftGearShift);
-  Solenoid rightShifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightGearShift);
+  Solenoid shifterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.GearShift);
 
   private Encoder leftEncoder = new Encoder(DioPort.LeftEncoderChannelA, DioPort.LeftEncoderChannelB);
   private Encoder rightEncoder = new Encoder(DioPort.RightEncoderChannelA, DioPort.RightEncoderChannelB);
@@ -92,8 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
     SmartDashboard.putNumber("Left Encoder", leftEncoder.getDistance());
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getDistance());
-    SmartDashboard.putString("Left Gear", leftShifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
-    SmartDashboard.putString("Right Gear", rightShifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
+    SmartDashboard.putString("Gear", shifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
     SmartDashboard.putNumber("Left Speed", leftControllerGroup.get());
     SmartDashboard.putNumber("Right Speed", rightControllerGroup.get());
   }
@@ -108,8 +106,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void shiftHighGear() {
     driveTrain.setMaxOutput(DriveConfig.shiftingMaxOutput);
 
-    leftShifterSolenoid.set(DriveConfig.highGearValue);
-    rightShifterSolenoid.set(DriveConfig.highGearValue);
+    shifterSolenoid.set(DriveConfig.highGearValue);
 
     lastShiftMillis = System.currentTimeMillis();
   }
@@ -117,8 +114,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void shiftLowGear() {
     driveTrain.setMaxOutput(DriveConfig.shiftingMaxOutput);
 
-    leftShifterSolenoid.set(DriveConfig.lowGearValue);
-    rightShifterSolenoid.set(DriveConfig.lowGearValue);
+    shifterSolenoid.set(DriveConfig.lowGearValue);
 
     lastShiftMillis = System.currentTimeMillis();
   }
