@@ -6,8 +6,8 @@ public final class ShooterConfig {
     public static final double mediumSpeed = 0.75;
     public static final double highSpeed = 1;
 
-    public static final boolean deflectorLowValue = true;
-    public static final boolean deflectorHighValue = false;
+    public static final boolean deflectorForwardValue = true;
+    public static final boolean deflectorBackwardValue = false;
 
     public static final double p = 0.0005;
     public static final double i = 0;

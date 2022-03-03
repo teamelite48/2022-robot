@@ -6,15 +6,21 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
+import frc.robot.config.roborio.PneumaticChannel;
 import frc.robot.config.subsystems.ShooterConfig;
 
 public class ShooterSubsystem extends SubsystemBase {
 
   private final WPI_TalonFX topMotor= new WPI_TalonFX(CanBusId.TopShooterMotor);
   private final WPI_TalonFX bottomMotor = new WPI_TalonFX(CanBusId.BottomShooterMotor);
+
+  private final Solenoid leftDeflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftDeflectorSolenoid);
+  private final Solenoid rightDeflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightDeflectorSolenoid);
 
   private boolean isShooterOn = false;
   private double targetSpeed = ShooterConfig.lowSpeed;
@@ -39,6 +45,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Target Speed", targetSpeed);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
+
+    SmartDashboard.putString("Left Deflector", leftDeflectorSolenoid.get() ? "Forward" : "Backward");
+    SmartDashboard.putString("Right Deflector", rightDeflectorSolenoid.get() ? "Forward" : "Backward");
   }
 
   public void toggleShooter() {
@@ -55,13 +64,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setLowSpeed() {
     targetSpeed = ShooterConfig.lowSpeed;
+    moveDeflectorForward();
   }
 
   public void setMediumSpeed() {
     targetSpeed = ShooterConfig.mediumSpeed;
+    moveDeflectorBackward();
   }
 
   public void setHighSpeed() {
     targetSpeed = ShooterConfig.highSpeed;
+    moveDeflectorBackward();
+  }
+
+  private void moveDeflectorForward() {
+    leftDeflectorSolenoid.set(ShooterConfig.deflectorForwardValue);
+    rightDeflectorSolenoid.set(ShooterConfig.deflectorForwardValue);
+  }
+
+  private void moveDeflectorBackward() {
+    leftDeflectorSolenoid.set(ShooterConfig.deflectorBackwardValue);
+    rightDeflectorSolenoid.set(ShooterConfig.deflectorBackwardValue);
   }
 }

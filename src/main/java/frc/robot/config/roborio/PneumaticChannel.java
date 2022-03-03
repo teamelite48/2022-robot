@@ -11,4 +11,7 @@ public class PneumaticChannel {
 
     public static final int LeftGearShift = 5;
     public static final int RightGearShift = 6;
+
+    public static final int LeftDeflectorSolenoid = 7;
+    public static final int RightDeflectorSolenoid = 8;
 }
