@@ -8,18 +8,27 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.subsystems.TurretConfig;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
 public class TurretSubsystem extends SubsystemBase {
 
-  private final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
-  private final RelativeEncoder encoder = motor.getEncoder();
+  final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
+  final RelativeEncoder encoder = motor.getEncoder();
 
+  final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  final NetworkTableEntry tx = table.getEntry("tx");
+  final NetworkTableEntry tv = table.getEntry("tv");
+
+  boolean isAutoAimEnabled = false;
   long lastSimulationPeriodicMillis = 0;
-
 
   public TurretSubsystem() {
 
@@ -31,7 +40,14 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Turret Postiton", encoder.getPosition());
+
+    if (isAutoAimEnabled) {
+      autoAim();
+    }
+
+    SmartDashboard.putNumber("Turret Position", encoder.getPosition());
+    SmartDashboard.putNumber("Turret tx", tx.getDouble(0.0));
+    SmartDashboard.putBoolean("Auto Aim", isAutoAimEnabled);
   }
 
   public void simulationPeriodic() {
@@ -45,7 +61,41 @@ public class TurretSubsystem extends SubsystemBase {
     lastSimulationPeriodicMillis = System.currentTimeMillis();
   }
 
+  public void enableAutoAim() {
+    isAutoAimEnabled = true;
+  }
+
+  public void disableAutoAim() {
+    isAutoAimEnabled = false;
+  }
+
+  public void toggleAutoAim() {
+    isAutoAimEnabled = !isAutoAimEnabled;
+  }
+
+  public void autoAim() {
+
+    // TODO: verify encoder and motor movements
+    if (RobotBase.isReal()) return;
+
+    double error = tx.getDouble(0.0);
+    boolean targetAcquired = tv.getBoolean(false);
+
+    if(targetAcquired == false) return;
+
+    double newMotorSpeed = error * TurretConfig.kP;
+
+    if ((newMotorSpeed > 0 && encoder.getPosition() >= TurretConfig.encoderLimit) || (newMotorSpeed < 0 && encoder.getPosition() <= -TurretConfig.encoderLimit)) {
+      motor.set(0);
+      return;
+    }
+    
+    motor.set(newMotorSpeed);
+  }
+
   public void rotateClockwise() {
+
+    isAutoAimEnabled = false;
 
     if(encoder.getPosition() >= TurretConfig.encoderLimit){
       motor.set(0);
@@ -56,6 +106,9 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void rotateCounterClockwise() {
+
+    isAutoAimEnabled = false;
+
     if(encoder.getPosition() <= -TurretConfig.encoderLimit){
       motor.set(0);
     }

@@ -31,6 +31,7 @@ import frc.robot.commands.sorter.SorterStop;
 import frc.robot.commands.turret.RotateTurretClockwise;
 import frc.robot.commands.turret.RotateTurretCounterClockwise;
 import frc.robot.commands.turret.StopTurret;
+import frc.robot.commands.turret.ToggleAutoAim;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
@@ -137,6 +138,8 @@ public class RobotContainer {
         Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
         Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
 
+        JoystickButton autoAimButton = new JoystickButton(copilotGamepad, 9);
+
         toggleShooterButton
             .whenPressed(new ToggleShooter(shooterSubsystem));
 
@@ -190,6 +193,9 @@ public class RobotContainer {
         rotateTurretCounterClockwiseTrigger
             .whileActiveContinuous(new RotateTurretCounterClockwise(turretSubsystem))
             .whenInactive(new StopTurret(turretSubsystem));
+
+        autoAimButton
+            .whenPressed(new ToggleAutoAim(turretSubsystem));
     }
 
     public Command getAutonomousCommand() {
