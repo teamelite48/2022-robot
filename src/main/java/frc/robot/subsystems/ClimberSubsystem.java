@@ -98,54 +98,42 @@ public class ClimberSubsystem extends SubsystemBase {
     isClimberEnabled = !isClimberEnabled;
   }
 
-  public void toggleLeftArmPosition() {
+  public void tiltArmsDown() {
     if (isClimberEnabled){
-      leftArmSolenoid.toggle();
+      leftArmSolenoid.set(ClimberConfig.downTilt);
+      rightArmSolenoid.set(ClimberConfig.downTilt);
     }
   }
 
-  public void toggleRightArmPosition() {
+  public void tiltArmsUp() {
     if (isClimberEnabled){
-      rightArmSolenoid.toggle();
+      leftArmSolenoid.set(ClimberConfig.upTilt);
+      rightArmSolenoid.set(ClimberConfig.upTilt);
     }
   }
 
-  public void extendLeftArm() {
+  public void extendArms() {
     if (isClimberEnabled) {
       leftLockSolenoid.set(ClimberConfig.unlockValue);
-      leftArmMotor.set(ClimberConfig.extendArmSpeed);
-    }
-  }
-
-  public void retractLeftArm() {
-    if (isClimberEnabled) {
-      leftLockSolenoid.set(ClimberConfig.unlockValue);
-      leftArmMotor.set(ClimberConfig.retractArmSpeed);
-    }
-  }
-
-  public void stopLeftArm() {
-    leftLockSolenoid.set(ClimberConfig.lockValue);
-    leftArmMotor.set(0);
-  }
-
-  public void extendRightArm() {
-
-    if (isClimberEnabled) {
       rightLockSolenoid.set(ClimberConfig.unlockValue);
+      leftArmMotor.set(ClimberConfig.extendArmSpeed);
       rightArmMotor.set(ClimberConfig.extendArmSpeed);
     }
   }
 
-  public void retractRightArm() {
-    if (isClimberEnabled){
+  public void retractArms() {
+    if (isClimberEnabled) {
+      leftLockSolenoid.set(ClimberConfig.unlockValue);
       rightLockSolenoid.set(ClimberConfig.unlockValue);
+      leftArmMotor.set(ClimberConfig.retractArmSpeed);
       rightArmMotor.set(ClimberConfig.retractArmSpeed);
     }
   }
 
-  public void stopRightArm() {
+  public void stopArms() {
+    leftLockSolenoid.set(ClimberConfig.lockValue);
     rightLockSolenoid.set(ClimberConfig.lockValue);
+    leftArmMotor.set(0);
     rightArmMotor.set(0);
   }
 }

@@ -8,19 +8,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 
 
-public class ToggleRightArmPosition extends InstantCommand {
+public class TiltArmsDown extends InstantCommand {
 
   ClimberSubsystem climberSubsystem;
 
-  public ToggleRightArmPosition(ClimberSubsystem climberSubsystem) {
+  public TiltArmsDown(ClimberSubsystem climberSubsystem) {
     addRequirements(climberSubsystem);
 
     this.climberSubsystem = climberSubsystem;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climberSubsystem.toggleRightArmPosition();
+    climberSubsystem.tiltArmsDown();
   }
 }

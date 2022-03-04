@@ -8,19 +8,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 
 
-public class ExtendLeftArm extends InstantCommand {
+public class RetractArms extends InstantCommand {
 
   ClimberSubsystem climberSubsystem;
 
-  public ExtendLeftArm(ClimberSubsystem climberSubsystem) {
+  public RetractArms(ClimberSubsystem climberSubsystem) {
     addRequirements(climberSubsystem);
 
     this.climberSubsystem = climberSubsystem;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climberSubsystem.extendLeftArm();
+    climberSubsystem.retractArms();
   }
 }

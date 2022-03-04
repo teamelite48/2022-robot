@@ -8,15 +8,10 @@ import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.commands.auto.TestAuto;
 import frc.robot.commands.auto.TwoBallAuto;
-import frc.robot.commands.climber.ExtendLeftArm;
-import frc.robot.commands.climber.ExtendRightArm;
-import frc.robot.commands.climber.RetractLeftArm;
-import frc.robot.commands.climber.RetractRightArm;
-import frc.robot.commands.climber.StopLeftArm;
-import frc.robot.commands.climber.StopRightArm;
+import frc.robot.commands.climber.ExtendArms;
+import frc.robot.commands.climber.RetractArms;
+import frc.robot.commands.climber.StopArms;
 import frc.robot.commands.climber.ToggleClimberEnabled;
-import frc.robot.commands.climber.ToggleLeftArmPosition;
-import frc.robot.commands.climber.ToggleRightArmPosition;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
 import frc.robot.commands.intake.Intake;
@@ -50,6 +45,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -127,14 +123,10 @@ public class RobotContainer {
         JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 7);
         JoystickButton enableClimberButton2 = new JoystickButton(copilotGamepad, 8);
 
-        JoystickButton toggleLeftArmPositionButton = new JoystickButton(copilotGamepad, 9);
-        JoystickButton toggleRightArmPositionButton = new JoystickButton(copilotGamepad, 10);
+        JoystickButton tiltArmsButton = new JoystickButton(copilotGamepad, 10);
 
-        Trigger extendLeftArmTrigger = new Trigger(() -> copilotGamepad.getLeftY() < -0.5);
-        Trigger retractLeftArmTrigger = new Trigger(() -> copilotGamepad.getLeftY() > 0.5);
-
-        Trigger extendRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
-        Trigger retractRightArmTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
+        Trigger extendArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
+        Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
 
         JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
         Trigger shooterFeedDownTrigger = new Trigger(() -> copilotGamepad.getRawAxis(3) > 0.5);
@@ -160,27 +152,20 @@ public class RobotContainer {
         enableClimberButton1.and(enableClimberButton2)
             .whenActive(new ToggleClimberEnabled(climberSubsystem));
 
-        toggleLeftArmPositionButton
-            .whenPressed(new ToggleLeftArmPosition(climberSubsystem));
+        tiltArmsButton
+            .toggleWhenPressed(new StartEndCommand(
+                climberSubsystem::tiltArmsUp,
+                climberSubsystem::tiltArmsDown,
+                climberSubsystem
+            ));
 
-        toggleRightArmPositionButton
-            .whenPressed(new ToggleRightArmPosition(climberSubsystem));
+        extendArmsTrigger
+            .whenActive(new ExtendArms(climberSubsystem))
+            .whenInactive(new StopArms(climberSubsystem));
 
-        extendLeftArmTrigger
-            .whenActive(new ExtendLeftArm(climberSubsystem))
-            .whenInactive(new StopLeftArm(climberSubsystem));
-
-        retractLeftArmTrigger
-            .whenActive(new RetractLeftArm(climberSubsystem))
-            .whenInactive(new StopLeftArm(climberSubsystem));
-
-        extendRightArmTrigger
-            .whenActive(new ExtendRightArm(climberSubsystem))
-            .whenInactive(new StopRightArm(climberSubsystem));
-
-        retractRightArmTrigger
-            .whenActive(new RetractRightArm(climberSubsystem))
-            .whenInactive(new StopRightArm(climberSubsystem));
+        retractArmsTrigger
+            .whenActive(new RetractArms(climberSubsystem))
+            .whenInactive(new StopArms(climberSubsystem));
 
         shooterFeedUpButton
             .whenPressed(new ShooterFeedUp(shooterFeedSubsystem))
