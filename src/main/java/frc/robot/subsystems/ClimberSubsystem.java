@@ -28,6 +28,9 @@ public class ClimberSubsystem extends SubsystemBase {
   private final DoubleSolenoid leftArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftArmForward, PneumaticChannel.LeftArmReverse);
   private final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
 
+  private final DoubleSolenoid leftLockSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftClimbLockForward, PneumaticChannel.LeftClimbLockReverse);
+  private final DoubleSolenoid rightLockSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightClimbLockForward, PneumaticChannel.RightClimbLockReverse);
+
   private boolean isClimberEnabled = false;
 
   public ClimberSubsystem() {
@@ -59,11 +62,21 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
+    if (leftArmMotor.isFwdLimitSwitchClosed() == 1 || leftArmMotor.isRevLimitSwitchClosed() == 1) {
+      leftLockSolenoid.set(ClimberConfig.lockValue);
+    }
+    else if (rightArmMotor.isFwdLimitSwitchClosed() == 1 || rightArmMotor.isRevLimitSwitchClosed() == 1) {
+      rightLockSolenoid.set(ClimberConfig.lockValue);
+    }
+
     SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
-    SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get() == Value.kForward ? "Forward" : "Reverse");
-    SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get() == Value.kForward ? "Forward" : "Reverse");
-    SmartDashboard.putNumber("Left Arm Length", 100 * leftArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.armExtensionLimit);
-    SmartDashboard.putNumber("Right Arm Length", 100 * rightArmMotor.getSensorCollection().getIntegratedSensorPosition()/ClimberConfig.armExtensionLimit);
+    SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get() == ClimberConfig.upTilt ? "Up" : "Down");
+    SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get() == ClimberConfig.upTilt ? "Up" : "Down");
+    SmartDashboard.putNumber("Left Arm Length", leftArmMotor.getSensorCollection().getIntegratedSensorPosition());
+    SmartDashboard.putNumber("Right Arm Length",rightArmMotor.getSensorCollection().getIntegratedSensorPosition());
+    SmartDashboard.putString("Left Lock", leftLockSolenoid.get() == ClimberConfig.lockValue ? "Lock" : "Unlock");
+    SmartDashboard.putString("Right Lock", rightLockSolenoid.get() == ClimberConfig.lockValue ? "Lock" : "Unlock");
   }
 
   public void simulationPeriodic() {
@@ -99,33 +112,40 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void extendLeftArm() {
     if (isClimberEnabled) {
+      leftLockSolenoid.set(ClimberConfig.unlockValue);
       leftArmMotor.set(ClimberConfig.extendArmSpeed);
     }
   }
 
   public void retractLeftArm() {
     if (isClimberEnabled) {
+      leftLockSolenoid.set(ClimberConfig.unlockValue);
       leftArmMotor.set(ClimberConfig.retractArmSpeed);
     }
   }
 
   public void stopLeftArm() {
+    leftLockSolenoid.set(ClimberConfig.lockValue);
     leftArmMotor.set(0);
   }
 
   public void extendRightArm() {
+
     if (isClimberEnabled) {
+      rightLockSolenoid.set(ClimberConfig.unlockValue);
       rightArmMotor.set(ClimberConfig.extendArmSpeed);
     }
   }
 
   public void retractRightArm() {
     if (isClimberEnabled){
+      rightLockSolenoid.set(ClimberConfig.unlockValue);
       rightArmMotor.set(ClimberConfig.retractArmSpeed);
     }
   }
 
   public void stopRightArm() {
+    rightLockSolenoid.set(ClimberConfig.lockValue);
     rightArmMotor.set(0);
   }
 }

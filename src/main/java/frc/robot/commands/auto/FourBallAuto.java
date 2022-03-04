@@ -10,7 +10,6 @@ import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.Intake;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.ShooterOn;
-import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.ShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
@@ -22,9 +21,6 @@ import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FourBallAuto extends SequentialCommandGroup {
 
   public FourBallAuto(

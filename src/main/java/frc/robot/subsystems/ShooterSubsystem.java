@@ -16,10 +16,10 @@ import frc.robot.config.subsystems.ShooterConfig;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  private final WPI_TalonFX topMotor= new WPI_TalonFX(CanBusId.TopShooterMotor);
+  private final WPI_TalonFX topMotor = new WPI_TalonFX(CanBusId.TopShooterMotor);
   private final WPI_TalonFX bottomMotor = new WPI_TalonFX(CanBusId.BottomShooterMotor);
 
-  private final Solenoid leftDeflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Deflector);
+  private final Solenoid deflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Deflector);
 
   private boolean isShooterOn = false;
   private double targetSpeed = ShooterConfig.lowSpeed;
@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Target Speed", targetSpeed);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
 
-    SmartDashboard.putString("Left Deflector", leftDeflectorSolenoid.get() ? "Forward" : "Backward");
+    SmartDashboard.putString("Left Deflector", deflectorSolenoid.get() ? "Forward" : "Backward");
   }
 
   public void toggleShooter() {
@@ -76,10 +76,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   private void moveDeflectorForward() {
-    leftDeflectorSolenoid.set(ShooterConfig.deflectorForwardValue);
+    deflectorSolenoid.set(ShooterConfig.deflectorForwardValue);
   }
 
   private void moveDeflectorBackward() {
-    leftDeflectorSolenoid.set(ShooterConfig.deflectorBackwardValue);
+    deflectorSolenoid.set(ShooterConfig.deflectorBackwardValue);
   }
 }

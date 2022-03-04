@@ -7,7 +7,12 @@ public final class ClimberConfig {
     public static final double extendArmSpeed = 0.5;
     public static final double retractArmSpeed = -extendArmSpeed;
 
-    public static Value initialArmPosition = Value.kForward;
+    public static Value upTilt = Value.kForward;
+    public static Value downTilt = Value.kReverse;
+    public static Value initialArmPosition = downTilt;
+
+    public static Value lockValue = Value.kForward;
+    public static Value unlockValue = Value.kReverse;
 
     public static final int armExtensionLimit = 100;
     public static final int armRetractionLimit = 10;
