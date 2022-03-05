@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.RobotBase;
@@ -32,10 +33,10 @@ public class TurretSubsystem extends SubsystemBase {
   long lastSimulationPeriodicMillis = 0;
 
   public TurretSubsystem() {
-    // motor.enableSoftLimit(SoftLimitDirection.kForward, true);
-    // motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    // motor.setSoftLimit(SoftLimitDirection.kForward, TurretConfig.encoderLimit);
-    // motor.setSoftLimit(SoftLimitDirection.kReverse, -TurretConfig.encoderLimit);
+    motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    motor.setSoftLimit(SoftLimitDirection.kForward, TurretConfig.encoderLimit);
+    motor.setSoftLimit(SoftLimitDirection.kReverse, -TurretConfig.encoderLimit);
   }
 
   @Override
@@ -77,7 +78,7 @@ public class TurretSubsystem extends SubsystemBase {
   public void autoAim() {
 
     // TODO: verify encoder and motor movements
-    if (RobotBase.isReal()) return;
+    // if (RobotBase.isReal()) return;
 
     double error = tx.getDouble(0.0);
     boolean targetAcquired = tv.getBoolean(false);
@@ -86,12 +87,6 @@ public class TurretSubsystem extends SubsystemBase {
 
     double newMotorSpeed = Math.min(TurretConfig.maxOuput, error * TurretConfig.kP);
 
-    // TODO: remove and try to rely on motors soft limits
-    if ((newMotorSpeed > 0 && encoder.getPosition() >= TurretConfig.encoderLimit) || (newMotorSpeed < 0 && encoder.getPosition() <= -TurretConfig.encoderLimit)) {
-      motor.set(0);
-      return;
-    }
-
     motor.set(newMotorSpeed);
   }
 
@@ -99,24 +94,26 @@ public class TurretSubsystem extends SubsystemBase {
 
     isAutoAimEnabled = false;
 
-    if(encoder.getPosition() >= TurretConfig.encoderLimit){
-      motor.set(0);
-    }
-    else {
-      motor.set(TurretConfig.clockwiseSpeed);
-    }
+    // if(encoder.getPosition() >= TurretConfig.encoderLimit){
+    //   motor.set(0);
+    // }
+    // else {
+    //   motor.set(TurretConfig.clockwiseSpeed);
+    // }
+    motor.set(TurretConfig.clockwiseSpeed);
   }
 
   public void rotateCounterClockwise() {
 
     isAutoAimEnabled = false;
 
-    if(encoder.getPosition() <= -TurretConfig.encoderLimit){
-      motor.set(0);
-    }
-    else {
-      motor.set(TurretConfig.counterClockwiseSpeed);
-    }
+    // if(encoder.getPosition() <= -TurretConfig.encoderLimit){
+    //   motor.set(0);
+    // }
+    // else {
+    //   motor.set(TurretConfig.counterClockwiseSpeed);
+    // }
+    motor.set(TurretConfig.counterClockwiseSpeed);
   }
 
   public void stop() {

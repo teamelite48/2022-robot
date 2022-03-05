@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
   final PIDController pidController = new PIDController(ShooterConfig.kP, ShooterConfig.kI, ShooterConfig.kD);
 
   boolean isShooterOn = false;
-  double targetOuput = ShooterConfig.lowSpeed;
+  double targetRPM = ShooterConfig.mediumRPM;
 
 
   public ShooterSubsystem() {
@@ -36,27 +36,30 @@ public class ShooterSubsystem extends SubsystemBase {
     rightMotor.setInverted(true);
     leftMotor.follow(rightMotor);
     leftMotor.setInverted(InvertType.OpposeMaster);
+
+    SmartDashboard.putNumber("Current RPM", 0);
+    SmartDashboard.putNumber("PIDValue", 0);
   }
 
   @Override
   public void periodic() {
 
     if (isShooterOn == false) {
-      leftMotor.set(0);
+      rightMotor.set(0);
     }
     else {
-      // TODO: ask Travis to blar
-      double currentOutput = leftMotor.getMotorOutputPercent();
+      double currentRPM = -1 * (rightMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
+      SmartDashboard.putNumber("Current RPM", currentRPM);
 
-      double output = pidController.calculate(currentOutput, targetOuput);
+      double motorOutput = targetRPM/ShooterConfig.maxRPM + pidController.calculate(currentRPM, targetRPM);
+      SmartDashboard.putNumber("PIDValue", pidController.calculate(currentRPM, targetRPM));
 
-      leftMotor.set(output);
+      rightMotor.set(Math.max(motorOutput, 0));
     }
 
-    SmartDashboard.putNumber("Target Speed", targetOuput);
+    SmartDashboard.putNumber("Target RPM", targetRPM);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
-
-    SmartDashboard.putString("Left Deflector", deflectorSolenoid.get() ? "Forward" : "Backward");
+    SmartDashboard.putString("Deflector Position", deflectorSolenoid.get() ? "Forward" : "Backward");
   }
 
   public void toggleShooter() {
@@ -72,17 +75,17 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setLowSpeed() {
-    targetOuput = ShooterConfig.lowSpeed;
+    targetRPM = ShooterConfig.lowRPM;
     moveDeflectorForward();
   }
 
   public void setMediumSpeed() {
-    targetOuput = ShooterConfig.mediumSpeed;
+    targetRPM = ShooterConfig.mediumRPM;
     moveDeflectorBackward();
   }
 
   public void setHighSpeed() {
-    targetOuput = ShooterConfig.highSpeed;
+    targetRPM = ShooterConfig.highRPM;
     moveDeflectorBackward();
   }
 

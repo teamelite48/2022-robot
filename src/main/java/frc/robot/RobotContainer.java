@@ -124,10 +124,10 @@ public class RobotContainer {
 
     private void configureCopilotButtonBindings() {
 
-        JoystickButton toggleShooterButton = new JoystickButton(copilotGamepad, 2);
+        JoystickButton toggleShooterButton = new JoystickButton(copilotGamepad, 3);
 
-        JoystickButton shootNearButton = new JoystickButton(copilotGamepad, 1);
-        JoystickButton shootMediumButton = new JoystickButton(copilotGamepad, 3);
+        JoystickButton shootNearButton = new JoystickButton(copilotGamepad, 2);
+        JoystickButton shootMediumButton = new JoystickButton(copilotGamepad, 1);
         JoystickButton shootFarButton = new JoystickButton(copilotGamepad, 4);
 
         JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 7);
@@ -139,10 +139,12 @@ public class RobotContainer {
         Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
 
         JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
-        Trigger shooterFeedDownTrigger = new Trigger(() -> copilotGamepad.getRawAxis(3) > 0.5);
+        JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 8);
+        //Trigger shooterFeedDownTrigger = new Trigger(() -> copilotGamepad.getRawAxis(3) > 0.5);
 
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
-        Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
+        JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
+        //Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
 
         Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
         Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
@@ -180,17 +182,17 @@ public class RobotContainer {
             .whenPressed(new ShooterFeedUp(shooterFeedSubsystem))
             .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
 
-        shooterFeedDownTrigger
-            .whenActive(new ShooterFeedDown(shooterFeedSubsystem))
-            .whenInactive(new ShooterFeedStop(shooterFeedSubsystem));
+        shooterFeedDownButton
+            .whenPressed(new ShooterFeedDown(shooterFeedSubsystem))
+            .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
 
         sorterInButton
             .whenPressed(new SorterIn(sorterSubsystem))
             .whenReleased(new SorterStop(sorterSubsystem));
 
-        sorterOutTrigger
-            .whenActive(new SorterOut(sorterSubsystem))
-            .whenInactive(new SorterStop(sorterSubsystem));
+        sorterOutButton
+            .whenPressed(new SorterOut(sorterSubsystem))
+            .whenReleased(new SorterStop(sorterSubsystem));
 
         rotateTurretClockwiseTrigger
             .whileActiveContinuous(new RotateTurretClockwise(turretSubsystem))
