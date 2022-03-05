@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.auto.AutoClimb;
 import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.commands.auto.TestAuto;
@@ -94,6 +95,8 @@ public class RobotContainer {
         JoystickButton shiftLowGearButton = new JoystickButton(leftPilotJoystick, 4);
         JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
 
+        JoystickButton autoClimbButton = new JoystickButton(rightPilotJoystick, 3);
+
         intakeButton
             .whenPressed(new Intake(intakeSubsystem))
             .whenReleased(new StopIntake(intakeSubsystem));
@@ -111,6 +114,8 @@ public class RobotContainer {
         shiftHighGearButton
             .whenPressed(new ShiftHighGear(driveSubsystem));
 
+        autoClimbButton
+            .whenPressed(new AutoClimb(climberSubsystem));
     }
 
     private void configureCopilotButtonBindings() {
