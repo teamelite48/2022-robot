@@ -12,6 +12,7 @@ import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
 import frc.robot.commands.climber.StopArms;
+import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.ToggleClimberEnabled;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
@@ -32,7 +33,8 @@ import frc.robot.commands.sorter.SorterStop;
 import frc.robot.commands.turret.RotateTurretClockwise;
 import frc.robot.commands.turret.RotateTurretCounterClockwise;
 import frc.robot.commands.turret.StopTurret;
-import frc.robot.commands.turret.ToggleAutoAim;
+import frc.robot.commands.turret.EnableAutoAim;
+import frc.robot.commands.turret.DisableAutoAim;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
@@ -48,6 +50,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -70,13 +73,14 @@ public class RobotContainer {
     public RobotContainer() {
 
         driveSubsystem.setDefaultCommand(
-            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), leftPilotJoystick.getRawAxis(2)), driveSubsystem)
+            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), rightPilotJoystick.getRawAxis(2)), driveSubsystem)
         );
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
 
-        autoChooser.setDefaultOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
+        autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
         autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
         autoChooser.addOption("Back Off Line", new BackOffLineAuto(driveSubsystem));
         autoChooser.addOption("Test", new TestAuto(driveSubsystem));
@@ -143,7 +147,8 @@ public class RobotContainer {
         Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
         Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
 
-        JoystickButton autoAimButton = new JoystickButton(copilotGamepad, 9);
+        Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
+        Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
 
         toggleShooterButton
             .whenPressed(new ToggleShooter(shooterSubsystem));
@@ -160,12 +165,8 @@ public class RobotContainer {
         enableClimberButton1.and(enableClimberButton2)
             .whenActive(new ToggleClimberEnabled(climberSubsystem));
 
-        //TODO: Change to toggle instant commands
         tiltArmsButton
-            .toggleWhenPressed(new StartEndCommand(
-                climberSubsystem::tiltArmsUp,
-                climberSubsystem::tiltArmsDown
-            ));
+            .whenPressed(new ToggleArmPositions(climberSubsystem));
 
         extendArmsTrigger
             .whenActive(new ExtendArms(climberSubsystem))
@@ -199,8 +200,11 @@ public class RobotContainer {
             .whileActiveContinuous(new RotateTurretCounterClockwise(turretSubsystem))
             .whenInactive(new StopTurret(turretSubsystem));
 
-        autoAimButton
-            .whenPressed(new ToggleAutoAim(turretSubsystem));
+        enableAutoAimButton
+            .whenActive(new EnableAutoAim(turretSubsystem));
+
+        disableAutoAimButton
+            .whenActive(new DisableAutoAim(turretSubsystem));
     }
 
     public Command getAutonomousCommand() {

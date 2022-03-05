@@ -2,7 +2,8 @@ package frc.robot.config.subsystems;
 
 public class TurretConfig {
 
-    public static final double clockwiseSpeed = 0.5;
+    public static final double maxOuput = 0.5;
+    public static final double clockwiseSpeed = maxOuput;
     public static final double counterClockwiseSpeed = -clockwiseSpeed;
 
     public static final int encoderLimit = 275;

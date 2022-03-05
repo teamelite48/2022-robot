@@ -80,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
     else {
-      driveTrain.setMaxOutput(Math.min(throttleValue, DriveConfig.maxOutput));
+      driveTrain.setMaxOutput(throttleValue);
     }
 
     odometry.update(
@@ -105,7 +105,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed, double throttleValue) {
-    this.throttleValue = Math.max(DriveConfig.maxOutput * ((throttleValue * -1) + 1) / 2, DriveConfig.minOutput);
+    double adjustedThrottle = DriveConfig.maxOutput * ((throttleValue * -1) + 1) / 2;
+    this.throttleValue = Math.max(adjustedThrottle, DriveConfig.minOutput);
 
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }

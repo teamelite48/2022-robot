@@ -26,12 +26,12 @@ public class TurretSubsystem extends SubsystemBase {
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry tx = table.getEntry("tx");
   final NetworkTableEntry tv = table.getEntry("tv");
+  final NetworkTableEntry ledMode = table.getEntry("ledMode");
 
   boolean isAutoAimEnabled = false;
   long lastSimulationPeriodicMillis = 0;
 
   public TurretSubsystem() {
-
     // motor.enableSoftLimit(SoftLimitDirection.kForward, true);
     // motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     // motor.setSoftLimit(SoftLimitDirection.kForward, TurretConfig.encoderLimit);
@@ -42,8 +42,13 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
 
     if (isAutoAimEnabled) {
+      ledMode.setNumber(3);
       autoAim();
     }
+    else {
+      ledMode.setNumber(1);
+    }
+
 
     SmartDashboard.putNumber("Turret Position", encoder.getPosition());
     SmartDashboard.putNumber("Turret tx", tx.getDouble(0.0));
@@ -69,10 +74,6 @@ public class TurretSubsystem extends SubsystemBase {
     isAutoAimEnabled = false;
   }
 
-  public void toggleAutoAim() {
-    isAutoAimEnabled = !isAutoAimEnabled;
-  }
-
   public void autoAim() {
 
     // TODO: verify encoder and motor movements
@@ -83,13 +84,14 @@ public class TurretSubsystem extends SubsystemBase {
 
     if(targetAcquired == false) return;
 
-    double newMotorSpeed = error * TurretConfig.kP;
+    double newMotorSpeed = Math.min(TurretConfig.maxOuput, error * TurretConfig.kP);
 
+    // TODO: remove and try to rely on motors soft limits
     if ((newMotorSpeed > 0 && encoder.getPosition() >= TurretConfig.encoderLimit) || (newMotorSpeed < 0 && encoder.getPosition() <= -TurretConfig.encoderLimit)) {
       motor.set(0);
       return;
     }
-    
+
     motor.set(newMotorSpeed);
   }
 

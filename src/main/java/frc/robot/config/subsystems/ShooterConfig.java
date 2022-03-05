@@ -9,7 +9,7 @@ public final class ShooterConfig {
     public static final boolean deflectorForwardValue = true;
     public static final boolean deflectorBackwardValue = false;
 
-    public static final double p = 0.0005;
-    public static final double i = 0;
-    public static final double d = 0;
+    public static final double kP = 0.0005;
+    public static final double kI = 0;
+    public static final double kD = 0;
 }

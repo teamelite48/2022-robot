@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.TurretSubsystem;
 
 
-public class ToggleAutoAim extends InstantCommand {
+public class DisableAutoAim extends InstantCommand {
 
   TurretSubsystem turretSubsystem;
 
-  public ToggleAutoAim(TurretSubsystem turretSubsystem) {
+  public DisableAutoAim(TurretSubsystem turretSubsystem) {
     addRequirements(turretSubsystem);
 
     this.turretSubsystem = turretSubsystem;
@@ -20,6 +20,6 @@ public class ToggleAutoAim extends InstantCommand {
 
   @Override
   public void initialize() {
-    turretSubsystem.toggleAutoAim();
+    turretSubsystem.disableAutoAim();
   }
 }

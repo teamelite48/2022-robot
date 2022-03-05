@@ -4,6 +4,7 @@ public class PneumaticChannel {
 
     public static final int LeftArmForward = 6;
     public static final int LeftArmReverse = 7;
+
     public static final int RightArmForward = 8;
     public static final int RightArmReverse = 9;
 

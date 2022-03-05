@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,33 +18,42 @@ import frc.robot.config.subsystems.ShooterConfig;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  private final WPI_TalonFX topMotor = new WPI_TalonFX(CanBusId.TopShooterMotor);
-  private final WPI_TalonFX bottomMotor = new WPI_TalonFX(CanBusId.BottomShooterMotor);
+  final WPI_TalonFX leftMotor = new WPI_TalonFX(CanBusId.LeftShooterMotor);
+  final WPI_TalonFX rightMotor = new WPI_TalonFX(CanBusId.RightShooterMotor);
 
-  private final Solenoid deflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Deflector);
+  final Solenoid deflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Deflector);
+  final PIDController pidController = new PIDController(ShooterConfig.kP, ShooterConfig.kI, ShooterConfig.kD);
 
-  private boolean isShooterOn = false;
-  private double targetSpeed = ShooterConfig.lowSpeed;
+  boolean isShooterOn = false;
+  double targetOuput = ShooterConfig.lowSpeed;
+
 
   public ShooterSubsystem() {
 
-    topMotor.configFactoryDefault();
-    bottomMotor.configFactoryDefault();
+    leftMotor.configFactoryDefault();
+    rightMotor.configFactoryDefault();
 
-    bottomMotor.follow(topMotor);
+    rightMotor.setInverted(true);
+    leftMotor.follow(rightMotor);
+    leftMotor.setInverted(InvertType.OpposeMaster);
   }
 
   @Override
   public void periodic() {
 
     if (isShooterOn == false) {
-      topMotor.set(0);
+      leftMotor.set(0);
     }
     else {
-      topMotor.set(targetSpeed);
+      // TODO: ask Travis to blar
+      double currentOutput = leftMotor.getMotorOutputPercent();
+
+      double output = pidController.calculate(currentOutput, targetOuput);
+
+      leftMotor.set(output);
     }
 
-    SmartDashboard.putNumber("Target Speed", targetSpeed);
+    SmartDashboard.putNumber("Target Speed", targetOuput);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
 
     SmartDashboard.putString("Left Deflector", deflectorSolenoid.get() ? "Forward" : "Backward");
@@ -61,17 +72,17 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setLowSpeed() {
-    targetSpeed = ShooterConfig.lowSpeed;
+    targetOuput = ShooterConfig.lowSpeed;
     moveDeflectorForward();
   }
 
   public void setMediumSpeed() {
-    targetSpeed = ShooterConfig.mediumSpeed;
+    targetOuput = ShooterConfig.mediumSpeed;
     moveDeflectorBackward();
   }
 
   public void setHighSpeed() {
-    targetSpeed = ShooterConfig.highSpeed;
+    targetOuput = ShooterConfig.highSpeed;
     moveDeflectorBackward();
   }
 

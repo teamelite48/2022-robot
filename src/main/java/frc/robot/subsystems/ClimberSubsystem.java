@@ -25,7 +25,7 @@ public class ClimberSubsystem extends SubsystemBase {
   final TalonFXSensorCollection leftArmSensorCollection = leftArmMotor.getSensorCollection();
   final TalonFXSensorCollection rightArmSensorCollection = rightArmMotor.getSensorCollection();
 
-  
+
   final DoubleSolenoid leftArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftArmForward, PneumaticChannel.LeftArmReverse);
   final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
 
@@ -66,7 +66,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+
     if (leftArmMotor.isFwdLimitSwitchClosed() == 1 || leftArmMotor.isRevLimitSwitchClosed() == 1) {
       leftLockSolenoid.set(ClimberConfig.lockValue);
     }
@@ -100,6 +100,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void toggleClimberEnabled() {
     isClimberEnabled = !isClimberEnabled;
+  }
+
+  public void toggleArmPositions() {
+    if (isClimberEnabled) {
+      leftArmSolenoid.toggle();
+      rightArmSolenoid.toggle();
+    }
   }
 
   public void tiltArmsDown() {
