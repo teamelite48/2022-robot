@@ -160,11 +160,11 @@ public class RobotContainer {
         enableClimberButton1.and(enableClimberButton2)
             .whenActive(new ToggleClimberEnabled(climberSubsystem));
 
+        //TODO: Change to toggle instant commands
         tiltArmsButton
             .toggleWhenPressed(new StartEndCommand(
                 climberSubsystem::tiltArmsUp,
-                climberSubsystem::tiltArmsDown,
-                climberSubsystem
+                climberSubsystem::tiltArmsDown
             ));
 
         extendArmsTrigger

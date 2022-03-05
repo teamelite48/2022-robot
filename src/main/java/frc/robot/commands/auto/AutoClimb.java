@@ -27,6 +27,12 @@ public class AutoClimb extends SequentialCommandGroup {
       new FullyExtendArms(climberSubsystem),
       new TiltArmsUp(climberSubsystem),
       new WaitCommand(1),
+      new FullyRetractArms(climberSubsystem),
+      new WaitCommand(1),
+      new TiltArmsDown(climberSubsystem),
+      new FullyExtendArms(climberSubsystem),
+      new TiltArmsUp(climberSubsystem),
+      new WaitCommand(1),
       new FullyRetractArms(climberSubsystem)
     );
   }
