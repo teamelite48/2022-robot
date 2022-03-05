@@ -52,13 +52,14 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getAngle()));
   private Field2d field = new Field2d();
 
-  private Long lastShiftMillis = null;
+  double throttleValue = DriveConfig.maxOutput;
+  Long lastShiftMillis = null;
 
-  private DriveSimulation simulation;
+  DriveSimulation simulation;
 
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
-    driveTrain.setMaxOutput(DriveConfig.normalMaxOutput);
+    driveTrain.setMaxOutput(DriveConfig.maxOutput);
 
     initEncoders();
     initDashboard();
@@ -75,9 +76,11 @@ public class DriveSubsystem extends SubsystemBase {
       Long currentMillis = System.currentTimeMillis();
 
       if (currentMillis - lastShiftMillis > DriveConfig.shiftCoolDownMillis) {
-        driveTrain.setMaxOutput(DriveConfig.normalMaxOutput);
         lastShiftMillis = null;
       }
+    }
+    else {
+      driveTrain.setMaxOutput(Math.min(throttleValue, DriveConfig.maxOutput));
     }
 
     odometry.update(
@@ -94,13 +97,16 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Gear", shifterSolenoid.get() == DriveConfig.lowGearValue ? "Low" : "High");
     SmartDashboard.putNumber("Left Speed", leftControllerGroup.get());
     SmartDashboard.putNumber("Right Speed", rightControllerGroup.get());
+    SmartDashboard.putNumber("Throttle Value", throttleValue);
   }
 
   public void simulationPeriodic() {
     simulation.update(leftControllerGroup.get(), rightControllerGroup.get());
   }
 
-  public void tankDrive(double leftSpeed, double rightSpeed) {
+  public void tankDrive(double leftSpeed, double rightSpeed, double throttleValue) {
+    this.throttleValue = Math.max(DriveConfig.maxOutput * ((throttleValue * -1) + 1) / 2, DriveConfig.minOutput);
+
     driveTrain.tankDrive(leftSpeed, rightSpeed);
   }
   public void shiftHighGear() {

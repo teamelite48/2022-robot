@@ -69,7 +69,7 @@ public class RobotContainer {
     public RobotContainer() {
 
         driveSubsystem.setDefaultCommand(
-            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY()), driveSubsystem)
+            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), leftPilotJoystick.getRawAxis(2)), driveSubsystem)
         );
 
         configurePilotButtonBindings();
