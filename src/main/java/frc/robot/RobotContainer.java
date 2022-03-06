@@ -45,6 +45,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -102,8 +103,14 @@ public class RobotContainer {
         JoystickButton autoClimbButton = new JoystickButton(rightPilotJoystick, 3);
 
         intakeButton
-            .whileHeld(new Intake(intakeSubsystem))
-            .whenReleased(new StopIntake(intakeSubsystem));
+            .whileHeld(new ParallelCommandGroup(
+                new Intake(intakeSubsystem),
+                new SorterIn(sorterSubsystem)
+            ))
+            .whenReleased(new ParallelCommandGroup(
+                new StopIntake(intakeSubsystem),
+                new SorterStop(sorterSubsystem)
+            ));
 
         outtakeButton
             .whileHeld(new Outtake(intakeSubsystem))
@@ -169,13 +176,20 @@ public class RobotContainer {
             .whenActive(new ExtendArms(climberSubsystem))
             .whenInactive(new StopArms(climberSubsystem));
 
+
         retractArmsTrigger
             .whenActive(new RetractArms(climberSubsystem))
             .whenInactive(new StopArms(climberSubsystem));
 
         shooterFeedUpButton
-            .whenPressed(new ShooterFeedUp(shooterFeedSubsystem))
-            .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
+            .whenPressed(new ParallelCommandGroup(
+                new SorterIn(sorterSubsystem),
+                new ShooterFeedUp(shooterFeedSubsystem)
+            ))
+            .whenReleased(new ParallelCommandGroup(
+                new SorterStop(sorterSubsystem),
+                new ShooterFeedStop(shooterFeedSubsystem)
+            ));
 
         shooterFeedDownButton
             .whenPressed(new ShooterFeedDown(shooterFeedSubsystem))
@@ -186,7 +200,7 @@ public class RobotContainer {
             .whenReleased(new SorterStop(sorterSubsystem));
 
         sorterOutButton
-            .whenPressed(new SorterOut(sorterSubsystem))
+            .whileHeld(new SorterOut(sorterSubsystem), false)
             .whenReleased(new SorterStop(sorterSubsystem));
 
         enableAutoAimButton
