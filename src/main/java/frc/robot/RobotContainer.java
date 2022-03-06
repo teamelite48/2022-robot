@@ -146,8 +146,11 @@ public class RobotContainer {
         JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
         //Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
 
-        Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
-        Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
+        //Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
+        //Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
+
+        Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getLeftX() < -0.5);
+        Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getLeftX() > 0.5);
 
         Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
         Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
@@ -195,7 +198,7 @@ public class RobotContainer {
             .whenReleased(new SorterStop(sorterSubsystem));
 
         rotateTurretClockwiseTrigger
-            .whileActiveContinuous(new RotateTurretClockwise(turretSubsystem))
+            .whenActive(new RotateTurretClockwise(turretSubsystem))
             .whenInactive(new StopTurret(turretSubsystem));
 
         rotateTurretCounterClockwiseTrigger
