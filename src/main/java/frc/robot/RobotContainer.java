@@ -49,7 +49,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -102,12 +101,12 @@ public class RobotContainer {
         JoystickButton autoClimbButton = new JoystickButton(rightPilotJoystick, 3);
 
         intakeButton
-            .whenPressed(new Intake(intakeSubsystem))
+            .whileHeld(new Intake(intakeSubsystem))
             .whenReleased(new StopIntake(intakeSubsystem));
 
         outtakeButton
             .whileHeld(new Outtake(intakeSubsystem))
-            .whenInactive(new StopIntake(intakeSubsystem));
+            .whenReleased(new StopIntake(intakeSubsystem));
 
         retractIntakeButton
             .whenPressed(new RetractIntake(intakeSubsystem));
