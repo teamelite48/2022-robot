@@ -151,6 +151,8 @@ public class RobotContainer {
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
         JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
 
+        JoystickButton goHomeButton = new JoystickButton(copilotGamepad, 11);
+
         Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
         Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
 
@@ -175,7 +177,6 @@ public class RobotContainer {
         extendArmsTrigger
             .whenActive(new ExtendArms(climberSubsystem))
             .whenInactive(new StopArms(climberSubsystem));
-
 
         retractArmsTrigger
             .whenActive(new RetractArms(climberSubsystem))
@@ -202,6 +203,9 @@ public class RobotContainer {
         sorterOutButton
             .whileHeld(new SorterOut(sorterSubsystem), false)
             .whenReleased(new SorterStop(sorterSubsystem));
+
+        goHomeButton
+            .whenPressed(new MoveTurretToDegrees(180, turretSubsystem));
 
         enableAutoAimButton
             .whenActive(new EnableAutoAim(turretSubsystem));
