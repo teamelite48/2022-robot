@@ -5,23 +5,20 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.turret.EnableAutoAim;
+import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootNear extends InstantCommand {
+public class ShootNear extends SequentialCommandGroup {
 
-  private ShooterSubsystem shooterSubsystem;
+  public ShootNear(ShooterSubsystem shooterSubsystem, TurretSubsystem turretSubsystem) {
 
-  public ShootNear(ShooterSubsystem shooterSubsystem) {
-    addRequirements(shooterSubsystem);
-
-    this.shooterSubsystem = shooterSubsystem;
-  }
-
-  @Override
-  public void initialize() {
-    shooterSubsystem.setLowSpeed();
+    addCommands(
+      new MoveTurretToDegrees(180, turretSubsystem),
+      new EnableAutoAim(turretSubsystem),
+      new InstantCommand(shooterSubsystem::setLowSpeed, shooterSubsystem)
+    );
   }
 }

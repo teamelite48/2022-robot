@@ -158,13 +158,13 @@ public class RobotContainer {
             .whenPressed(new ToggleShooter(shooterSubsystem));
 
         shootNearButton
-            .whenPressed(new ShootNear(shooterSubsystem));
+            .whenPressed(new ShootNear(shooterSubsystem, turretSubsystem));
 
         shootMediumButton
-            .whenPressed(new ShootMedium(shooterSubsystem));
+            .whenPressed(new ShootMedium(shooterSubsystem, turretSubsystem));
 
         shootFarButton
-            .whenPressed(new ShootFar(shooterSubsystem));
+            .whenPressed(new ShootFar(shooterSubsystem, turretSubsystem));
 
         // enableClimberButton1.and(enableClimberButton2)
         //     .whenActive(new ToggleClimberEnabled(climberSubsystem));
