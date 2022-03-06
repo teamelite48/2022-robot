@@ -94,12 +94,6 @@ public class TurretSubsystem extends SubsystemBase {
 
     isAutoAimEnabled = false;
 
-    // if(encoder.getPosition() >= TurretConfig.encoderLimit){
-    //   motor.set(0);
-    // }
-    // else {
-    //   motor.set(TurretConfig.clockwiseSpeed);
-    // }
     motor.set(TurretConfig.clockwiseSpeed);
   }
 
@@ -107,16 +101,23 @@ public class TurretSubsystem extends SubsystemBase {
 
     isAutoAimEnabled = false;
 
-    // if(encoder.getPosition() <= -TurretConfig.encoderLimit){
-    //   motor.set(0);
-    // }
-    // else {
-    //   motor.set(TurretConfig.counterClockwiseSpeed);
-    // }
     motor.set(TurretConfig.counterClockwiseSpeed);
   }
 
   public void stop() {
     motor.set(0);
+  }
+
+  public void manualTurret(double leftX) {
+
+    if (Math.abs(leftX) < .2){
+      return;
+    }
+
+    disableAutoAim();
+
+    double scaledInput = TurretConfig.maxOuput * leftX;
+    motor.set(scaledInput);
+
   }
 }

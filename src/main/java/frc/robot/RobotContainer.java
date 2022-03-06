@@ -75,6 +75,10 @@ public class RobotContainer {
             new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), rightPilotJoystick.getRawAxis(2)), driveSubsystem)
         );
 
+        turretSubsystem.setDefaultCommand(
+            new RunCommand(() -> turretSubsystem.manualTurret(copilotGamepad.getLeftX()), turretSubsystem)
+        );
+
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
 
@@ -139,17 +143,9 @@ public class RobotContainer {
 
         JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
         JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 8);
-        //Trigger shooterFeedDownTrigger = new Trigger(() -> copilotGamepad.getRawAxis(3) > 0.5);
 
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
         JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
-        //Trigger sorterOutTrigger = new Trigger(() -> copilotGamepad.getRawAxis(2) > 0.5);
-
-        //Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
-        //Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
-
-        Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getLeftX() < -0.5);
-        Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getLeftX() > 0.5);
 
         Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
         Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
@@ -195,14 +191,6 @@ public class RobotContainer {
         sorterOutButton
             .whenPressed(new SorterOut(sorterSubsystem))
             .whenReleased(new SorterStop(sorterSubsystem));
-
-        rotateTurretClockwiseTrigger
-            .whenActive(new RotateTurretClockwise(turretSubsystem))
-            .whenInactive(new StopTurret(turretSubsystem));
-
-        rotateTurretCounterClockwiseTrigger
-            .whileActiveContinuous(new RotateTurretCounterClockwise(turretSubsystem))
-            .whenInactive(new StopTurret(turretSubsystem));
 
         enableAutoAimButton
             .whenActive(new EnableAutoAim(turretSubsystem));
