@@ -24,6 +24,7 @@ public class MoveTurretToDegrees extends CommandBase {
 
   @Override
   public void execute() {
+    turretSubsystem.disableAutoAim();
     turretSubsystem.moveToDegrees(degrees);
   }
 

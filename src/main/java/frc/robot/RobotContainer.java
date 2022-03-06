@@ -32,6 +32,7 @@ import frc.robot.commands.sorter.SorterStop;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.commands.turret.DisableAutoAim;
+import frc.robot.commands.turret.DriveBy;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
@@ -214,10 +215,10 @@ public class RobotContainer {
             .whenActive(new DisableAutoAim(turretSubsystem));
 
         driveByLeftButton
-            .whenPressed(new MoveTurretToDegrees(90, turretSubsystem));
+            .whenPressed(new DriveBy(90, turretSubsystem, shooterSubsystem));
 
         driveByRightButton
-            .whenPressed(new MoveTurretToDegrees(270, turretSubsystem));
+            .whenPressed(new DriveBy(270, turretSubsystem, shooterSubsystem));
     }
 
     public Command getAutonomousCommand() {
