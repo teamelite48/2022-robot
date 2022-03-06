@@ -85,7 +85,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     if(targetAcquired == false) return;
 
-    double newMotorSpeed = Math.min(TurretConfig.maxOuput, error * TurretConfig.kP);
+    double newMotorSpeed = Math.min(TurretConfig.motorMaxOutput, error * TurretConfig.kP);
 
     motor.set(newMotorSpeed);
   }
@@ -110,14 +110,15 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void manualTurret(double leftX) {
 
-    if (Math.abs(leftX) < .2){
-      return;
+    if (Math.abs(leftX) >= TurretConfig.inputDeadzone) {
+      disableAutoAim();
+
+      double scaledInput = leftX * Math.abs(leftX) * TurretConfig.motorMaxOutput;
+
+      motor.set(scaledInput);
     }
-
-    disableAutoAim();
-
-    double scaledInput = TurretConfig.maxOuput * leftX;
-    motor.set(scaledInput);
-
+    else if (isAutoAimEnabled == false) {
+      stop();
+    }
   }
 }
