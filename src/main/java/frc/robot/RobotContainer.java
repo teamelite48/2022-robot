@@ -13,7 +13,6 @@ import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
 import frc.robot.commands.climber.StopArms;
 import frc.robot.commands.climber.ToggleArmPositions;
-import frc.robot.commands.climber.ToggleClimberEnabled;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
 import frc.robot.commands.intake.Intake;
@@ -30,10 +29,8 @@ import frc.robot.commands.shooterfeed.ShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
 import frc.robot.commands.sorter.SorterOut;
 import frc.robot.commands.sorter.SorterStop;
-import frc.robot.commands.turret.RotateTurretClockwise;
-import frc.robot.commands.turret.RotateTurretCounterClockwise;
-import frc.robot.commands.turret.StopTurret;
 import frc.robot.commands.turret.EnableAutoAim;
+import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.commands.turret.DisableAutoAim;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -133,10 +130,10 @@ public class RobotContainer {
         JoystickButton shootMediumButton = new JoystickButton(copilotGamepad, 1);
         JoystickButton shootFarButton = new JoystickButton(copilotGamepad, 4);
 
-        JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 7);
-        JoystickButton enableClimberButton2 = new JoystickButton(copilotGamepad, 8);
+        JoystickButton driveByLeftButton = new JoystickButton(copilotGamepad, 9);
+        JoystickButton driveByRightButton = new JoystickButton(copilotGamepad, 10);
 
-        JoystickButton tiltArmsButton = new JoystickButton(copilotGamepad, 10);
+        JoystickButton tiltArmsButton = new JoystickButton(copilotGamepad, 12);
 
         Trigger extendArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
         Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
@@ -162,8 +159,8 @@ public class RobotContainer {
         shootFarButton
             .whenPressed(new ShootFar(shooterSubsystem));
 
-        enableClimberButton1.and(enableClimberButton2)
-            .whenActive(new ToggleClimberEnabled(climberSubsystem));
+        // enableClimberButton1.and(enableClimberButton2)
+        //     .whenActive(new ToggleClimberEnabled(climberSubsystem));
 
         tiltArmsButton
             .whenPressed(new ToggleArmPositions(climberSubsystem));
@@ -197,6 +194,12 @@ public class RobotContainer {
 
         disableAutoAimButton
             .whenActive(new DisableAutoAim(turretSubsystem));
+
+        driveByLeftButton
+            .whenPressed(new MoveTurretToDegrees(90, turretSubsystem));
+
+        driveByRightButton
+            .whenPressed(new MoveTurretToDegrees(270, turretSubsystem));
     }
 
     public Command getAutonomousCommand() {

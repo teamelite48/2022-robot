@@ -9,12 +9,12 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.subsystems.TurretConfig;
-
+import frc.robot.utils.Helpers;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -23,6 +23,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
   final RelativeEncoder encoder = motor.getEncoder();
+  final PIDController pidController = new PIDController(TurretConfig.kP, TurretConfig.kI, TurretConfig.kD);
 
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry tx = table.getEntry("tx");
@@ -51,7 +52,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
 
 
-    SmartDashboard.putNumber("Turret Position", encoder.getPosition());
+    SmartDashboard.putNumber("Turret Degrees", getPositionInDegrees());
     SmartDashboard.putNumber("Turret tx", tx.getDouble(0.0));
     SmartDashboard.putBoolean("Auto Aim", isAutoAimEnabled);
   }
@@ -85,27 +86,20 @@ public class TurretSubsystem extends SubsystemBase {
 
     if(targetAcquired == false) return;
 
-    double newMotorSpeed = Math.min(TurretConfig.motorMaxOutput, error * TurretConfig.kP);
+    double newMotorSpeed = Helpers.limit(error * TurretConfig.kP, TurretConfig.motorMaxOutput);
 
     motor.set(newMotorSpeed);
   }
 
-  public void rotateClockwise() {
-
-    isAutoAimEnabled = false;
-
-    motor.set(TurretConfig.clockwiseSpeed);
-  }
-
-  public void rotateCounterClockwise() {
-
-    isAutoAimEnabled = false;
-
-    motor.set(TurretConfig.counterClockwiseSpeed);
-  }
-
   public void stop() {
     motor.set(0);
+  }
+
+  public void moveToDegrees(Double degrees) {
+    double motorSpeed = pidController.calculate(getPositionInDegrees(), degrees);
+    double limitedMotorSpeed = Helpers.limit(motorSpeed, TurretConfig.motorMaxOutput);
+
+    motor.set(limitedMotorSpeed);
   }
 
   public void manualTurret(double leftX) {
@@ -120,5 +114,9 @@ public class TurretSubsystem extends SubsystemBase {
     else if (isAutoAimEnabled == false) {
       stop();
     }
+  }
+
+  public double getPositionInDegrees() {
+    return encoder.getPosition() * TurretConfig.degreesPerMotorRotation + TurretConfig.degreesAtCenter;
   }
 }
