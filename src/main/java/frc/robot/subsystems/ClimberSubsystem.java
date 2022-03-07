@@ -54,6 +54,9 @@ public class ClimberSubsystem extends SubsystemBase {
     rightArmMotor.configForwardSoftLimitEnable (true, 30);
     rightArmMotor.configReverseSoftLimitEnable(true, 30);
 
+    SmartDashboard.putNumber("Left Arm Length", leftArmSensorCollection.getIntegratedSensorPosition());
+    SmartDashboard.putNumber("Right Arm Length", rightArmSensorCollection.getIntegratedSensorPosition());
+
     // TODO: We need to invert one of the motors, but I'm not sure which one yet.
     // leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
     // or rightArmMotor.setInverted(TalonFXInvertType.Clockwise);

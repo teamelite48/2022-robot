@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public final class ClimberConfig {
 
-    public static final double extendArmSpeed = 0.5;
+    public static final double extendArmSpeed = 0.3;
     public static final double retractArmSpeed = -extendArmSpeed;
 
     public static Value upTilt = Value.kForward;
@@ -14,6 +14,6 @@ public final class ClimberConfig {
     public static Value lockValue = Value.kForward;
     public static Value unlockValue = Value.kReverse;
 
-    public static final int armExtensionLimit = 100;
-    public static final int armRetractionLimit = 10;
+    public static final int armExtensionLimit = 20;
+    public static final int armRetractionLimit = 5;
 }

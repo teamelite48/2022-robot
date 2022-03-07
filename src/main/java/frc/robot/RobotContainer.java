@@ -13,6 +13,7 @@ import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
 import frc.robot.commands.climber.StopArms;
 import frc.robot.commands.climber.ToggleArmPositions;
+import frc.robot.commands.climber.ToggleClimberEnabled;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
 import frc.robot.commands.intake.Intake;
@@ -126,8 +127,8 @@ public class RobotContainer {
         shiftHighGearButton
             .whenPressed(new ShiftHighGear(driveSubsystem));
 
-        autoClimbButton
-            .whenPressed(new AutoClimb(climberSubsystem));
+        // autoClimbButton
+        //     .whenPressed(new AutoClimb(climberSubsystem));
     }
 
     private void configureCopilotButtonBindings() {
@@ -154,6 +155,8 @@ public class RobotContainer {
 
         JoystickButton goHomeButton = new JoystickButton(copilotGamepad, 11);
 
+        //JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 12);
+
         Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
         Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
 
@@ -170,7 +173,7 @@ public class RobotContainer {
             .whenPressed(new ShootFar(shooterSubsystem, turretSubsystem));
 
         // enableClimberButton1.and(enableClimberButton2)
-        //     .whenActive(new ToggleClimberEnabled(climberSubsystem));
+        //     .whenPressed(new ToggleClimberEnabled(climberSubsystem));
 
         tiltArmsButton
             .whenPressed(new ToggleArmPositions(climberSubsystem));

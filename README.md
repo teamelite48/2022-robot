@@ -4,10 +4,10 @@
 - Temporarily reduce drive speed when shifting
 - Figure out pneumatic channels
 - Characterize robot
-- Implement basic turrent subsystem
+- Implement basic turret subsystem
 - Add PID control to shooter
 - Measure range with LimeLight
-- Auto aim turrent using LimeLight
+- Auto aim turret using LimeLight
 
 ball sensor
 	shooter delay full auto
