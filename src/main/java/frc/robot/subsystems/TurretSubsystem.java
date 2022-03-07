@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.subsystems.TurretConfig;
-import frc.robot.utils.Helpers;
+import frc.robot.utils.OutputLimiter;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -25,6 +25,8 @@ public class TurretSubsystem extends SubsystemBase {
   final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
   final RelativeEncoder encoder = motor.getEncoder();
   final PIDController pidController = new PIDController(TurretConfig.kP, TurretConfig.kI, TurretConfig.kD);
+  final OutputLimiter motorOutputLimiter = new OutputLimiter(-TurretConfig.motorMaxOutput, TurretConfig.motorMaxOutput);
+
 
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry tx = table.getEntry("tx");
@@ -90,7 +92,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     if(targetAcquired == false) return;
 
-    double newMotorSpeed = Helpers.limit(error * TurretConfig.kP, TurretConfig.motorMaxOutput);
+    double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
     motor.set(newMotorSpeed);
   }
@@ -101,7 +103,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void moveToDegrees(Double degrees) {
     double motorSpeed = pidController.calculate(getPositionInDegrees(), degrees);
-    double limitedMotorSpeed = Helpers.limit(motorSpeed, TurretConfig.motorMaxOutput);
+    double limitedMotorSpeed = motorOutputLimiter.limit(motorSpeed);
 
     motor.set(limitedMotorSpeed);
   }
