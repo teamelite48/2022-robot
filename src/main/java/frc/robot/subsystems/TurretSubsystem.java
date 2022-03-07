@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
@@ -29,6 +30,7 @@ public class TurretSubsystem extends SubsystemBase {
   final NetworkTableEntry tx = table.getEntry("tx");
   final NetworkTableEntry tv = table.getEntry("tv");
   final NetworkTableEntry ledMode = table.getEntry("ledMode");
+  final NetworkTableEntry camMode = table.getEntry("camMode");
 
   boolean isAutoAimEnabled = false;
   long lastSimulationPeriodicMillis = 0;
@@ -45,10 +47,12 @@ public class TurretSubsystem extends SubsystemBase {
 
     if (isAutoAimEnabled) {
       ledMode.setNumber(3);
+      camMode.setNumber(0);
       autoAim();
     }
     else {
       ledMode.setNumber(1);
+      camMode.setNumber(1);
     }
 
 
@@ -79,7 +83,7 @@ public class TurretSubsystem extends SubsystemBase {
   public void autoAim() {
 
     // TODO: verify encoder and motor movements
-    // if (RobotBase.isReal()) return;
+    if (RobotBase.isReal()) return;
 
     double error = tx.getDouble(0.0);
     boolean targetAcquired = tv.getBoolean(false);

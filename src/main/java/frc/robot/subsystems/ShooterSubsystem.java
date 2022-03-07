@@ -76,7 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setLowSpeed() {
     targetRPM = ShooterConfig.lowRPM;
-    moveDeflectorForward();
+    //moveDeflectorForward();
   }
 
   public void setMediumSpeed() {

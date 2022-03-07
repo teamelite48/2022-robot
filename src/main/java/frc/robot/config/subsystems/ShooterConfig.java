@@ -2,11 +2,11 @@ package frc.robot.config.subsystems;
 
 public final class ShooterConfig {
 
-    public static final double lowRPM = 2750;
-    public static final double mediumRPM = 3600;
-    public static final double highRPM = 4500;
+    public static final double lowRPM = 2000;
+    public static final double mediumRPM = 4500;
+    public static final double highRPM = 5000;
 
-    public static final double maxRPM = 4850;
+    public static final double maxRPM = 5200;
 
     public static final boolean deflectorForwardValue = true;
     public static final boolean deflectorBackwardValue = false;
