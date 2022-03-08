@@ -55,11 +55,11 @@ public class ShooterFeedUpV2 extends CommandBase {
 
     else if (thereWasNoBallAndNowThereIsABall()) {
       shooterFeedSubsystem.stop();
+      coolDownTimer.start();
       lastBallSensorValue = currentBallSensorValue;
     }
 
     else if (thereWasABallAndNowThereIsNoBall()) {
-      coolDownTimer.start();
       shooterFeedSubsystem.up();
       lastBallSensorValue = currentBallSensorValue;
     }
