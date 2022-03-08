@@ -38,7 +38,7 @@ public class ShooterFeedUpV2 extends CommandBase {
 
   @Override
   public void execute() {
-  
+
     if (shooterSubsystem.isShooterOn() == false) {
       if (shooterFeedSubsystem.getBallSensorValue() == !ShooterFeedConfig.ballSensedValue) {
         shooterFeedSubsystem.up();
@@ -46,7 +46,7 @@ public class ShooterFeedUpV2 extends CommandBase {
 
       return;
     }
- 
+
     currentBallSensorValue = shooterFeedSubsystem.getBallSensorValue();
 
     if (thereWasABallAndThereIsStillABall() && coolDownTimer.isCool()) {
@@ -55,11 +55,11 @@ public class ShooterFeedUpV2 extends CommandBase {
 
     else if (thereWasNoBallAndNowThereIsABall()) {
       shooterFeedSubsystem.stop();
-      coolDownTimer.start();
       lastBallSensorValue = currentBallSensorValue;
     }
 
     else if (thereWasABallAndNowThereIsNoBall()) {
+      coolDownTimer.start();
       shooterFeedSubsystem.up();
       lastBallSensorValue = currentBallSensorValue;
     }
@@ -76,7 +76,7 @@ public class ShooterFeedUpV2 extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    
+
     if (shooterSubsystem.isShooterOn() == false) {
       return shooterFeedSubsystem.getBallSensorValue() == ShooterFeedConfig.ballSensedValue;
     }
@@ -95,7 +95,7 @@ public class ShooterFeedUpV2 extends CommandBase {
   private boolean thereWasABallAndThereIsStillABall() {
     return lastBallSensorValue == ShooterFeedConfig.ballSensedValue && currentBallSensorValue == ShooterFeedConfig.ballSensedValue;
   }
-  
+
   private boolean thereWasNoBallAndThereIsNoBall() {
     return lastBallSensorValue == !ShooterFeedConfig.ballSensedValue && currentBallSensorValue == !ShooterFeedConfig.ballSensedValue;
   }
