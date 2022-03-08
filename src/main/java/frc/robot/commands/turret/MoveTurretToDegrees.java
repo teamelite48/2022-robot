@@ -5,6 +5,7 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.config.subsystems.TurretConfig;
 import frc.robot.subsystems.TurretSubsystem;
 
 public class MoveTurretToDegrees extends CommandBase {
@@ -35,6 +36,6 @@ public class MoveTurretToDegrees extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(turretSubsystem.getPositionInDegrees() - degrees) < 2;
+    return Math.abs(turretSubsystem.getPositionInDegrees() - degrees) < TurretConfig.moveWithinDegrees;
   }
 }
