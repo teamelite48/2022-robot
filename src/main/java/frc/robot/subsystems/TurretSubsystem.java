@@ -36,6 +36,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   boolean isAutoAimEnabled = false;
   long lastSimulationPeriodicMillis = 0;
+  boolean isTurretEnabled = true;
 
   public TurretSubsystem() {
     motor.enableSoftLimit(SoftLimitDirection.kForward, true);
@@ -74,6 +75,11 @@ public class TurretSubsystem extends SubsystemBase {
     lastSimulationPeriodicMillis = System.currentTimeMillis();
   }
 
+  public void disableTurret() {
+    isTurretEnabled = false;
+    disableAutoAim();
+  }
+
   public void enableAutoAim() {
     isAutoAimEnabled = true;
   }
@@ -93,7 +99,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
-    motor.set(newMotorSpeed);
+    setMotor(newMotorSpeed);
   }
 
   public void stop() {
@@ -104,7 +110,7 @@ public class TurretSubsystem extends SubsystemBase {
     double motorSpeed = pidController.calculate(getPositionInDegrees(), degrees);
     double limitedMotorSpeed = motorOutputLimiter.limit(motorSpeed);
 
-    motor.set(limitedMotorSpeed);
+    setMotor(limitedMotorSpeed);
   }
 
   public void manualTurret(double leftX) {
@@ -114,7 +120,7 @@ public class TurretSubsystem extends SubsystemBase {
 
       double scaledInput = leftX * Math.abs(leftX) * TurretConfig.motorMaxOutput;
 
-      motor.set(scaledInput);
+      setMotor(scaledInput);
     }
     else if (isAutoAimEnabled == false) {
       stop();
@@ -123,5 +129,14 @@ public class TurretSubsystem extends SubsystemBase {
 
   public double getPositionInDegrees() {
     return encoder.getPosition() * TurretConfig.degreesPerMotorRotation + TurretConfig.degreesAtCenter;
+  }
+
+  public void setMotor(double speed) {
+    if (isTurretEnabled == false) {
+      stop();
+      return;
+    }
+
+    motor.set(speed);
   }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -57,9 +58,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Left Arm Length", leftArmSensorCollection.getIntegratedSensorPosition());
     SmartDashboard.putNumber("Right Arm Length", rightArmSensorCollection.getIntegratedSensorPosition());
 
-    // TODO: We need to invert one of the motors, but I'm not sure which one yet.
-    // leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
-    // or rightArmMotor.setInverted(TalonFXInvertType.Clockwise);
+    rightArmMotor.setInverted(TalonFXInvertType.Clockwise);
 
     if (RobotBase.isSimulation() == true) {
       leftArmSim = leftArmMotor.getSimCollection();
@@ -98,11 +97,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
     leftArmSim.setIntegratedSensorRawPosition(newLeftArmPosition);
     rightArmSim.setIntegratedSensorRawPosition(newRightArmPosition);
-
   }
 
-  public void toggleClimberEnabled() {
-    isClimberEnabled = !isClimberEnabled;
+  public void enableClimber() {
+    isClimberEnabled = true;
   }
 
   public void toggleArmPositions() {

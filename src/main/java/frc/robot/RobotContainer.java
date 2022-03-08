@@ -9,7 +9,7 @@ import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
 import frc.robot.commands.climber.StopArms;
 import frc.robot.commands.climber.ToggleArmPositions;
-import frc.robot.commands.climber.ToggleClimberEnabled;
+import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
 import frc.robot.commands.intake.Intake;
@@ -126,7 +126,7 @@ public class RobotContainer {
             .whenPressed(new ShiftHighGear(driveSubsystem));
 
         enableClimberButton1.and(enableClimberButton2)
-            .whenActive(new ToggleClimberEnabled(climberSubsystem));
+            .whenActive(new EnableClimber(climberSubsystem, turretSubsystem));
 
         // autoClimbButton
         //     .whenPressed(new AutoClimb(climberSubsystem));
@@ -209,7 +209,7 @@ public class RobotContainer {
 
         disableAutoAimButton
             .whenActive(new DisableAutoAim(turretSubsystem));
-  
+
         driveByCenterButton
             .whenPressed(new DriveBy(TurretConfig.degreesAtCenter, turretSubsystem, shooterSubsystem));
 
