@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.commands.auto.BackOffLineAuto;
-import frc.robot.commands.auto.FourBallAuto;
-import frc.robot.commands.auto.TestAuto;
-import frc.robot.commands.auto.TwoBallAuto;
+import frc.robot.commands.auto.BackOffLineDeadReckoning;
 import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
 import frc.robot.commands.climber.StopArms;
@@ -82,10 +79,11 @@ public class RobotContainer {
         configureCopilotButtonBindings();
 
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
-        autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
-        autoChooser.addOption("Back Off Line", new BackOffLineAuto(driveSubsystem));
-        autoChooser.addOption("Test", new TestAuto(driveSubsystem));
+        //autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        //autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        //autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem));
+        autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
+        //autoChooser.addOption("Test", new TestAuto(driveSubsystem));
 
 
         SmartDashboard.putData(autoChooser);
@@ -157,8 +155,6 @@ public class RobotContainer {
         JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
 
         JoystickButton goHomeButton = new JoystickButton(copilotGamepad, 11);
-
-        //JoystickButton enableClimberButton1 = new JoystickButton(copilotGamepad, 12);
 
         Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
         Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
