@@ -18,7 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
   final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Intake);
-  final CoolDownTimer deployCoolDown = new CoolDownTimer(300);
+  final CoolDownTimer deployCoolDown = new CoolDownTimer(IntakeConfig.deployIntakeCooldown);
 
   public IntakeSubsystem() {
     intakeSolenoid.set(IntakeConfig.retractValue);
