@@ -14,8 +14,8 @@ public class DriveBy extends SequentialCommandGroup {
   public DriveBy(double degrees, TurretSubsystem turretSubsystem, ShooterSubsystem shooterSubsystem) {
 
     addCommands(
-      new MoveTurretToDegrees(degrees, turretSubsystem),
-      new InstantCommand(shooterSubsystem::setLowSpeed, shooterSubsystem)
+      new InstantCommand(shooterSubsystem::setLowSpeed, shooterSubsystem),
+      new MoveTurretToDegrees(degrees, turretSubsystem)
     );
   }
 }
