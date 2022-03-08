@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
   final PIDController pidController = new PIDController(ShooterConfig.kP, ShooterConfig.kI, ShooterConfig.kD);
 
   boolean isShooterOn = false;
-  double targetRPM = ShooterConfig.mediumRPM;
+  double targetRPM = ShooterConfig.lowRPM;
 
 
   public ShooterSubsystem() {
