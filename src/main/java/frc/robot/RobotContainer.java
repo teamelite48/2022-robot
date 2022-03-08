@@ -27,7 +27,6 @@ import frc.robot.commands.sorter.SorterOut;
 import frc.robot.commands.sorter.SorterStop;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
-import frc.robot.commands.turret.DisableAutoAim;
 import frc.robot.commands.turret.DriveBy;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.config.subsystems.TurretConfig;
@@ -43,6 +42,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -69,10 +69,6 @@ public class RobotContainer {
 
         driveSubsystem.setDefaultCommand(
             new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), rightPilotJoystick.getRawAxis(2)), driveSubsystem)
-        );
-
-        turretSubsystem.setDefaultCommand(
-            new RunCommand(() -> turretSubsystem.manualTurret(copilotGamepad.getLeftX()), turretSubsystem)
         );
 
         configurePilotButtonBindings();
@@ -154,10 +150,11 @@ public class RobotContainer {
         JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
         JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
 
-        JoystickButton goHomeButton = new JoystickButton(copilotGamepad, 11);
+        Trigger homeTurretTrigger = new Trigger(() -> copilotGamepad.getPOV() == 0);
+        Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
+        Trigger enableAutoAimTrigger = new Trigger(() -> copilotGamepad.getPOV() == 180);
+        Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
 
-        Trigger enableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 180);
-        Trigger disableAutoAimButton = new Trigger(() -> copilotGamepad.getPOV() == 0);
 
         toggleShooterButton
             .whenPressed(new ToggleShooter(shooterSubsystem));
@@ -201,14 +198,19 @@ public class RobotContainer {
             .whileHeld(new SorterOut(sorterSubsystem), false)
             .whenReleased(new SorterStop(sorterSubsystem));
 
-        goHomeButton
-            .whenPressed(new MoveTurretToDegrees(180, turretSubsystem));
+        homeTurretTrigger
+            .whenActive(new MoveTurretToDegrees(180, turretSubsystem));
 
-        enableAutoAimButton
+        rotateTurretClockwiseTrigger
+            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
+            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
+
+        enableAutoAimTrigger
             .whenActive(new EnableAutoAim(turretSubsystem));
 
-        disableAutoAimButton
-            .whenActive(new DisableAutoAim(turretSubsystem));
+        rotateTurretCounterClockwiseTrigger
+            .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
+            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
         driveByCenterButton
             .whenPressed(new DriveBy(TurretConfig.degreesAtCenter, turretSubsystem, shooterSubsystem));

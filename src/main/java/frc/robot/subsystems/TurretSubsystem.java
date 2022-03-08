@@ -127,6 +127,16 @@ public class TurretSubsystem extends SubsystemBase {
     }
   }
 
+  public void rotateClockwise() {
+    disableAutoAim();
+    setMotor(TurretConfig.clockwiseSpeed);
+  }
+
+  public void rotateCounterClockwise() {
+    disableAutoAim();
+    setMotor(TurretConfig.counterClockwiseSpeed);
+  }
+
   public double getPositionInDegrees() {
     return encoder.getPosition() * TurretConfig.degreesPerMotorRotation + TurretConfig.degreesAtCenter;
   }
