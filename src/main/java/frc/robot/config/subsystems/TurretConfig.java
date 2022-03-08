@@ -22,4 +22,5 @@ public class TurretConfig {
     public static final double kD = 0.00;
 
     public static final double moveWithinDegrees = 3;
+    public static final long moveCoolDown = 500;
 }

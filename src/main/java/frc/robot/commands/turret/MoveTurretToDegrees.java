@@ -7,11 +7,13 @@ package frc.robot.commands.turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.config.subsystems.TurretConfig;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.utils.CoolDownTimer;
 
 public class MoveTurretToDegrees extends CommandBase {
 
   TurretSubsystem turretSubsystem;
   double degrees;
+  CoolDownTimer coolDown = new CoolDownTimer(TurretConfig.moveCoolDown);
 
   public MoveTurretToDegrees(double degrees, TurretSubsystem turretSubsystem) {
     addRequirements(turretSubsystem);
@@ -21,7 +23,9 @@ public class MoveTurretToDegrees extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    coolDown.start();
+  }
 
   @Override
   public void execute() {
@@ -36,6 +40,7 @@ public class MoveTurretToDegrees extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(turretSubsystem.getPositionInDegrees() - degrees) < TurretConfig.moveWithinDegrees;
+    return Math.abs(turretSubsystem.getPositionInDegrees() - degrees) < TurretConfig.moveWithinDegrees
+      || coolDown.isCool();
   }
 }
