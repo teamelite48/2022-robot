@@ -68,7 +68,7 @@ public class RobotContainer {
     public RobotContainer() {
 
         driveSubsystem.setDefaultCommand(
-            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), rightPilotJoystick.getRawAxis(2)), driveSubsystem)
+            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), leftPilotJoystick.getRawAxis(2)), driveSubsystem)
         );
 
         configurePilotButtonBindings();
@@ -88,9 +88,9 @@ public class RobotContainer {
 
     private void configurePilotButtonBindings() {
 
-        JoystickButton intakeButton = new JoystickButton(leftPilotJoystick, 6);
-        JoystickButton outtakeButton = new JoystickButton(rightPilotJoystick, 11);
-        JoystickButton retractIntakeButton = new JoystickButton(rightPilotJoystick, 10);
+        JoystickButton intakeButton = new JoystickButton(leftPilotJoystick, 1);
+        JoystickButton outtakeButton = new JoystickButton(rightPilotJoystick, 2);
+        JoystickButton retractIntakeButton = new JoystickButton(rightPilotJoystick, 1);
 
         JoystickButton shiftLowGearButton = new JoystickButton(leftPilotJoystick, 4);
         JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
