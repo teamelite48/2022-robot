@@ -64,7 +64,7 @@ public class ShooterFeedUpV2 extends CommandBase {
       lastBallSensorValue = currentBallSensorValue;
     }
 
-    else if (thereWasNoBallAndThereIsNoBall()){
+    else if (thereWasNoBallAndThereIsStillNoBall()){
       shooterFeedSubsystem.up();
     }
   }
@@ -96,7 +96,7 @@ public class ShooterFeedUpV2 extends CommandBase {
     return lastBallSensorValue == ShooterFeedConfig.ballSensedValue && currentBallSensorValue == ShooterFeedConfig.ballSensedValue;
   }
 
-  private boolean thereWasNoBallAndThereIsNoBall() {
+  private boolean thereWasNoBallAndThereIsStillNoBall() {
     return lastBallSensorValue == !ShooterFeedConfig.ballSensedValue && currentBallSensorValue == !ShooterFeedConfig.ballSensedValue;
   }
 }
