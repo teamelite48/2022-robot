@@ -96,4 +96,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private void moveDeflectorBackward() {
     deflectorSolenoid.set(ShooterConfig.deflectorBackwardValue);
   }
+
+  public boolean isShooterOn() {
+      return isShooterOn;
+  }
 }

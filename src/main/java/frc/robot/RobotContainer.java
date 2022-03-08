@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.auto.AutoClimb;
 import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.commands.auto.TestAuto;
@@ -22,11 +21,10 @@ import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
-import frc.robot.commands.shooter.ShootNear;
 import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
-import frc.robot.commands.shooterfeed.ShooterFeedUp;
+import frc.robot.commands.shooterfeed.ShooterFeedUpV2;
 import frc.robot.commands.sorter.SorterIn;
 import frc.robot.commands.sorter.SorterOut;
 import frc.robot.commands.sorter.SorterStop;
@@ -105,8 +103,6 @@ public class RobotContainer {
 
         JoystickButton enableClimberButton1 = new JoystickButton(rightPilotJoystick, 8);
         JoystickButton enableClimberButton2 = new JoystickButton(rightPilotJoystick, 9);
-
-        JoystickButton autoClimbButton = new JoystickButton(rightPilotJoystick, 3);
 
         intakeButton
             .whileHeld(new ParallelCommandGroup(
@@ -188,9 +184,9 @@ public class RobotContainer {
             .whenInactive(new StopArms(climberSubsystem));
 
         shooterFeedUpButton
-            .whenPressed(new ParallelCommandGroup(
+            .whenHeld(new ParallelCommandGroup(
                 new SorterIn(sorterSubsystem),
-                new ShooterFeedUp(shooterFeedSubsystem)
+                new ShooterFeedUpV2(shooterFeedSubsystem, shooterSubsystem)
             ))
             .whenReleased(new ParallelCommandGroup(
                 new SorterStop(sorterSubsystem),
