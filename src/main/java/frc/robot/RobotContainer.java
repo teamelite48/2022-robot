@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.BackOffLineDeadReckoning;
 import frc.robot.commands.auto.FourBallAuto;
+import frc.robot.commands.auto.FourBallStraightAuto;
 import frc.robot.commands.auto.TestAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.climber.ExtendArms;
@@ -79,10 +80,11 @@ public class RobotContainer {
         configureCopilotButtonBindings();
 
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
-        autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
         autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem));
         autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
+        autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
+        autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
+        autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
         autoChooser.addOption("Test", new TestAuto(driveSubsystem));
 
 

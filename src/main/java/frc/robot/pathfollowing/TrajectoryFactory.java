@@ -96,6 +96,22 @@ public final class TrajectoryFactory {
         return getTrajectoryFromFile("BackOffLine.wpilib.json");
       }
 
+      case FourBallStraight1: {
+        return getTrajectoryFromFile("FourBallStraight1.wpilib.json");
+      }
+
+      case FourBallStraight2: {
+        return getTrajectoryFromFile("FourBallStraight2.wpilib.json");
+      }
+
+      case FourBallStraight3: {
+        return getTrajectoryFromFile("FourBallStraight3.wpilib.json");
+      }
+
+      case FourBallStraight4: {
+        return getTrajectoryFromFile("FourBallStraight4.wpilib.json");
+      }
+
 
 
     }
