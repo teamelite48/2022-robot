@@ -1,10 +1,14 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.Intake;
 import frc.robot.commands.intake.RetractIntake;
+import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.shooter.ShootFar;
+import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.ShooterOn;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
@@ -18,6 +22,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 public class TwoBallAuto extends SequentialCommandGroup {
 
@@ -27,23 +32,33 @@ public class TwoBallAuto extends SequentialCommandGroup {
         IntakeSubsystem intakeSubsystem,
         SorterSubsystem sorterSubsystem,
         ShooterSubsystem shooterSubsystem,
-        ShooterFeedSubsystem shooterFeedSubsystem
+        ShooterFeedSubsystem shooterFeedSubsystem,
+        TurretSubsystem turretSubsystem
     ) {
 
         RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
 
         addCommands(
             new ResetOdometry(10.5, 3.1, -136, driveSubsystem),
-            new Intake(intakeSubsystem),
-            ramseteCommandFactory.createCommand(TrajectoryType.TwoBall1),
+            new InstantCommand(intakeSubsystem::deploy, intakeSubsystem),
+            new WaitCommand(1),
+            new InstantCommand(intakeSubsystem::intake, intakeSubsystem),
             new SorterIn(sorterSubsystem),
-            new RetractIntake(intakeSubsystem),
             new ShooterOn(shooterSubsystem),
+            ramseteCommandFactory.createCommand(TrajectoryType.TwoBall1),
+            new ShootFar(shooterSubsystem, turretSubsystem),
+            new WaitCommand(1),
+            new ShooterFeedUp(shooterFeedSubsystem),
+            new WaitCommand(1),
+            new ShooterFeedStop(shooterFeedSubsystem),
+            new RetractIntake(intakeSubsystem),
             ramseteCommandFactory.createCommand(TrajectoryType.TwoBall2),
+            new ShootMedium(shooterSubsystem, turretSubsystem),
+            new WaitCommand(1),
             new ShooterFeedUp(shooterFeedSubsystem),
             new WaitCommand(2),
-            new SorterStop(sorterSubsystem),
             new ShooterFeedStop(shooterFeedSubsystem),
+            new SorterStop(sorterSubsystem),
             new ShooterOff(shooterSubsystem)
 
         );

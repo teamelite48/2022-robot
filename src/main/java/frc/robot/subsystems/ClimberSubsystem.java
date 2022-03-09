@@ -45,15 +45,15 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
 
-    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.armExtensionLimit, 30);
-    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.armRetractionLimit, 30);
-    leftArmMotor.configForwardSoftLimitEnable (true, 30);
-    leftArmMotor.configReverseSoftLimitEnable(true, 30);
+    // leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.armExtensionLimit, 30);
+    // leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.armRetractionLimit, 30);
+    // leftArmMotor.configForwardSoftLimitEnable (true, 30);
+    // leftArmMotor.configReverseSoftLimitEnable(true, 30);
 
-    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.armExtensionLimit, 30);
-    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.armRetractionLimit, 30);
-    rightArmMotor.configForwardSoftLimitEnable (true, 30);
-    rightArmMotor.configReverseSoftLimitEnable(true, 30);
+    // rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.armExtensionLimit, 30);
+    // rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.armRetractionLimit, 30);
+    // rightArmMotor.configForwardSoftLimitEnable (true, 30);
+    // rightArmMotor.configReverseSoftLimitEnable(true, 30);
 
     SmartDashboard.putNumber("Left Arm Length", leftArmSensorCollection.getIntegratedSensorPosition());
     SmartDashboard.putNumber("Right Arm Length", rightArmSensorCollection.getIntegratedSensorPosition());
@@ -69,12 +69,12 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (leftArmMotor.isFwdLimitSwitchClosed() == 1 || leftArmMotor.isRevLimitSwitchClosed() == 1) {
-      leftLockSolenoid.set(ClimberConfig.lockValue);
-    }
-    else if (rightArmMotor.isFwdLimitSwitchClosed() == 1 || rightArmMotor.isRevLimitSwitchClosed() == 1) {
-      rightLockSolenoid.set(ClimberConfig.lockValue);
-    }
+    // if (leftArmMotor.isFwdLimitSwitchClosed() == 1 || leftArmMotor.isRevLimitSwitchClosed() == 1) {
+    //   leftLockSolenoid.set(ClimberConfig.lockValue);
+    // }
+    // else if (rightArmMotor.isFwdLimitSwitchClosed() == 1 || rightArmMotor.isRevLimitSwitchClosed() == 1) {
+    //   rightLockSolenoid.set(ClimberConfig.lockValue);
+    // }
 
     SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
     SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get() == ClimberConfig.upTilt ? "Up" : "Down");
@@ -126,8 +126,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void extendArms() {
     if (isClimberEnabled) {
-      leftLockSolenoid.set(ClimberConfig.unlockValue);
-      rightLockSolenoid.set(ClimberConfig.unlockValue);
+      // leftLockSolenoid.set(ClimberConfig.unlockValue);
+      // rightLockSolenoid.set(ClimberConfig.unlockValue);
       leftArmMotor.set(ClimberConfig.extendArmSpeed);
       rightArmMotor.set(ClimberConfig.extendArmSpeed);
     }
@@ -135,16 +135,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void retractArms() {
     if (isClimberEnabled) {
-      leftLockSolenoid.set(ClimberConfig.unlockValue);
-      rightLockSolenoid.set(ClimberConfig.unlockValue);
+      // leftLockSolenoid.set(ClimberConfig.unlockValue);
+      // rightLockSolenoid.set(ClimberConfig.unlockValue);
       leftArmMotor.set(ClimberConfig.retractArmSpeed);
       rightArmMotor.set(ClimberConfig.retractArmSpeed);
     }
   }
 
   public void stopArms() {
-    leftLockSolenoid.set(ClimberConfig.lockValue);
-    rightLockSolenoid.set(ClimberConfig.lockValue);
+    // leftLockSolenoid.set(ClimberConfig.lockValue);
+    // rightLockSolenoid.set(ClimberConfig.lockValue);
     leftArmMotor.set(0);
     rightArmMotor.set(0);
   }

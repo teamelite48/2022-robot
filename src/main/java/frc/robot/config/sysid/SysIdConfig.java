@@ -11,21 +11,19 @@ public final class SysIdConfig {
   public static final double wheelRadiusInMeters = Units.inchesToMeters(2);
   public static final double gearingReduction = 1;
 
-  public static final double ksVolts = 0.22;
-  public static final double kvVoltSecondsPerMeter = 1.98;
-  public static final double kaVoltSecondsSquaredPerMeter = 0.2;
-  public static final double kPDriveVel = 8.5;
+  public static final double ksVolts = 0.75661;
+  public static final double kvVoltSecondsPerMeter = 2.2626;
+  public static final double kaVoltSecondsSquaredPerMeter = 0.94481;
+  public static final double kPDriveVel = 3.5696;
 
-  public static final double kvLinear = 1.98;
-  public static final double kaLinear = 0.2;
-  public static final double kvAngular = 1.5;
-  public static final double kaAngular = 0.3;
+  public static final double kvAngular = 2.3518;
+  public static final double kaAngular = 0.39292;
 
-  public static final double trackWidthInMeters = 0.7112;
+  public static final double trackWidthInMeters = 0.78688;
   public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(trackWidthInMeters);
 
-  public static final int kMaxSpeedMetersPerSecond = 3;
-  public static final int kMaxAccelerationMetersPerSecondSquared = 3;
+  public static final double kMaxSpeedMetersPerSecond = .15;
+  public static final double kMaxAccelerationMetersPerSecondSquared = .15;
 
   public static final double kRamseteB = 2;
   public static final double kRamseteZeta = 0.7;
