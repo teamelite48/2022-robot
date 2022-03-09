@@ -62,6 +62,7 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Turret Degrees", getPositionInDegrees());
     SmartDashboard.putNumber("Turret tx", tx.getDouble(0.0));
     SmartDashboard.putBoolean("Auto Aim", isAutoAimEnabled);
+    SmartDashboard.putBoolean("Target Acquired", isTargetAcquired());
   }
 
   public void simulationPeriodic() {
@@ -90,16 +91,19 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void autoAim() {
 
-    if (RobotBase.isReal()) return;
+    //if (RobotBase.isReal()) return;
 
     double error = tx.getDouble(0.0);
-    boolean targetAcquired = tv.getBoolean(false);
 
-    if(targetAcquired == false) return;
-
+    if(isTargetAcquired() == false) return;
+    
     double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
     setMotor(newMotorSpeed);
+  }
+
+  public boolean isTargetAcquired(){
+    return tv.getDouble(0) == 1 ? true: false;
   }
 
   public void stop() {
