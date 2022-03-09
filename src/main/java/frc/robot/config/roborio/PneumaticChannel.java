@@ -12,8 +12,8 @@ public class PneumaticChannel {
     public static final int GearShift = 0;
     public static final int Deflector = 5;
 
-    public static final int LeftClimbLockReverse = 1;
-    public static final int LeftClimbLockForward = 2;
-    public static final int RightClimbLockReverse = 3;
-    public static final int RightClimbLockForward = 4;
+    public static final int LeftClimbLockReverse = 2;
+    public static final int LeftClimbLockForward = 1;
+    public static final int RightClimbLockReverse = 4;
+    public static final int RightClimbLockForward = 3;
 }

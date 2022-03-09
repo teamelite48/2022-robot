@@ -147,8 +147,8 @@ public class RobotContainer {
 
         JoystickButton tiltArmsButton = new JoystickButton(copilotGamepad, 12);
 
-        Trigger extendArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() < -0.5);
-        Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getRightY() > 0.5);
+        Trigger extendArmsTrigger = new Trigger(() -> copilotGamepad.getLeftY() < -0.5);
+        Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getLeftY() > 0.5);
 
         JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
         JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 8);

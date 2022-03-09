@@ -225,7 +225,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Right Lock",
-              "_title": "Right Lock"
+              "_title": "Climber Lock"
             }
           },
           "12,1": {
@@ -508,6 +508,56 @@
                   "_type": "PID Controller",
                   "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[17]",
                   "_title": "LiveWindow/Ungrouped/PIDController[17]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[23]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[23]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[26]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[26]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[20]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[20]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[25]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[25]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[19]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[19]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[21]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[21]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[24]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[24]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[22]",
+                  "_title": "/LiveWindow/Ungrouped/PIDController[22]"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,1]/Value",
+                  "_title": "/LiveWindow/Ungrouped/DoubleSolenoid[1,1]/Value"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[1,3]/Value",
+                  "_title": "/LiveWindow/Ungrouped/DoubleSolenoid[1,3]/Value"
                 }
               ]
             }
