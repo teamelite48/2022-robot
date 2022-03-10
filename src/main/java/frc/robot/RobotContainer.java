@@ -160,8 +160,8 @@ public class RobotContainer {
         JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
         JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 8);
 
-        JoystickButton sorterInButton = new JoystickButton(copilotGamepad, 5);
-        JoystickButton sorterOutButton = new JoystickButton(copilotGamepad, 7);
+        JoystickButton bumpShooterRpmUpButton = new JoystickButton(copilotGamepad, 5);
+        JoystickButton bumpShooterRpmDownButton = new JoystickButton(copilotGamepad, 7);
 
         Trigger homeTurretTrigger = new Trigger(() -> copilotGamepad.getPOV() == 0);
         Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
@@ -206,13 +206,11 @@ public class RobotContainer {
             .whenPressed(new ShooterFeedDown(shooterFeedSubsystem))
             .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
 
-        sorterInButton
-            .whenPressed(new SorterIn(sorterSubsystem))
-            .whenReleased(new SorterStop(sorterSubsystem));
+        bumpShooterRpmUpButton
+            .whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
 
-        sorterOutButton
-            .whileHeld(new SorterOut(sorterSubsystem), false)
-            .whenReleased(new SorterStop(sorterSubsystem));
+        bumpShooterRpmDownButton
+            .whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
         homeTurretTrigger
             .whenActive(new MoveTurretToDegrees(180, turretSubsystem));

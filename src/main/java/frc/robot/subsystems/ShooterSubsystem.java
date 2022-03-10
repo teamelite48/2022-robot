@@ -76,17 +76,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setLowSpeed() {
     targetRPM = ShooterConfig.lowRPM;
-    moveDeflectorForward();
+    moveDeflectorBackward();
   }
 
   public void setMediumSpeed() {
     targetRPM = ShooterConfig.mediumRPM;
-    moveDeflectorBackward();
+    moveDeflectorForward();
   }
 
   public void setHighSpeed() {
     targetRPM = ShooterConfig.highRPM;
-    moveDeflectorBackward();
+    moveDeflectorForward();
   }
 
   private void moveDeflectorForward() {
@@ -99,5 +99,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public boolean isShooterOn() {
       return isShooterOn;
+  }
+
+  public void bumpRpmUp() {
+    targetRPM += ShooterConfig.rpmBump;
+  }
+
+  public void bumpRpmDown() {
+    targetRPM -= ShooterConfig.rpmBump;
   }
 }
