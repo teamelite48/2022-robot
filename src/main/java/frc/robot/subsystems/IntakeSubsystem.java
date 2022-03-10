@@ -64,6 +64,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean isIntakeDeployed() {
-    return intakeSolenoid.get();
+    return intakeSolenoid.get() == IntakeConfig.deployValue;
   }
 }

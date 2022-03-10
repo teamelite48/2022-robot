@@ -42,6 +42,8 @@ import frc.robot.subsystems.SorterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -79,13 +81,18 @@ public class RobotContainer {
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
 
+        // UsbCamera backCam = CameraServer.startAutomaticCapture();
+        // backCam.setResolution(320, 240);
+        // backCam.setFPS(30);
+        // backCam.setExposureAuto();
+
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem));
-        autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
+        //autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
         autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
         autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
-        autoChooser.addOption("Test", new TestAuto(driveSubsystem));
+        //autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
+        //autoChooser.addOption("Test", new TestAuto(driveSubsystem));
 
 
         SmartDashboard.putData(autoChooser);
@@ -147,6 +154,8 @@ public class RobotContainer {
 
         JoystickButton tiltArmsButton = new JoystickButton(copilotGamepad, 12);
 
+        JoystickButton toggleClimberLocksButton = new JoystickButton(copilotGamepad, 11);
+
         Trigger extendArmsTrigger = new Trigger(() -> copilotGamepad.getLeftY() < -0.5);
         Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getLeftY() > 0.5);
 
@@ -181,6 +190,9 @@ public class RobotContainer {
         retractArmsTrigger
             .whenActive(new RetractArms(climberSubsystem))
             .whenInactive(new StopArms(climberSubsystem));
+
+        toggleClimberLocksButton
+            .whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
 
         shooterFeedUpButton
             .whenHeld(new ParallelCommandGroup(

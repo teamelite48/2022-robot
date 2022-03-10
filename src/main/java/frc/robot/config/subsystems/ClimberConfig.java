@@ -6,8 +6,6 @@ public final class ClimberConfig {
 
     public static final double extendArmSpeed = 0.5;
     public static final double retractArmSpeed = -extendArmSpeed;
-    public static final double slowRetractArmSpeed = 0.15;
-
 
     public static Value upTilt = Value.kForward;
     public static Value downTilt = Value.kReverse;
@@ -16,8 +14,11 @@ public final class ClimberConfig {
     public static Value lockValue = Value.kReverse;
     public static Value unlockValue = Value.kForward;
 
-    public static final int armExtensionLimit = 180000;
-    public static final int armRetractionLimit = 0;
+    public static final int downTiltArmExtensionLimit = 180000;
+    public static final int downTiltArmRetractionLimit = 2048;
+
+    public static final int upTiltArmExtensionLimit = 125000;
+    public static final int upTiltArmRetractionLimit = 2048;
 
     //tilt down extension limit = 180000
     //tilt up extension limit = 125000
