@@ -8,5 +8,5 @@ public final class IntakeConfig {
     public static final boolean deployValue = true;
     public static final boolean retractValue = !deployValue;
     
-    public static final long deployIntakeCooldown = 300;
+    public static final long deployIntakeCooldown = 150;
 }
