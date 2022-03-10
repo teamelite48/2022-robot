@@ -22,8 +22,8 @@ public final class SysIdConfig {
   public static final double trackWidthInMeters = 0.78688;
   public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(trackWidthInMeters);
 
-  public static final double kMaxSpeedMetersPerSecond = .15;
-  public static final double kMaxAccelerationMetersPerSecondSquared = .15;
+  public static final double kMaxSpeedMetersPerSecond = .1;
+  public static final double kMaxAccelerationMetersPerSecondSquared = .1;
 
   public static final double kRamseteB = 2;
   public static final double kRamseteZeta = 0.7;
