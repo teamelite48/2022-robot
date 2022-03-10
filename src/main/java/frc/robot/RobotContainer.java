@@ -45,6 +45,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -81,10 +82,7 @@ public class RobotContainer {
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
 
-        // UsbCamera backCam = CameraServer.startAutomaticCapture();
-        // backCam.setResolution(320, 240);
-        // backCam.setFPS(30);
-        // backCam.setExposureAuto();
+        initCamera();
 
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
         autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem));
@@ -238,6 +236,16 @@ public class RobotContainer {
 
         driveByRightButton
             .whenPressed(new DriveBy(TurretConfig.degreesAtRight, turretSubsystem, shooterSubsystem));
+    }
+
+    private void initCamera(){
+
+        if (RobotBase.isSimulation()) return;
+
+        UsbCamera backCam = CameraServer.startAutomaticCapture();
+        backCam.setResolution(160, 120);
+        backCam.setFPS(20);
+        backCam.setExposureAuto();
     }
 
     public Command getAutonomousCommand() {

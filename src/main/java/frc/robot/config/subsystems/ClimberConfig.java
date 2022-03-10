@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public final class ClimberConfig {
 
     public static final double extendArmSpeed = 0.5;
-    public static final double retractArmSpeed = -extendArmSpeed;
+    public static final double retractArmSpeed = -1.0;
 
     public static Value upTilt = Value.kForward;
     public static Value downTilt = Value.kReverse;
