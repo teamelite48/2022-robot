@@ -7,6 +7,7 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.turret.EnableAutoAim;
+import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -16,8 +17,9 @@ public class ShootFar extends SequentialCommandGroup {
   public ShootFar(ShooterSubsystem shooterSubsystem, TurretSubsystem turretSubsystem) {
 
     addCommands(
-      new EnableAutoAim(turretSubsystem),
-      new InstantCommand(shooterSubsystem::setHighSpeed, shooterSubsystem)
+      new InstantCommand(shooterSubsystem::setHighSpeed, shooterSubsystem),
+      new MoveTurretToDegrees(180, turretSubsystem),
+      new EnableAutoAim(turretSubsystem)
     );
   }
 }
