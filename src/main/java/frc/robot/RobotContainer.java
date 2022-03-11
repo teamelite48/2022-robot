@@ -5,10 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.auto.BackOffLineAuto;
-import frc.robot.commands.auto.BackOffLineDeadReckoning;
-import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.commands.auto.FourBallStraightAuto;
-import frc.robot.commands.auto.TestAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
@@ -28,7 +25,6 @@ import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.ShooterFeedUpV2;
 import frc.robot.commands.sorter.SorterIn;
-import frc.robot.commands.sorter.SorterOut;
 import frc.robot.commands.sorter.SorterStop;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
