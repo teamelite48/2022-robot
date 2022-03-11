@@ -39,7 +39,7 @@ public class BackOffLineAuto extends SequentialCommandGroup {
             new WaitCommand(2),
             new ShooterFeedStop(shooterFeedSubsystem),
             new SorterStop(sorterSubsystem),
-            new ShooterOff(shooterSubsystem, turretSubsystem)
+            new ShooterOff(shooterSubsystem)
         );
     }
 }

@@ -69,7 +69,7 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new WaitCommand(2.5),
       new ShooterFeedStop(shooterFeedSubsystem),
       new SorterStop(sorterSubsystem),
-      new ShooterOff(shooterSubsystem, turretSubsystem)
+      new ShooterOff(shooterSubsystem)
     );
   }
 }

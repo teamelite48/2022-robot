@@ -46,14 +46,14 @@ public class FourBallAuto extends SequentialCommandGroup {
       new ShooterFeedUp(shooterFeedSubsystem),
       new WaitCommand(1),
       new ShooterFeedStop(shooterFeedSubsystem),
-      new ShooterOff(shooterSubsystem, turretSubsystem),
+      new ShooterOff(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall3),
       new ShooterOn(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall4),
       new ShooterFeedUp(shooterFeedSubsystem),
       new WaitCommand(1),
       new ShooterFeedStop(shooterFeedSubsystem),
-      new ShooterOff(shooterSubsystem, turretSubsystem)
+      new ShooterOff(shooterSubsystem)
     );
   }
 }
