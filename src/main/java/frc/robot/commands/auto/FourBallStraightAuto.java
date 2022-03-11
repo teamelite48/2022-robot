@@ -44,6 +44,7 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new InstantCommand(intakeSubsystem::deploy, intakeSubsystem),
       new WaitCommand(0.2),
       new InstantCommand(intakeSubsystem::intake, intakeSubsystem),
+      new WaitCommand(0.3),
       new SorterIn(sorterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBallStraight1),
       new RetractIntake(intakeSubsystem),
@@ -52,22 +53,23 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new ShootMedium(shooterSubsystem, turretSubsystem),
       new WaitCommand(0.5),
       new ShooterFeedUp(shooterFeedSubsystem),
-      new WaitCommand(3),
+      new WaitCommand(2.5),
       new ShooterFeedStop(shooterFeedSubsystem),
       //new ShooterOff(shooterSubsystem),
       new InstantCommand(intakeSubsystem::deploy, intakeSubsystem),
       new WaitCommand(0.2),
       new InstantCommand(intakeSubsystem::intake, intakeSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBallStraight3),
-      new WaitCommand(2),
+      new WaitCommand(1.5),
       //new ShooterOn(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBallStraight4),
+      new RetractIntake(intakeSubsystem),
       new ShootMedium(shooterSubsystem, turretSubsystem),
       new ShooterFeedUp(shooterFeedSubsystem),
-      new WaitCommand(3),
+      new WaitCommand(2.5),
       new ShooterFeedStop(shooterFeedSubsystem),
       new SorterStop(sorterSubsystem),
-      new ShooterOff(shooterSubsystem)
+      new ShooterOff(shooterSubsystem, turretSubsystem)
     );
   }
 }

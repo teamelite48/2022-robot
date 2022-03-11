@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.turret.DisableAutoAim;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.roborio.PneumaticChannel;
 import frc.robot.config.subsystems.ShooterConfig;
@@ -46,6 +47,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     if (isShooterOn == false) {
       rightMotor.set(0);
+      
     }
     else {
       double currentRPM = -1 * (rightMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;

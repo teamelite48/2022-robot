@@ -81,7 +81,7 @@ public class RobotContainer {
         initCamera();
 
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem));
+        autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem, sorterSubsystem, shooterSubsystem, turretSubsystem, shooterFeedSubsystem));
         //autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
         autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
         autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));

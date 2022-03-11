@@ -54,7 +54,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new WaitCommand(2),
             new ShooterFeedStop(shooterFeedSubsystem),
             new SorterStop(sorterSubsystem),
-            new ShooterOff(shooterSubsystem)
+            new ShooterOff(shooterSubsystem, turretSubsystem)
+
 
         );
     }

@@ -20,6 +20,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 public class FourBallAuto extends SequentialCommandGroup {
 
@@ -28,7 +29,8 @@ public class FourBallAuto extends SequentialCommandGroup {
     IntakeSubsystem intakeSubsystem,
     SorterSubsystem sorterSubsystem,
     ShooterSubsystem shooterSubsystem,
-    ShooterFeedSubsystem shooterFeedSubsystem
+    ShooterFeedSubsystem shooterFeedSubsystem,
+    TurretSubsystem turretSubsystem
   ) {
 
     RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
@@ -44,14 +46,14 @@ public class FourBallAuto extends SequentialCommandGroup {
       new ShooterFeedUp(shooterFeedSubsystem),
       new WaitCommand(1),
       new ShooterFeedStop(shooterFeedSubsystem),
-      new ShooterOff(shooterSubsystem),
+      new ShooterOff(shooterSubsystem, turretSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall3),
       new ShooterOn(shooterSubsystem),
       ramseteCommandFactory.createCommand(TrajectoryType.FourBall4),
       new ShooterFeedUp(shooterFeedSubsystem),
       new WaitCommand(1),
       new ShooterFeedStop(shooterFeedSubsystem),
-      new ShooterOff(shooterSubsystem)
+      new ShooterOff(shooterSubsystem, turretSubsystem)
     );
   }
 }
