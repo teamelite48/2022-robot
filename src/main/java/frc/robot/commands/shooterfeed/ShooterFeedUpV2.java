@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.config.subsystems.ShooterFeedConfig;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SorterSubsystem;
 import frc.robot.utils.CoolDownTimer;
 
 public class ShooterFeedUpV2 extends CommandBase {
 
   ShooterFeedSubsystem shooterFeedSubsystem;
   ShooterSubsystem shooterSubsystem;
+  SorterSubsystem sorterSubsystem;
+
   CoolDownTimer coolDownTimer = new CoolDownTimer(ShooterFeedConfig.ballCoolDownTimer);
 
   boolean currentBallSensorValue;
@@ -21,12 +24,14 @@ public class ShooterFeedUpV2 extends CommandBase {
 
   public ShooterFeedUpV2(
     ShooterFeedSubsystem shooterFeedSubsystem,
-    ShooterSubsystem shooterSubsystem
+    ShooterSubsystem shooterSubsystem,
+    SorterSubsystem sorterSubsystem
   ) {
     addRequirements(shooterFeedSubsystem);
 
     this.shooterFeedSubsystem = shooterFeedSubsystem;
     this.shooterSubsystem = shooterSubsystem;
+    this.sorterSubsystem = sorterSubsystem;
   }
 
   @Override
@@ -38,6 +43,8 @@ public class ShooterFeedUpV2 extends CommandBase {
 
   @Override
   public void execute() {
+
+    sorterSubsystem.in();
 
     if (shooterSubsystem.isShooterOn() == false) {
       if (shooterFeedSubsystem.getBallSensorValue() == !ShooterFeedConfig.ballSensedValue) {
@@ -72,6 +79,7 @@ public class ShooterFeedUpV2 extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooterFeedSubsystem.stop();
+    sorterSubsystem.stop();
   }
 
   @Override

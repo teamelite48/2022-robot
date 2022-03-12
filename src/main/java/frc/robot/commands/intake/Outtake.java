@@ -15,8 +15,6 @@ public class Outtake extends InstantCommand {
   IntakeSubsystem intakeSubsystem;
 
   public Outtake(IntakeSubsystem intakeSubsystem) {
-    addRequirements(intakeSubsystem);
-
     this.intakeSubsystem = intakeSubsystem;
   }
 

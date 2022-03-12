@@ -14,18 +14,15 @@ import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
-import frc.robot.commands.intake.Intake;
-import frc.robot.commands.intake.Outtake;
+import frc.robot.commands.intake.IntakeV2;
+import frc.robot.commands.intake.OuttakeV2;
 import frc.robot.commands.intake.RetractIntake;
-import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.ShooterFeedUpV2;
-import frc.robot.commands.sorter.SorterIn;
-import frc.robot.commands.sorter.SorterStop;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.commands.turret.DriveBy;
@@ -47,7 +44,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -106,18 +102,10 @@ public class RobotContainer {
         JoystickButton enableClimberButton2 = new JoystickButton(rightPilotJoystick, 9);
 
         intakeButton
-            .whileHeld(new ParallelCommandGroup(
-                new Intake(intakeSubsystem),
-                new SorterIn(sorterSubsystem)
-            ))
-            .whenReleased(new ParallelCommandGroup(
-                new StopIntake(intakeSubsystem),
-                new SorterStop(sorterSubsystem)
-            ));
+            .whenHeld(new IntakeV2(intakeSubsystem, sorterSubsystem));
 
         outtakeButton
-            .whileHeld(new Outtake(intakeSubsystem))
-            .whenReleased(new StopIntake(intakeSubsystem));
+            .whenHeld(new OuttakeV2(intakeSubsystem));
 
         retractIntakeButton
             .whenPressed(new RetractIntake(intakeSubsystem));
@@ -189,14 +177,7 @@ public class RobotContainer {
             .whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
 
         shooterFeedUpButton
-            .whenHeld(new ParallelCommandGroup(
-                new SorterIn(sorterSubsystem),
-                new ShooterFeedUpV2(shooterFeedSubsystem, shooterSubsystem)
-            ))
-            .whenReleased(new ParallelCommandGroup(
-                new SorterStop(sorterSubsystem),
-                new ShooterFeedStop(shooterFeedSubsystem)
-            ));
+            .whenHeld(new ShooterFeedUpV2(shooterFeedSubsystem, shooterSubsystem, sorterSubsystem));
 
         shooterFeedDownButton
             .whenPressed(new ShooterFeedDown(shooterFeedSubsystem))
