@@ -92,6 +92,10 @@ public final class TrajectoryFactory {
         return getTrajectoryFromFile("TwoBall2.wpilib.json");
       }
 
+      case TwoBallShort1:{
+        return getTrajectoryFromFile("TwoBallShort1.wpilib.json");
+      }
+
       case BackOffLine:{
         return getTrajectoryFromFile("BackOffLine.wpilib.json");
       }
@@ -111,8 +115,6 @@ public final class TrajectoryFactory {
       case FourBallStraight4: {
         return getTrajectoryFromFile("FourBallStraight4.wpilib.json");
       }
-
-
 
     }
 

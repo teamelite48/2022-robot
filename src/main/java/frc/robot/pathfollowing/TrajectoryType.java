@@ -12,5 +12,5 @@ public enum TrajectoryType {
     FourBallStraight1,
     FourBallStraight2,
     FourBallStraight3,
-    FourBallStraight4
+    FourBallStraight4, TwoBallShort1
 }
