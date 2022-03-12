@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.RetractIntake;
-import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.ShooterOn;

@@ -167,13 +167,11 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public boolean isFullyExtended() {
-    // TODO: replace with calls to motor
     return leftArmSensorCollection.getIntegratedSensorPosition() + 10 >= ClimberConfig.upTiltArmExtensionLimit && rightArmSensorCollection.getIntegratedSensorPosition() + 10 >= ClimberConfig.upTiltArmExtensionLimit;
     // return this.leftArmMotor.isFwdLimitSwitchClosed() == 1 && this.rightArmMotor.isFwdLimitSwitchClosed() == 1;
   }
 
   public boolean isFullyRetracted() {
-    //TODO: replace with calls to motor
     return leftArmSensorCollection.getIntegratedSensorPosition() - 10 <= ClimberConfig.upTiltArmRetractionLimit && rightArmSensorCollection.getIntegratedSensorPosition() - 10 <= ClimberConfig.upTiltArmRetractionLimit;
     // return this.leftArmMotor.isRevLimitSwitchClosed() == 1 && this.rightArmMotor.isRevLimitSwitchClosed() == 1;
   }

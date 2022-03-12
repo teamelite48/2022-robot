@@ -14,7 +14,7 @@ public class SorterIn extends InstantCommand {
 
   public SorterIn(SorterSubsystem sorterSubsystem) {
 
-    addRequirements(sorterSubsystem);
+    addRequirements();
 
     this.sorterSubsystem = sorterSubsystem;
   }
