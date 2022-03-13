@@ -5,22 +5,17 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
 
-public class IntakeV2 extends CommandBase {
+public class ManualIntake extends CommandBase {
 
-  IntakeSubsystem intakeSubsystem;
-  SorterSubsystem sorterSubsystem;
+  IntakeSubsystem intakeSubsystem = RobotContainer.intakeSubsystem;
+  SorterSubsystem sorterSubsystem = RobotContainer.sorterSubsystem;
 
-  public IntakeV2(
-    IntakeSubsystem intakeSubsystem,
-    SorterSubsystem sorterSubsystem
-  ) {
+  public ManualIntake() {
     addRequirements(intakeSubsystem);
-
-    this.intakeSubsystem = intakeSubsystem;
-    this.sorterSubsystem = sorterSubsystem;
   }
 
   @Override

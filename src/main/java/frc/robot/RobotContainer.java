@@ -12,20 +12,18 @@ import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallShortAuto;
 import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
-import frc.robot.commands.climber.StopArms;
 import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
-import frc.robot.commands.intake.IntakeV2;
-import frc.robot.commands.intake.OuttakeV2;
+import frc.robot.commands.intake.ManualIntake;
+import frc.robot.commands.intake.Outtake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
-import frc.robot.commands.shooterfeed.ShooterFeedStop;
-import frc.robot.commands.shooterfeed.ShooterFeedUpV2;
+import frc.robot.commands.shooterfeed.ManualShooterFeedUp;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.commands.turret.DriveBy;
@@ -92,85 +90,47 @@ public class RobotContainer {
 
     private void configurePilotButtonBindings() {
 
-        leftJoystick.getTrigger()
-            .whenHeld(new IntakeV2(intakeSubsystem, sorterSubsystem));
+        leftJoystick.getTrigger().whenHeld(new ManualIntake());
+        leftJoystick.getButton4().whenPressed(new ShiftLowGear());
+        leftJoystick.getButton5().whenPressed(new ShiftHighGear());
 
-        rightJoystick.getButton2()
-            .whenHeld(new OuttakeV2(intakeSubsystem));
-
-        rightJoystick.getTrigger()
-            .whenPressed(new RetractIntake(intakeSubsystem));
-
-        leftJoystick.getButton4()
-            .whenPressed(new ShiftLowGear(driveSubsystem));
-
-        leftJoystick.getButton5()
-            .whenPressed(new ShiftHighGear(driveSubsystem));
-
-        rightJoystick.getButton8().and(rightJoystick.getButton9())
-            .whenActive(new EnableClimber(climberSubsystem, turretSubsystem));
+        rightJoystick.getTrigger().whenPressed(new RetractIntake());
+        rightJoystick.getButton2().whenHeld(new Outtake());
+        rightJoystick.getButton8().and(rightJoystick.getButton9()).whenActive(new EnableClimber());
     }
 
     private void configureCopilotButtonBindings() {
 
-        gamepad.getBButton()
-            .whenPressed(new ToggleShooter(shooterSubsystem));
+        gamepad.getLeftBumper().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
+        gamepad.getLeftTrigger().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
-        gamepad.getXButton()
-            .whenPressed(new ShootMedium(shooterSubsystem, turretSubsystem));
+        gamepad.getRightBumper().whenHeld(new ManualShooterFeedUp());
+        gamepad.getRightTrigger().whenHeld(new ShooterFeedDown());
 
-        gamepad.getYButton()
-            .whenPressed(new ShootFar(shooterSubsystem, turretSubsystem));
-
-        gamepad.getRightStickButton()
-            .whenPressed(new ToggleArmPositions(climberSubsystem));
-
-        gamepad.getLeftStickButton()
-            .whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
-
-        gamepad.getRightBumper()
-            .whenHeld(new ShooterFeedUpV2(shooterFeedSubsystem, shooterSubsystem, sorterSubsystem));
-
-        gamepad.getRightTrigger()
-            .whenPressed(new ShooterFeedDown(shooterFeedSubsystem))
-            .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
-
-        gamepad.getLeftBumper()
-            .whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
-
-        gamepad.getLeftTrigger()
-            .whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
-
-        gamepad.getDpadUpTrigger()
-            .whenActive(new MoveTurretToDegrees(180, turretSubsystem));
-
-        gamepad.getDpadRightTrigger()
-            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
-            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
-
-        gamepad.getDpadDownTrigger()
-            .whenActive(new EnableAutoAim(turretSubsystem));
+        gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
+        gamepad.getDpadDownTrigger().whenActive(new EnableAutoAim());
 
         gamepad.getDpadLeftTrigger()
             .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
             .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        gamepad.getAButton()
-            .whenPressed(new DriveBy(TurretConfig.degreesAtCenter, turretSubsystem, shooterSubsystem));
+        gamepad.getDpadRightTrigger()
+            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
+            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        gamepad.getBackButton()
-            .whenPressed(new DriveBy(TurretConfig.degreesAtLeft, turretSubsystem, shooterSubsystem));
+        gamepad.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
+        gamepad.getRightStickButton().whenPressed(new ToggleArmPositions());
 
-        gamepad.getStartButton()
-            .whenPressed(new DriveBy(TurretConfig.degreesAtRight, turretSubsystem, shooterSubsystem));
+        new Trigger(() -> gamepad.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
+        new Trigger(() -> gamepad.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
 
-        new Trigger(() -> gamepad.getLeftY() < -0.5)
-            .whenActive(new ExtendArms(climberSubsystem))
-            .whenInactive(new StopArms(climberSubsystem));
+        gamepad.getBackButton().whenPressed(new DriveBy(TurretConfig.degreesAtLeft));
+        gamepad.getStartButton().whenPressed(new DriveBy(TurretConfig.degreesAtRight));
 
-        new Trigger(() -> gamepad.getLeftY() > 0.5)
-            .whenActive(new RetractArms(climberSubsystem))
-            .whenInactive(new StopArms(climberSubsystem));
+        gamepad.getAButton().whenPressed(new DriveBy(TurretConfig.degreesAtCenter));
+        gamepad.getBButton().whenPressed(new ToggleShooter());
+        gamepad.getXButton().whenPressed(new ShootMedium());
+        gamepad.getYButton().whenPressed(new ShootFar());
     }
 
     private void initializeCamera(){
@@ -185,14 +145,12 @@ public class RobotContainer {
 
     private void inititialzeAutoChooser() {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem, sorterSubsystem, shooterSubsystem, turretSubsystem, shooterFeedSubsystem));
-        //autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
-        autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        autoChooser.addOption("Two Ball Short", new TwoBallShortAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        //autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
-        //autoChooser.addOption("Test", new TestAuto(driveSubsystem));
-
+        autoChooser.addOption("Back Off Line Path", new BackOffLineAuto());
+        autoChooser.addOption("Two Ball", new TwoBallAuto());
+        autoChooser.addOption("Two Ball Short", new TwoBallShortAuto());
+        autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto());
+        //autoChooser.addOption("Four Ball", new FourBallAuto());
+        //autoChooser.addOption("Test", new TestAuto());
 
         SmartDashboard.putData(autoChooser);
     }

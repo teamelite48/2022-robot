@@ -5,17 +5,16 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
 public class ToggleShooter extends InstantCommand {
 
-  private ShooterSubsystem shooterSubsystem;
+  private ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
 
-  public ToggleShooter(ShooterSubsystem shooterSubsystem) {
+  public ToggleShooter() {
     addRequirements(shooterSubsystem);
-
-    this.shooterSubsystem = shooterSubsystem;
   }
 
   @Override

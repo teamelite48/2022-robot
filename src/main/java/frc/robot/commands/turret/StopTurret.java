@@ -5,20 +5,18 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.TurretSubsystem;
 
 
 public class StopTurret extends InstantCommand {
 
-  TurretSubsystem turretSubsystem;
+  TurretSubsystem turretSubsystem = RobotContainer.turretSubsystem;
 
-  public StopTurret(TurretSubsystem turretSubsystem) {
+  public StopTurret() {
     addRequirements(turretSubsystem);
-
-    this.turretSubsystem = turretSubsystem;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     turretSubsystem.stop();

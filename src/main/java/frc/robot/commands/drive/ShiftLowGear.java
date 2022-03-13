@@ -5,20 +5,18 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 
 public class ShiftLowGear extends InstantCommand {
 
-  DriveSubsystem driveSubsystem;
+  DriveSubsystem driveSubsystem  = RobotContainer.driveSubsystem;
 
-  public ShiftLowGear(DriveSubsystem driveSubsystem) {
+  public ShiftLowGear() {
     addRequirements(driveSubsystem);
-
-    this.driveSubsystem = driveSubsystem;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     driveSubsystem.shiftLowGear();

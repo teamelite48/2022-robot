@@ -5,38 +5,30 @@
 package frc.robot.commands.shooterfeed;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.config.subsystems.ShooterFeedConfig;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
 import frc.robot.utils.CoolDownTimer;
 
-public class ShooterFeedUpV2 extends CommandBase {
+public class ManualShooterFeedUp extends CommandBase {
 
-  ShooterFeedSubsystem shooterFeedSubsystem;
-  ShooterSubsystem shooterSubsystem;
-  SorterSubsystem sorterSubsystem;
+  ShooterFeedSubsystem shooterFeedSubsystem = RobotContainer.shooterFeedSubsystem;
+  ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
+  SorterSubsystem sorterSubsystem = RobotContainer.sorterSubsystem;
 
   CoolDownTimer coolDownTimer = new CoolDownTimer(ShooterFeedConfig.ballCoolDownTimer);
 
   boolean currentBallSensorValue;
   boolean lastBallSensorValue;
 
-  public ShooterFeedUpV2(
-    ShooterFeedSubsystem shooterFeedSubsystem,
-    ShooterSubsystem shooterSubsystem,
-    SorterSubsystem sorterSubsystem
-  ) {
+  public ManualShooterFeedUp() {
     addRequirements(shooterFeedSubsystem);
-
-    this.shooterFeedSubsystem = shooterFeedSubsystem;
-    this.shooterSubsystem = shooterSubsystem;
-    this.sorterSubsystem = sorterSubsystem;
   }
 
   @Override
   public void initialize() {
-
     currentBallSensorValue = shooterFeedSubsystem.getBallSensorValue();
     lastBallSensorValue = currentBallSensorValue;
   }

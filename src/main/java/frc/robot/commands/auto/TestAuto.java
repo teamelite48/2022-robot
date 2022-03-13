@@ -8,15 +8,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.drive.FollowPath;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.pathfollowing.PathType;
-import frc.robot.subsystems.DriveSubsystem;
 
 
 public class TestAuto extends SequentialCommandGroup {
 
-  public TestAuto(DriveSubsystem driveSubsystem) {
-
+  public TestAuto() {
     addCommands(
-      new ResetOdometry(0, 0, 0, driveSubsystem),
+      new ResetOdometry(0, 0, 0),
       new FollowPath(PathType.Test)
     );
   }

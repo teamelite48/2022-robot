@@ -5,18 +5,16 @@
 package frc.robot.commands.sorter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.SorterSubsystem;
 
 
 public class SorterStop extends InstantCommand {
 
-  SorterSubsystem sorterSubsystem;
+  SorterSubsystem sorterSubsystem = RobotContainer.sorterSubsystem;
 
-  public SorterStop(SorterSubsystem sorterSubsystem) {
-
-    addRequirements();
-
-    this.sorterSubsystem = sorterSubsystem;
+  public SorterStop() {
+    addRequirements(sorterSubsystem);
   }
 
   @Override

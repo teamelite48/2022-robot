@@ -4,22 +4,34 @@
 
 package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberSubsystem;
 
 
-public class ExtendArms extends InstantCommand {
+public class ExtendArms extends CommandBase {
 
-  ClimberSubsystem climberSubsystem;
+  ClimberSubsystem climberSubsystem = RobotContainer.climberSubsystem;
 
-  public ExtendArms(ClimberSubsystem climberSubsystem) {
+  public ExtendArms() {
     addRequirements(climberSubsystem);
-
-    this.climberSubsystem = climberSubsystem;
   }
 
   @Override
   public void initialize() {
     climberSubsystem.extendArms();
+  }
+
+  @Override
+  public void execute() {}
+
+  @Override
+  public void end(boolean interrupted) {
+    climberSubsystem.stopArms();
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

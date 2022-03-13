@@ -5,21 +5,22 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class ResetOdometry extends InstantCommand {
 
-  DriveSubsystem driveSubsystem;
+  DriveSubsystem driveSubsystem = RobotContainer.driveSubsystem;
+
   double x;
   double y;
   double degrees;
 
 
-  public ResetOdometry(double x, double y, double degrees, DriveSubsystem driveSubsystem) {
+  public ResetOdometry(double x, double y, double degrees) {
 
     addRequirements(driveSubsystem);
 
-    this.driveSubsystem = driveSubsystem;
     this.x = x;
     this.y = y;
     this.degrees = degrees;

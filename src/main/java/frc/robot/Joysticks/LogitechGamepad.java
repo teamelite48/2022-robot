@@ -32,7 +32,6 @@ public class LogitechGamepad extends GenericHID {
     public JoystickButton getLeftStickButton() { return new JoystickButton(this, 11); }
     public JoystickButton getRightStickButton() { return new JoystickButton(this, 12); }
 
-
     public Trigger getDpadUpTrigger() { return new Trigger(() -> this.getPOV() == 0); }
     public Trigger getDpadRightTrigger() { return new Trigger(() -> this.getPOV() == 90); }
     public Trigger getDpadDownTrigger() { return new Trigger(() -> this.getPOV() == 180); }

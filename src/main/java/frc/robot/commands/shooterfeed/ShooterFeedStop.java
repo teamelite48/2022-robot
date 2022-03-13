@@ -5,19 +5,15 @@
 package frc.robot.commands.shooterfeed;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShooterFeedStop extends InstantCommand {
 
-  ShooterFeedSubsystem shooterFeedSubsystem;
+  ShooterFeedSubsystem shooterFeedSubsystem = RobotContainer.shooterFeedSubsystem;
 
-  public ShooterFeedStop(ShooterFeedSubsystem shooterFeedSubsystem) {
+  public ShooterFeedStop() {
     addRequirements(shooterFeedSubsystem);
-
-    this.shooterFeedSubsystem = shooterFeedSubsystem;
   }
 
   @Override

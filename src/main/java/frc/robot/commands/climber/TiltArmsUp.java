@@ -5,17 +5,16 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberSubsystem;
 
 
 public class TiltArmsUp extends InstantCommand {
 
-  ClimberSubsystem climberSubsystem;
+  ClimberSubsystem climberSubsystem = RobotContainer.climberSubsystem;
 
-  public TiltArmsUp(ClimberSubsystem climberSubsystem) {
+  public TiltArmsUp() {
     addRequirements(climberSubsystem);
-
-    this.climberSubsystem = climberSubsystem;
   }
 
   @Override
