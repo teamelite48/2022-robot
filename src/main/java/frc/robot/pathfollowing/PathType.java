@@ -1,6 +1,6 @@
 package frc.robot.pathfollowing;
 
-public enum TrajectoryType {
+public enum PathType {
     Test,
     FourBall1,
     FourBall2,

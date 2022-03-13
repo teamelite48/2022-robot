@@ -51,21 +51,29 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
-    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-    private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-    private final ShooterFeedSubsystem shooterFeedSubsystem = new ShooterFeedSubsystem();
-    private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
-    private final TurretSubsystem turretSubsystem = new TurretSubsystem();
+    public static DriveSubsystem driveSubsystem;
+    public static IntakeSubsystem intakeSubsystem;
+    public static ShooterSubsystem shooterSubsystem;
+    public static ClimberSubsystem climberSubsystem;
+    public static ShooterFeedSubsystem shooterFeedSubsystem;
+    public static SorterSubsystem sorterSubsystem;
+    public static TurretSubsystem turretSubsystem;
 
-    private final LogitechJoystick leftJoystick = new LogitechJoystick(JoystickPort.LeftPilotJoystick);
-    private final LogitechJoystick rightJoystick = new LogitechJoystick(JoystickPort.RightPilotJoystick);
-    private final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
+    final LogitechJoystick leftJoystick = new LogitechJoystick(JoystickPort.LeftPilotJoystick);
+    final LogitechJoystick rightJoystick = new LogitechJoystick(JoystickPort.RightPilotJoystick);
+    final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
 
-    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     public RobotContainer() {
+
+        driveSubsystem = new DriveSubsystem();
+        intakeSubsystem = new IntakeSubsystem();
+        shooterSubsystem = new ShooterSubsystem();
+        climberSubsystem = new ClimberSubsystem();
+        shooterFeedSubsystem = new ShooterFeedSubsystem();
+        sorterSubsystem = new SorterSubsystem();
+        turretSubsystem = new TurretSubsystem();
 
         driveSubsystem.setDefaultCommand(
             new RunCommand(() -> driveSubsystem.tankDrive(-leftJoystick.getY(), -rightJoystick.getY(), leftJoystick.getRawAxis(2)), driveSubsystem)

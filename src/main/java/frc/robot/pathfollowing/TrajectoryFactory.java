@@ -61,7 +61,7 @@ public final class TrajectoryFactory {
     config
   );
 
-  public static Trajectory getTrajectory(TrajectoryType pathType) {
+  public static Trajectory getTrajectory(PathType pathType) {
     switch (pathType) {
 
       case Test: {
