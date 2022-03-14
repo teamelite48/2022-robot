@@ -5,17 +5,16 @@
 package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.TurretSubsystem;
 
 
 public class EnableAutoAim extends InstantCommand {
 
-  TurretSubsystem turretSubsystem;
+  TurretSubsystem turretSubsystem = RobotContainer.turretSubsystem;
 
-  public EnableAutoAim(TurretSubsystem turretSubsystem) {
+  public EnableAutoAim() {
     addRequirements(turretSubsystem);
-
-    this.turretSubsystem = turretSubsystem;
   }
 
   @Override

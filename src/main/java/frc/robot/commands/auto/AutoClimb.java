@@ -10,30 +10,28 @@ import frc.robot.commands.climber.FullyExtendArms;
 import frc.robot.commands.climber.FullyRetractArms;
 import frc.robot.commands.climber.TiltArmsDown;
 import frc.robot.commands.climber.TiltArmsUp;
-import frc.robot.subsystems.ClimberSubsystem;
 
 
 public class AutoClimb extends SequentialCommandGroup {
-  
-  public AutoClimb(ClimberSubsystem climberSubsystem)
-  {
+
+  public AutoClimb() {
     addCommands(
-      new TiltArmsUp(climberSubsystem),
-      new FullyExtendArms(climberSubsystem),
+      new TiltArmsUp(),
+      new FullyExtendArms(),
       new WaitCommand(1),
-      new FullyRetractArms(climberSubsystem),
+      new FullyRetractArms(),
       new WaitCommand(1),
-      new TiltArmsDown(climberSubsystem),
-      new FullyExtendArms(climberSubsystem),
-      new TiltArmsUp(climberSubsystem),
+      new TiltArmsDown(),
+      new FullyExtendArms(),
+      new TiltArmsUp(),
       new WaitCommand(1),
-      new FullyRetractArms(climberSubsystem),
+      new FullyRetractArms(),
       new WaitCommand(1),
-      new TiltArmsDown(climberSubsystem),
-      new FullyExtendArms(climberSubsystem),
-      new TiltArmsUp(climberSubsystem),
+      new TiltArmsDown(),
+      new FullyExtendArms(),
+      new TiltArmsUp(),
       new WaitCommand(1),
-      new FullyRetractArms(climberSubsystem)
+      new FullyRetractArms()
     );
   }
 }

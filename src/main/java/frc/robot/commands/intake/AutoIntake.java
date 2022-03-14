@@ -5,18 +5,19 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.config.subsystems.IntakeConfig;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.utils.CoolDownTimer;
 
-public class OuttakeV2 extends CommandBase {
 
-  IntakeSubsystem intakeSubsystem;
+public class AutoIntake extends CommandBase {
 
-  public OuttakeV2(
-    IntakeSubsystem intakeSubsystem
-  ) {
+  IntakeSubsystem intakeSubsystem = RobotContainer.intakeSubsystem;
+  CoolDownTimer coolDown = new CoolDownTimer(IntakeConfig.deployIntakeCooldown + 100);
+
+  public AutoIntake() {
     addRequirements(intakeSubsystem);
-
-    this.intakeSubsystem = intakeSubsystem;
   }
 
   @Override
@@ -24,16 +25,14 @@ public class OuttakeV2 extends CommandBase {
 
   @Override
   public void execute() {
-    intakeSubsystem.outtake();
+    intakeSubsystem.intake();
   }
 
   @Override
-  public void end(boolean interrupted) {
-    intakeSubsystem.stop();
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {
-    return false;
+    return coolDown.isCool();
   }
 }

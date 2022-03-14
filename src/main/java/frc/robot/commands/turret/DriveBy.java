@@ -6,16 +6,18 @@ package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
 
 public class DriveBy extends SequentialCommandGroup {
 
-  public DriveBy(double degrees, TurretSubsystem turretSubsystem, ShooterSubsystem shooterSubsystem) {
+  public DriveBy(double degrees) {
+
+    ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
 
     addCommands(
       new InstantCommand(shooterSubsystem::setLowSpeed, shooterSubsystem),
-      new MoveTurretToDegrees(degrees, turretSubsystem)
+      new MoveTurretToDegrees(degrees)
     );
   }
 }

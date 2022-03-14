@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.shooterfeed;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterFeedSubsystem;
 
 
-public class ShooterOn extends InstantCommand {
+public class AutoShooterFeedUp extends InstantCommand {
 
-  private ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
+  ShooterFeedSubsystem shooterFeedSubsystem = RobotContainer.shooterFeedSubsystem;
 
-  public ShooterOn() {
-    addRequirements(shooterSubsystem);
+  public AutoShooterFeedUp() {
+    addRequirements(shooterFeedSubsystem);
   }
 
   @Override
   public void initialize() {
-    shooterSubsystem.shooterOn();
+    shooterFeedSubsystem.up();
   }
 }

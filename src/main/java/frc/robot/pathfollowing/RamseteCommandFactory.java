@@ -18,12 +18,12 @@ public class RamseteCommandFactory {
   private DriveSubsystem driveSubsystem;
 
   public RamseteCommandFactory(
-    DriveSubsystem _driveSubsystem
+    DriveSubsystem driveSubsystem
   ) {
-    driveSubsystem = _driveSubsystem;
+    this.driveSubsystem = driveSubsystem;
   }
 
-  public Command createCommand(TrajectoryType pathType) {
+  public Command createCommand(PathType pathType) {
 
     RamseteCommand ramseteCommand = new RamseteCommand(
       TrajectoryFactory.getTrajectory(pathType),

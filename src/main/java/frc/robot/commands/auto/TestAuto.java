@@ -5,21 +5,17 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.drive.FollowPath;
 import frc.robot.commands.drive.ResetOdometry;
-import frc.robot.pathfollowing.RamseteCommandFactory;
-import frc.robot.pathfollowing.TrajectoryType;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.pathfollowing.PathType;
 
 
 public class TestAuto extends SequentialCommandGroup {
 
-  public TestAuto(DriveSubsystem driveSubsystem) {
-
-    RamseteCommandFactory ramseteCommandFactory = new RamseteCommandFactory(driveSubsystem);
-
+  public TestAuto() {
     addCommands(
-      new ResetOdometry(0, 0, 0, driveSubsystem),
-      ramseteCommandFactory.createCommand(TrajectoryType.Test)
+      new ResetOdometry(0, 0, 0),
+      new FollowPath(PathType.Test)
     );
   }
 }

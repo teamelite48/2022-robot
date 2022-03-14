@@ -4,26 +4,26 @@
 
 package frc.robot;
 
+import frc.robot.Joysticks.LogitechGamepad;
+import frc.robot.Joysticks.LogitechJoystick;
 import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallStraightAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallShortAuto;
 import frc.robot.commands.climber.ExtendArms;
 import frc.robot.commands.climber.RetractArms;
-import frc.robot.commands.climber.StopArms;
 import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
-import frc.robot.commands.intake.IntakeV2;
-import frc.robot.commands.intake.OuttakeV2;
+import frc.robot.commands.intake.ManualIntake;
+import frc.robot.commands.intake.Outtake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
-import frc.robot.commands.shooterfeed.ShooterFeedStop;
-import frc.robot.commands.shooterfeed.ShooterFeedUpV2;
+import frc.robot.commands.shooterfeed.ManualShooterFeedUp;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.commands.turret.DriveBy;
@@ -38,184 +38,102 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
-    private final Joystick leftPilotJoystick = new Joystick(JoystickPort.LeftPilotJoystick);
-    private final Joystick rightPilotJoystick = new Joystick(JoystickPort.RightPilotJoystick);
-    private final XboxController copilotGamepad = new XboxController(JoystickPort.CopilotGamepad);
+    public static DriveSubsystem driveSubsystem;
+    public static IntakeSubsystem intakeSubsystem;
+    public static ShooterSubsystem shooterSubsystem;
+    public static ClimberSubsystem climberSubsystem;
+    public static ShooterFeedSubsystem shooterFeedSubsystem;
+    public static SorterSubsystem sorterSubsystem;
+    public static TurretSubsystem turretSubsystem;
 
-    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-    private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-    private final ShooterFeedSubsystem shooterFeedSubsystem = new ShooterFeedSubsystem();
-    private final SorterSubsystem sorterSubsystem = new SorterSubsystem();
-    private final TurretSubsystem turretSubsystem = new TurretSubsystem();
+    final LogitechJoystick leftJoystick = new LogitechJoystick(JoystickPort.LeftPilotJoystick);
+    final LogitechJoystick rightJoystick = new LogitechJoystick(JoystickPort.RightPilotJoystick);
+    final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
 
-    private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     public RobotContainer() {
 
+        driveSubsystem = new DriveSubsystem();
+        intakeSubsystem = new IntakeSubsystem();
+        shooterSubsystem = new ShooterSubsystem();
+        climberSubsystem = new ClimberSubsystem();
+        shooterFeedSubsystem = new ShooterFeedSubsystem();
+        sorterSubsystem = new SorterSubsystem();
+        turretSubsystem = new TurretSubsystem();
+
         driveSubsystem.setDefaultCommand(
-            new RunCommand(() -> driveSubsystem.tankDrive(-leftPilotJoystick.getY(), -rightPilotJoystick.getY(), leftPilotJoystick.getRawAxis(2)), driveSubsystem)
+            new RunCommand(() -> driveSubsystem.tankDrive(-leftJoystick.getY(), -rightJoystick.getY(), leftJoystick.getRawAxis(2)), driveSubsystem)
         );
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
 
-        initCamera();
-
-        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
-        autoChooser.addOption("Back Off Line Path", new BackOffLineAuto(driveSubsystem, sorterSubsystem, shooterSubsystem, turretSubsystem, shooterFeedSubsystem));
-        //autoChooser.addOption("Back Off Line DR", new BackOffLineDeadReckoning(driveSubsystem));
-        autoChooser.addOption("Two Ball", new TwoBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        autoChooser.addOption("Two Ball Short", new TwoBallShortAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem, turretSubsystem));
-        //autoChooser.addOption("Four Ball", new FourBallAuto(driveSubsystem, intakeSubsystem, sorterSubsystem, shooterSubsystem, shooterFeedSubsystem));
-        //autoChooser.addOption("Test", new TestAuto(driveSubsystem));
-
-
-        SmartDashboard.putData(autoChooser);
+        initializeCamera();
+        inititialzeAutoChooser();
     }
 
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+    }
 
     private void configurePilotButtonBindings() {
 
-        JoystickButton intakeButton = new JoystickButton(leftPilotJoystick, 1);
-        JoystickButton outtakeButton = new JoystickButton(rightPilotJoystick, 2);
-        JoystickButton retractIntakeButton = new JoystickButton(rightPilotJoystick, 1);
+        leftJoystick.getTrigger().whenHeld(new ManualIntake());
+        leftJoystick.getButton4().whenPressed(new ShiftLowGear());
+        leftJoystick.getButton5().whenPressed(new ShiftHighGear());
 
-        JoystickButton shiftLowGearButton = new JoystickButton(leftPilotJoystick, 4);
-        JoystickButton shiftHighGearButton = new JoystickButton(leftPilotJoystick, 5);
-
-        JoystickButton enableClimberButton1 = new JoystickButton(rightPilotJoystick, 8);
-        JoystickButton enableClimberButton2 = new JoystickButton(rightPilotJoystick, 9);
-
-        intakeButton
-            .whenHeld(new IntakeV2(intakeSubsystem, sorterSubsystem));
-
-        outtakeButton
-            .whenHeld(new OuttakeV2(intakeSubsystem));
-
-        retractIntakeButton
-            .whenPressed(new RetractIntake(intakeSubsystem));
-
-        shiftLowGearButton
-            .whenPressed(new ShiftLowGear(driveSubsystem));
-
-        shiftHighGearButton
-            .whenPressed(new ShiftHighGear(driveSubsystem));
-
-        enableClimberButton1.and(enableClimberButton2)
-            .whenActive(new EnableClimber(climberSubsystem, turretSubsystem));
-
-        // autoClimbButton
-        //     .whenPressed(new AutoClimb(climberSubsystem));
+        rightJoystick.getTrigger().whenPressed(new RetractIntake());
+        rightJoystick.getButton2().whenHeld(new Outtake());
+        rightJoystick.getButton8().and(rightJoystick.getButton9()).whenActive(new EnableClimber());
     }
 
     private void configureCopilotButtonBindings() {
 
-        JoystickButton toggleShooterButton = new JoystickButton(copilotGamepad, 3);
+        gamepad.getLeftBumper().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
+        gamepad.getLeftTrigger().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
-        JoystickButton shootMediumButton = new JoystickButton(copilotGamepad, 1);
-        JoystickButton shootFarButton = new JoystickButton(copilotGamepad, 4);
+        gamepad.getRightBumper().whenHeld(new ManualShooterFeedUp());
+        gamepad.getRightTrigger().whenHeld(new ShooterFeedDown());
 
-        JoystickButton driveByCenterButton = new JoystickButton(copilotGamepad, 2);
-        JoystickButton driveByLeftButton = new JoystickButton(copilotGamepad, 9);
-        JoystickButton driveByRightButton = new JoystickButton(copilotGamepad, 10);
+        gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
+        gamepad.getDpadDownTrigger().whenActive(new EnableAutoAim());
 
-        JoystickButton tiltArmsButton = new JoystickButton(copilotGamepad, 12);
-
-        JoystickButton toggleClimberLocksButton = new JoystickButton(copilotGamepad, 11);
-
-        Trigger extendArmsTrigger = new Trigger(() -> copilotGamepad.getLeftY() < -0.5);
-        Trigger retractArmsTrigger = new Trigger(() -> copilotGamepad.getLeftY() > 0.5);
-
-        JoystickButton shooterFeedUpButton = new JoystickButton(copilotGamepad, 6);
-        JoystickButton shooterFeedDownButton = new JoystickButton(copilotGamepad, 8);
-
-        JoystickButton bumpShooterRpmUpButton = new JoystickButton(copilotGamepad, 5);
-        JoystickButton bumpShooterRpmDownButton = new JoystickButton(copilotGamepad, 7);
-
-        Trigger homeTurretTrigger = new Trigger(() -> copilotGamepad.getPOV() == 0);
-        Trigger rotateTurretClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 90);
-        Trigger enableAutoAimTrigger = new Trigger(() -> copilotGamepad.getPOV() == 180);
-        Trigger rotateTurretCounterClockwiseTrigger = new Trigger(() -> copilotGamepad.getPOV() == 270);
-
-
-        toggleShooterButton
-            .whenPressed(new ToggleShooter(shooterSubsystem));
-
-        shootMediumButton
-            .whenPressed(new ShootMedium(shooterSubsystem, turretSubsystem));
-
-        shootFarButton
-            .whenPressed(new ShootFar(shooterSubsystem, turretSubsystem));
-
-        tiltArmsButton
-            .whenPressed(new ToggleArmPositions(climberSubsystem));
-
-        extendArmsTrigger
-            .whenActive(new ExtendArms(climberSubsystem))
-            .whenInactive(new StopArms(climberSubsystem));
-
-        retractArmsTrigger
-            .whenActive(new RetractArms(climberSubsystem))
-            .whenInactive(new StopArms(climberSubsystem));
-
-        toggleClimberLocksButton
-            .whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
-
-        shooterFeedUpButton
-            .whenHeld(new ShooterFeedUpV2(shooterFeedSubsystem, shooterSubsystem, sorterSubsystem));
-
-        shooterFeedDownButton
-            .whenPressed(new ShooterFeedDown(shooterFeedSubsystem))
-            .whenReleased(new ShooterFeedStop(shooterFeedSubsystem));
-
-        bumpShooterRpmUpButton
-            .whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
-
-        bumpShooterRpmDownButton
-            .whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
-
-        homeTurretTrigger
-            .whenActive(new MoveTurretToDegrees(180, turretSubsystem));
-
-        rotateTurretClockwiseTrigger
-            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
-            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
-
-        enableAutoAimTrigger
-            .whenActive(new EnableAutoAim(turretSubsystem));
-
-        rotateTurretCounterClockwiseTrigger
+        gamepad.getDpadLeftTrigger()
             .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
             .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        driveByCenterButton
-            .whenPressed(new DriveBy(TurretConfig.degreesAtCenter, turretSubsystem, shooterSubsystem));
+        gamepad.getDpadRightTrigger()
+            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
+            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        driveByLeftButton
-            .whenPressed(new DriveBy(TurretConfig.degreesAtLeft, turretSubsystem, shooterSubsystem));
+        gamepad.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
+        gamepad.getRightStickButton().whenPressed(new ToggleArmPositions());
 
-        driveByRightButton
-            .whenPressed(new DriveBy(TurretConfig.degreesAtRight, turretSubsystem, shooterSubsystem));
+        new Trigger(() -> gamepad.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
+        new Trigger(() -> gamepad.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
+
+        gamepad.getBackButton().whenPressed(new DriveBy(TurretConfig.degreesAtLeft));
+        gamepad.getStartButton().whenPressed(new DriveBy(TurretConfig.degreesAtRight));
+
+        gamepad.getAButton().whenPressed(new DriveBy(TurretConfig.degreesAtCenter));
+        gamepad.getBButton().whenPressed(new ToggleShooter());
+        gamepad.getXButton().whenPressed(new ShootMedium());
+        gamepad.getYButton().whenPressed(new ShootFar());
     }
 
-    private void initCamera(){
+    private void initializeCamera(){
 
         if (RobotBase.isSimulation()) return;
 
@@ -225,7 +143,15 @@ public class RobotContainer {
         backCam.setExposureAuto();
     }
 
-    public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+    private void inititialzeAutoChooser() {
+        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
+        autoChooser.addOption("Back Off Line Path", new BackOffLineAuto());
+        autoChooser.addOption("Two Ball", new TwoBallAuto());
+        autoChooser.addOption("Two Ball Short", new TwoBallShortAuto());
+        autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto());
+        //autoChooser.addOption("Four Ball", new FourBallAuto());
+        //autoChooser.addOption("Test", new TestAuto());
+
+        SmartDashboard.putData(autoChooser);
     }
 }
