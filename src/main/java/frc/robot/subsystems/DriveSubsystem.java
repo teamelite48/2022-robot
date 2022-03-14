@@ -108,11 +108,11 @@ public class DriveSubsystem extends SubsystemBase {
     double adjustedThrottle = DriveConfig.maxOutput * ((throttleValue * -1) + 1) / 2;
     this.throttleValue = Math.max(adjustedThrottle, DriveConfig.minOutput);
 
-    if (Math.abs(leftSpeed) < 0.15){
+    if (Math.abs(leftSpeed) < DriveConfig.joystickDeadzone){
       leftSpeed = 0;
     }
 
-    if (Math.abs(rightSpeed) < 0.15){
+    if (Math.abs(rightSpeed) < DriveConfig.joystickDeadzone){
       rightSpeed = 0;
     }
 
