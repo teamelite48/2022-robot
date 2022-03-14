@@ -108,8 +108,17 @@ public class DriveSubsystem extends SubsystemBase {
     double adjustedThrottle = DriveConfig.maxOutput * ((throttleValue * -1) + 1) / 2;
     this.throttleValue = Math.max(adjustedThrottle, DriveConfig.minOutput);
 
+    if (Math.abs(leftSpeed) < 0.15){
+      leftSpeed = 0;
+    }
+
+    if (Math.abs(rightSpeed) < 0.15){
+      rightSpeed = 0;
+    }
+
     driveTrain.tankDrive(leftSpeed, rightSpeed, DriveConfig.squareInputs);
   }
+
   public void shiftHighGear() {
     driveTrain.setMaxOutput(DriveConfig.shiftingMaxOutput);
 
