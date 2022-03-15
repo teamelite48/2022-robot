@@ -60,6 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
     driveTrain.setMaxOutput(DriveConfig.maxOutput);
+    driveTrain.setDeadband(DriveConfig.joystickDeadband);
 
     initEncoders();
     initDashboard();
@@ -107,14 +108,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDrive(double leftSpeed, double rightSpeed, double throttleValue) {
     double adjustedThrottle = DriveConfig.maxOutput * ((throttleValue * -1) + 1) / 2;
     this.throttleValue = Math.max(adjustedThrottle, DriveConfig.minOutput);
-
-    if (Math.abs(leftSpeed) < DriveConfig.joystickDeadzone){
-      leftSpeed = 0;
-    }
-
-    if (Math.abs(rightSpeed) < DriveConfig.joystickDeadzone){
-      rightSpeed = 0;
-    }
 
     driveTrain.tankDrive(leftSpeed, rightSpeed, DriveConfig.squareInputs);
   }
