@@ -19,16 +19,15 @@ import frc.robot.commands.drive.ShiftLowGear;
 import frc.robot.commands.intake.ManualIntake;
 import frc.robot.commands.intake.Outtake;
 import frc.robot.commands.intake.RetractIntake;
+import frc.robot.commands.shooter.ShootNear;
+import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
-import frc.robot.commands.shooter.ToggleShooter;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ManualShooterFeedUp;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
-import frc.robot.commands.turret.DriveBy;
 import frc.robot.config.roborio.JoystickPort;
-import frc.robot.config.subsystems.TurretConfig;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -124,11 +123,8 @@ public class RobotContainer {
         new Trigger(() -> gamepad.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
         new Trigger(() -> gamepad.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
 
-        gamepad.getBackButton().whenPressed(new DriveBy(TurretConfig.degreesAtLeft));
-        gamepad.getStartButton().whenPressed(new DriveBy(TurretConfig.degreesAtRight));
-
-        gamepad.getAButton().whenPressed(new DriveBy(TurretConfig.degreesAtCenter));
-        gamepad.getBButton().whenPressed(new ToggleShooter());
+        gamepad.getAButton().whenPressed(new ShootNear());
+        gamepad.getBButton().whenPressed(new ShooterOff());
         gamepad.getXButton().whenPressed(new ShootMedium());
         gamepad.getYButton().whenPressed(new ShootFar());
     }

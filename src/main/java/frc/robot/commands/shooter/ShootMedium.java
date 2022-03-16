@@ -8,9 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.turret.EnableAutoAim;
-import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
 
 public class ShootMedium extends SequentialCommandGroup {
 
@@ -20,7 +18,7 @@ public class ShootMedium extends SequentialCommandGroup {
 
     addCommands(
       new InstantCommand(shooterSubsystem::setMediumSpeed, shooterSubsystem),
-      new MoveTurretToDegrees(180),
+      new ShooterOn(),
       new EnableAutoAim()
     );
   }

@@ -5,20 +5,21 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.commands.turret.MoveTurretToDegrees;
+import frc.robot.config.subsystems.TurretConfig;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShooterOff extends InstantCommand {
+public class ShooterOff extends SequentialCommandGroup {
 
   private ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
 
   public ShooterOff() {
-    addRequirements(shooterSubsystem);
-  }
-
-  @Override
-  public void initialize() {
-    shooterSubsystem.shooterOff();
+    addCommands(
+      new InstantCommand(shooterSubsystem::shooterOff, shooterSubsystem),
+      new MoveTurretToDegrees(TurretConfig.degreesAtCenter)
+    );
   }
 }
