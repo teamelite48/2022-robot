@@ -11,6 +11,5 @@ public final class DriveConfig {
     public static final double shiftingMaxOutput = 0.2;
     public static final int shiftCoolDownMillis = 500;
 
-    public static final double joystickDeadband = 0.1;
-    public static final boolean squareInputs = false;
+    public static final boolean squareInputs = true;
 }

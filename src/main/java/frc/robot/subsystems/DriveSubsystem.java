@@ -60,7 +60,6 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     rightControllerGroup.setInverted(true);
     driveTrain.setMaxOutput(DriveConfig.maxOutput);
-    driveTrain.setDeadband(DriveConfig.joystickDeadband);
 
     initEncoders();
     initDashboard();
