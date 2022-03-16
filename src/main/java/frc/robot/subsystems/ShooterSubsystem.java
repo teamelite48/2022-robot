@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   final Solenoid deflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Deflector);
   final PIDController pidController = new PIDController(ShooterConfig.kP, ShooterConfig.kI, ShooterConfig.kD);
+  final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(ShooterConfig.ks, ShooterConfig.kv, ShooterConfig.ka);
 
   boolean isShooterOn = false;
   double targetRPM = ShooterConfig.mediumRPM;
@@ -50,12 +52,11 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     else {
       double currentRPM = -1 * (rightMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
+
+      rightMotor.setVoltage(feedForward.calculate(targetRPM / 60) + pidController.calculate(currentRPM, targetRPM));
+
       SmartDashboard.putNumber("Current RPM", currentRPM);
-
-      double motorOutput = targetRPM/ShooterConfig.maxRPM + pidController.calculate(currentRPM, targetRPM);
       SmartDashboard.putNumber("PIDValue", pidController.calculate(currentRPM, targetRPM));
-
-      rightMotor.set(Math.max(motorOutput, 0));
     }
 
     SmartDashboard.putNumber("Target RPM", targetRPM);

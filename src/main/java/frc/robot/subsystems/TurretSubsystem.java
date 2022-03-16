@@ -42,6 +42,9 @@ public class TurretSubsystem extends SubsystemBase {
     motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     motor.setSoftLimit(SoftLimitDirection.kForward, TurretConfig.encoderLimit);
     motor.setSoftLimit(SoftLimitDirection.kReverse, -TurretConfig.encoderLimit);
+
+    ledMode.setNumber(3);
+    camMode.setNumber(1);
   }
 
   @Override

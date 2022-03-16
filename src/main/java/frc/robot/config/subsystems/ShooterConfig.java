@@ -16,4 +16,8 @@ public final class ShooterConfig {
     public static final double kP = 0.00015;
     public static final double kI = 0.0000075;
     public static final double kD = 0;
+
+    public static final double ks = 0.55338;
+    public static final double kv = 0.11097;
+    public static final double ka = 0.0066226;
 }
