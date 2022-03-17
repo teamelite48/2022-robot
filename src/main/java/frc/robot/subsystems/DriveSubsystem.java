@@ -101,7 +101,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftControllerGroup.setVoltage(leftVolts);
     rightControllerGroup.setVoltage(rightVolts);
-    driveTrain.feed();
   }
 
   private void initEncoders() {
