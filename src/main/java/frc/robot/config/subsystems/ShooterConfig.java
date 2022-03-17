@@ -8,7 +8,7 @@ public final class ShooterConfig {
 
     public static final double maxRPM = 6000;
 
-    public static final double rpmBump = 50;
+    public static final double rpmBump = 100;
 
     public static final boolean deflectorForwardValue = true;
     public static final boolean deflectorBackwardValue = false;

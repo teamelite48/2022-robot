@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.FollowPath;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.AutoIntake;
+import frc.robot.commands.intake.RetractIntake;
+import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.ShooterOn;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
@@ -24,15 +26,16 @@ public class FourBallAuto extends SequentialCommandGroup {
       new AutoIntake(),
       new SorterIn(),
       new FollowPath(PathType.FourBall1),
-      new ShooterOn(),
+      new ShootMedium(),
       new FollowPath(PathType.FourBall2),
       new AutoShooterFeedUp(),
       new WaitCommand(1),
       new ShooterFeedStop(),
       new ShooterOff(),
       new FollowPath(PathType.FourBall3),
-      new ShooterOn(),
+      new ShootMedium(),
       new FollowPath(PathType.FourBall4),
+      new RetractIntake(),
       new AutoShooterFeedUp(),
       new WaitCommand(1),
       new ShooterFeedStop(),

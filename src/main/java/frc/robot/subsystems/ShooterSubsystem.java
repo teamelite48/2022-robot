@@ -9,6 +9,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +31,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   boolean isShooterOn = false;
   double targetRPM = ShooterConfig.mediumRPM;
+
+  final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  final NetworkTableEntry ty = table.getEntry("ty");
 
 
   public ShooterSubsystem() {
@@ -62,6 +68,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Target RPM", targetRPM);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
     SmartDashboard.putString("Deflector Position", deflectorSolenoid.get() ? "Forward" : "Backward");
+    SmartDashboard.putNumber("Shooter ty", ty.getDouble(0.0));
   }
 
   public void toggleShooter() {

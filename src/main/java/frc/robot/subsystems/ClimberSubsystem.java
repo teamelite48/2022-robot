@@ -52,13 +52,13 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmMotor.setNeutralMode(NeutralMode.Brake);
     rightArmMotor.setNeutralMode(NeutralMode.Brake);
 
-    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.upTiltArmExtensionLimit, 30);
-    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.upTiltArmRetractionLimit, 30);
+    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.downTiltArmExtensionLimit, 30);
+    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.downTiltArmRetractionLimit, 30);
     leftArmMotor.configForwardSoftLimitEnable (true, 30);
     leftArmMotor.configReverseSoftLimitEnable(true, 30);
 
-    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.upTiltArmExtensionLimit, 30);
-    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.upTiltArmRetractionLimit, 30);
+    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.downTiltArmExtensionLimit, 30);
+    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.downTiltArmRetractionLimit, 30);
     rightArmMotor.configForwardSoftLimitEnable (true, 30);
     rightArmMotor.configReverseSoftLimitEnable(true, 30);
 

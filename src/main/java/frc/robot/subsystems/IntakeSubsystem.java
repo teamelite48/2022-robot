@@ -12,13 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.PneumaticChannel;
 import frc.robot.config.roborio.PwmPort;
 import frc.robot.config.subsystems.IntakeConfig;
-import frc.robot.utils.CoolDownTimer;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
   final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Intake);
-  final CoolDownTimer deployCoolDown = new CoolDownTimer(IntakeConfig.deployIntakeCooldown);
 
   public IntakeSubsystem() {
     intakeSolenoid.set(IntakeConfig.retractValue);
@@ -35,9 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
       deploy();
     }
 
-    if (deployCoolDown.isCool()) {
-      motor.set(IntakeConfig.intakeSpeed);
-    }
+    motor.set(IntakeConfig.intakeSpeed);
   }
 
   public void outtake() {
@@ -55,7 +51,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void deploy(){
     intakeSolenoid.set(IntakeConfig.deployValue);
-    deployCoolDown.start();
   }
 
   public void retract(){

@@ -24,7 +24,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new AutoIntake(),
             new SorterIn(),
             new ShootMedium(),
-            new ShooterOn(),
+            new WaitCommand(1),
             new FollowPath(PathType.TwoBall1),
             new AutoShooterFeedUp(),
             new WaitCommand(2),
