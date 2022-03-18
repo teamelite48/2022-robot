@@ -12,7 +12,6 @@ import frc.robot.commands.intake.AutoIntake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ShooterOff;
-import frc.robot.commands.shooter.ShooterOn;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.AutoShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;

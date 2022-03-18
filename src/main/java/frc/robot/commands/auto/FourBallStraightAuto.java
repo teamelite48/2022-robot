@@ -13,7 +13,6 @@ import frc.robot.commands.intake.AutoIntake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ShooterOff;
-import frc.robot.commands.shooter.ShooterOn;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.AutoShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
@@ -34,12 +33,12 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new SorterIn(),
       new FollowPath(PathType.FourBallStraight1),
       new RetractIntake(),
-      new ShooterOn(),
       new ShootMedium(),
-      new WaitCommand(0.5),
+      new WaitCommand(0.3),
       new AutoShooterFeedUp(),
       new WaitCommand(2.5),
       new ShooterFeedStop(),
+      new ShooterOff(),
       new AutoIntake(),
       new FollowPath(PathType.FourBallStraight3),
       new WaitCommand(1.5),
