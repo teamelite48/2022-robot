@@ -289,6 +289,17 @@
               "_source0": "network_table:///SmartDashboard/Climber Lock",
               "_title": "Climber Lock"
             }
+          },
+          "4,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter ty",
+              "_title": "Shooter ty"
+            }
           }
         }
       }
