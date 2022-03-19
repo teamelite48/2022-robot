@@ -1,21 +1,15 @@
 # 2022-robot
 
-## To-do
-- Characterize robot
-- Auto aim turret using LimeLight
-- Implement Climber subsystem
-- Autonomous routines
-- Auto climbing by stage
+- All New Code Base for 2022
+- Java Command Based Robot
+- 3 Students
+- 2 Mentors
+- 2002 Lines of Code
+- 145 Commits
+- 7 Subsystems
+- 40 Commands
+- 4 Autonomous Modes
+- PID Controlled Fly Wheel with Modeled Feedforward Gains to Improve Shooter Accuracy
+- Characterised Drivetrain for predictable Path Following
+- Auto Aiming
 
-- Combine Intake and Sorter into 1 intake function
-- Create driver feed and copilot feed
-
-no requirements
-    pilotIntake
-        Intake
-        Sort
-        Feed until ball sensor senses ball
-
-    copilotFeed
-        Sort 
-        Feed (uninterruptible)
