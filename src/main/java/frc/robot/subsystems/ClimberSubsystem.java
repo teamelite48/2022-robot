@@ -40,8 +40,11 @@ public class ClimberSubsystem extends SubsystemBase {
   private TalonFXSimCollection rightArmSim;
 
   public ClimberSubsystem() {
-    leftArmSolenoid.set(ClimberConfig.initialArmPosition);
-    rightArmSolenoid.set(ClimberConfig.initialArmPosition);
+
+    leftArmSolenoid.set(ClimberConfig.downTilt);
+    rightArmSolenoid.set(ClimberConfig.downTilt);
+
+    setArmLimits(ClimberConfig.downTiltArmExtensionLimit, ClimberConfig.downTiltArmRetractionLimit);
 
     leftLockSolenoid.set(ClimberConfig.unlockValue);
     rightLockSolenoid.set(ClimberConfig.unlockValue);
@@ -51,16 +54,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     leftArmMotor.setNeutralMode(NeutralMode.Brake);
     rightArmMotor.setNeutralMode(NeutralMode.Brake);
-
-    leftArmMotor.configForwardSoftLimitThreshold(ClimberConfig.downTiltArmExtensionLimit, 30);
-    leftArmMotor.configReverseSoftLimitThreshold(ClimberConfig.downTiltArmRetractionLimit, 30);
-    leftArmMotor.configForwardSoftLimitEnable (true, 30);
-    leftArmMotor.configReverseSoftLimitEnable(true, 30);
-
-    rightArmMotor.configForwardSoftLimitThreshold(ClimberConfig.downTiltArmExtensionLimit, 30);
-    rightArmMotor.configReverseSoftLimitThreshold(ClimberConfig.downTiltArmRetractionLimit, 30);
-    rightArmMotor.configForwardSoftLimitEnable (true, 30);
-    rightArmMotor.configReverseSoftLimitEnable(true, 30);
 
     SmartDashboard.putNumber("Left Arm Length", leftArmSensorCollection.getIntegratedSensorPosition());
     SmartDashboard.putNumber("Right Arm Length", rightArmSensorCollection.getIntegratedSensorPosition());
@@ -106,60 +99,58 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void toggleArmPositions() {
-    if (isClimberEnabled) {
-      leftArmSolenoid.toggle();
-      rightArmSolenoid.toggle();
+    if (isClimberEnabled == false) return;
+
+    if (leftArmSolenoid.get() == ClimberConfig.downTilt) {
+      tiltArmsUp();
+    }
+    else {
+      tiltArmsDown();
     }
   }
 
   public void tiltArmsDown() {
-    if (isClimberEnabled){
-      leftArmSolenoid.set(ClimberConfig.downTilt);
-      rightArmSolenoid.set(ClimberConfig.downTilt);
-    }
+    if (isClimberEnabled == false) return;
+
+    leftArmSolenoid.set(ClimberConfig.downTilt);
+    rightArmSolenoid.set(ClimberConfig.downTilt);
+
+    setArmLimits(ClimberConfig.downTiltArmExtensionLimit, ClimberConfig.downTiltArmRetractionLimit);
   }
 
   public void tiltArmsUp() {
-    if (isClimberEnabled){
-      leftArmSolenoid.set(ClimberConfig.upTilt);
-      rightArmSolenoid.set(ClimberConfig.upTilt);
-    }
+    if (isClimberEnabled == false) return;
+
+    leftArmSolenoid.set(ClimberConfig.upTilt);
+    rightArmSolenoid.set(ClimberConfig.upTilt);
+
+    setArmLimits(ClimberConfig.upTiltArmExtensionLimit, ClimberConfig.upTiltArmRetractionLimit);
   }
 
   public void extendArms() {
-    if (isClimberEnabled) {
-      leftArmMotor.set(ClimberConfig.extendArmSpeed);
-      rightArmMotor.set(ClimberConfig.extendArmSpeed);
-    }
+    if (isClimberEnabled == false) return;
+
+    leftArmMotor.set(ClimberConfig.extendArmSpeed);
+    rightArmMotor.set(ClimberConfig.extendArmSpeed);
   }
 
   public void retractArms() {
-    if (isClimberEnabled) {
-      leftArmMotor.set(ClimberConfig.retractArmSpeed);
-      rightArmMotor.set(ClimberConfig.retractArmSpeed);
-    }
+    if (isClimberEnabled == false) return;
+
+    leftArmMotor.set(ClimberConfig.retractArmSpeed);
+    rightArmMotor.set(ClimberConfig.retractArmSpeed);
   }
 
   public void stopArms() {
     leftArmMotor.set(0);
-    rightArmMotor.set(0); 
+    rightArmMotor.set(0);
   }
 
   public void toggleArmLocks() {
-
     if(isClimberEnabled == false) return;
 
     leftLockSolenoid.toggle();
     rightLockSolenoid.toggle();
-
-    // if (isClimberLocked()){
-    //   leftArmSolenoid.set(ClimberConfig.unlockValue);
-    //   rightArmSolenoid.set(ClimberConfig.unlockValue);
-    // }
-    // else {
-    //   leftArmSolenoid.set(ClimberConfig.lockValue);
-    //   rightArmSolenoid.set(ClimberConfig.lockValue);
-    // }
   }
 
   public boolean isClimberLocked(){
@@ -174,5 +165,20 @@ public class ClimberSubsystem extends SubsystemBase {
   public boolean isFullyRetracted() {
     return leftArmSensorCollection.getIntegratedSensorPosition() - 10 <= ClimberConfig.upTiltArmRetractionLimit && rightArmSensorCollection.getIntegratedSensorPosition() - 10 <= ClimberConfig.upTiltArmRetractionLimit;
     // return this.leftArmMotor.isRevLimitSwitchClosed() == 1 && this.rightArmMotor.isRevLimitSwitchClosed() == 1;
+  }
+
+  private void setArmLimits(int extensionLimit, int retractionLimit) {
+
+    leftArmMotor.configForwardSoftLimitThreshold(extensionLimit, 30);
+    leftArmMotor.configReverseSoftLimitThreshold(retractionLimit, 30);
+
+    rightArmMotor.configForwardSoftLimitThreshold(extensionLimit, 30);
+    rightArmMotor.configReverseSoftLimitThreshold(retractionLimit, 30);
+
+    leftArmMotor.configForwardSoftLimitEnable (true, 30);
+    leftArmMotor.configReverseSoftLimitEnable(true, 30);
+
+    rightArmMotor.configForwardSoftLimitEnable (true, 30);
+    rightArmMotor.configReverseSoftLimitEnable(true, 30);
   }
 }
