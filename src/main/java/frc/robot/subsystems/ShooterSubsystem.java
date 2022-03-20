@@ -35,7 +35,6 @@ public class ShooterSubsystem extends SubsystemBase {
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry ty = table.getEntry("ty");
 
-
   public ShooterSubsystem() {
 
     leftMotor.configFactoryDefault();
@@ -117,4 +116,5 @@ public class ShooterSubsystem extends SubsystemBase {
   public void bumpRpmDown() {
     targetRPM -= ShooterConfig.rpmBump;
   }
+  
 }

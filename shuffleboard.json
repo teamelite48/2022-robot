@@ -298,7 +298,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Shooter ty",
-              "_title": "Shooter ty"
+              "_title": "/SmartDashboard/Shooter ty"
             }
           }
         }
@@ -649,9 +649,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 0.0,
-    "y": 0.0,
-    "width": 1536.0,
-    "height": 824.0
+    "x": -7.199999809265137,
+    "y": -7.199999809265137,
+    "width": 1550.4000244140625,
+    "height": 838.4000244140625
   }
 }
