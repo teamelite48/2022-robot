@@ -4,6 +4,7 @@
 
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
@@ -21,5 +22,8 @@ public class ShooterOff extends SequentialCommandGroup {
       new InstantCommand(shooterSubsystem::shooterOff, shooterSubsystem),
       new MoveTurretToDegrees(TurretConfig.degreesAtCenter)
     );
+
+    RobotContainer.controller.setRumble(RumbleType.kLeftRumble, 0);
+    RobotContainer.controller.setRumble(RumbleType.kRightRumble, 0);
   }
 }

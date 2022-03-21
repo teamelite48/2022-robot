@@ -47,7 +47,7 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new ShootMedium(),
       new WaitCommand(.3),
       new AutoShooterFeedUp(),
-      new WaitCommand(2.5),
+      new WaitCommand(3),
       new ShooterFeedStop(),
       new SorterStop(),
       new ShooterOff()

@@ -144,6 +144,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetOdometry(double x, double y, double degrees) {
     leftEncoder.reset();
     rightEncoder.reset();
+    gyro.reset();
 
     odometry.resetPosition(new Pose2d(x, y, new Rotation2d()), Rotation2d.fromDegrees(degrees));
 

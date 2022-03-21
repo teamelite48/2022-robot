@@ -60,7 +60,7 @@ public class RobotContainer {
     final LogitechJoystick leftJoystick = new LogitechJoystick(JoystickPort.LeftPilotJoystick);
     final LogitechJoystick rightJoystick = new LogitechJoystick(JoystickPort.RightPilotJoystick);
     final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
-    final PS4Gamepad controller = new PS4Gamepad(JoystickPort.PS4gamepad);
+    public static final PS4Gamepad controller = new PS4Gamepad(JoystickPort.PS4gamepad);
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -80,6 +80,7 @@ public class RobotContainer {
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
+        initializePS4Controller();
 
         initializeCamera();
         inititialzeAutoChooser();
@@ -105,20 +106,11 @@ public class RobotContainer {
         gamepad.getLeftBumper().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
         gamepad.getLeftTrigger().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
-        // controller.getL1Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
-        // controller.getL2Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
-
         gamepad.getRightBumper().whenHeld(new ManualShooterFeedUp());
         gamepad.getRightTrigger().whenHeld(new ShooterFeedDown());
 
-        // controller.getR1Button().whenHeld(new ManualShooterFeedUp());
-        // controller.getR2Button().whenHeld(new ShooterFeedDown());
-
         gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
         gamepad.getDpadDownTrigger().whenActive(new EnableAutoAim());
-
-        // controller.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
-        // controller.getDpadDownTrigger().whenActive(new EnableAutoAim());
 
         gamepad.getDpadLeftTrigger()
             .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
@@ -128,35 +120,49 @@ public class RobotContainer {
             .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
             .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        // controller.getDpadLeftTrigger()
-        //     .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
-        //     .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
-
-        // controller.getDpadRightTrigger()
-        //     .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
-        //     .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
-
         gamepad.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
         gamepad.getRightStickButton().whenPressed(new ToggleArmPositions());
 
-        // controller.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
-        // controller.getRightStickButton().whenPressed(new ToggleArmPositions());
-
         new Trigger(() -> gamepad.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
         new Trigger(() -> gamepad.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
-
-        // new Trigger(() -> controller.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
-        // new Trigger(() -> controller.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
 
         gamepad.getAButton().whenPressed(new ShootNear());
         gamepad.getBButton().whenPressed(new ShooterOff());
         gamepad.getXButton().whenPressed(new ShootMedium());
         gamepad.getYButton().whenPressed(new ShootFar());
 
-        // controller.getCrossButton().whenPressed(new ShootNear());
-        // controller.getCircleButton().whenPressed(new ShooterOff());
-        // controller.getSquareButton().whenPressed(new ShootMedium());
-        // controller.getTriangleButton().whenPressed(new ShootFar());
+    }
+
+    private void initializePS4Controller(){
+
+        controller.getL1Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
+        controller.getL2Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
+
+        controller.getR1Button().whenHeld(new ManualShooterFeedUp());
+        controller.getR2Button().whenHeld(new ShooterFeedDown());
+
+        controller.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
+        controller.getDpadDownTrigger().whenActive(new EnableAutoAim());
+
+        controller.getDpadLeftTrigger()
+            .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
+            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
+
+        controller.getDpadRightTrigger()
+            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
+            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
+
+        controller.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
+        controller.getRightStickButton().whenPressed(new ToggleArmPositions());
+
+        new Trigger(() -> controller.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
+        new Trigger(() -> controller.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
+
+        controller.getCrossButton().whenPressed(new ShootNear());
+        controller.getCircleButton().whenPressed(new ShooterOff());
+        controller.getSquareButton().whenPressed(new ShootMedium());
+        controller.getTriangleButton().whenPressed(new ShootFar());
+
     }
 
     private void initializeCamera(){
