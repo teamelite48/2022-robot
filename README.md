@@ -2,6 +2,7 @@
 
 - All New Code Base for 2022
 - Java Command Based Robot
+- C++ Iterative Robot
 - 3 Students
 - 2 Mentors
 - 2002 Lines of Code
@@ -12,4 +13,6 @@
 - PID Controlled Fly Wheel with Modeled Feedforward Gains to Improve Shooter Accuracy
 - Characterised Drivetrain for predictable Path Following
 - Auto Aiming
+- Trello
+
 

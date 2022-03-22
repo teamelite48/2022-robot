@@ -93,8 +93,6 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void autoAim() {
 
-    //if (RobotBase.isReal()) return;
-
     double error = tx.getDouble(0.0);
 
     if(isTargetAcquired() == false) return;
