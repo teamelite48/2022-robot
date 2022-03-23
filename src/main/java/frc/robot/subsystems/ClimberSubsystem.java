@@ -44,13 +44,13 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmSolenoid.set(ClimberConfig.downTilt);
     rightArmSolenoid.set(ClimberConfig.downTilt);
 
-    setArmLimits(ClimberConfig.downTiltArmExtensionLimit, ClimberConfig.downTiltArmRetractionLimit);
-
     leftLockSolenoid.set(ClimberConfig.unlockValue);
     rightLockSolenoid.set(ClimberConfig.unlockValue);
 
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
+
+    setArmLimits(ClimberConfig.downTiltArmExtensionLimit, ClimberConfig.downTiltArmRetractionLimit);
 
     leftArmMotor.setNeutralMode(NeutralMode.Brake);
     rightArmMotor.setNeutralMode(NeutralMode.Brake);

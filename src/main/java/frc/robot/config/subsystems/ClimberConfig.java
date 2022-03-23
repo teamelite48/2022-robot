@@ -13,7 +13,7 @@ public final class ClimberConfig {
     public static Value lockValue = Value.kReverse;
     public static Value unlockValue = Value.kForward;
 
-    public static final int downTiltArmExtensionLimit = 180000;
+    public static final int downTiltArmExtensionLimit = 225000;
     public static final int downTiltArmRetractionLimit = 2048;
 
     public static final int upTiltArmExtensionLimit = 125000;
