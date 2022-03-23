@@ -2,6 +2,8 @@ package frc.robot.config.roborio;
 
 public class CanBusId {
 
+    public static final int PowerDistributionHub = 1;
+
     public static final int LeftShooterMotor = 2;
     public static final int RightShooterMotor = 3;
 
