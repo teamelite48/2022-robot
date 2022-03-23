@@ -6,13 +6,11 @@ package frc.robot;
 
 import frc.robot.Joysticks.LogitechGamepad;
 import frc.robot.Joysticks.LogitechJoystick;
-import frc.robot.Joysticks.PS4Gamepad;
 import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallStraightAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallShortAuto;
-import frc.robot.commands.climber.ExtendArms;
-import frc.robot.commands.climber.RetractArms;
+
 import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.drive.ShiftHighGear;
@@ -29,6 +27,7 @@ import frc.robot.commands.shooterfeed.ManualShooterFeedUp;
 import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.config.roborio.JoystickPort;
+import frc.robot.config.subsystems.ClimberConfig;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterFeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -121,8 +120,9 @@ public class RobotContainer {
         gamepad.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
         gamepad.getRightStickButton().whenPressed(new ToggleArmPositions());
 
-        new Trigger(() -> gamepad.getLeftY() < -0.5).whileActiveOnce(new ExtendArms());
-        new Trigger(() -> gamepad.getLeftY() > 0.5).whileActiveOnce(new RetractArms());
+        new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
+            .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))
+            .whenInactive(new InstantCommand(climberSubsystem::stopArms));
 
         gamepad.getAButton().whenPressed(new ShootNear());
         gamepad.getBButton().whenPressed(new ShooterOff());

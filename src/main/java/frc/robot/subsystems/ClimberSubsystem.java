@@ -41,8 +41,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public ClimberSubsystem() {
 
-    leftArmSolenoid.set(ClimberConfig.downTilt);
-    rightArmSolenoid.set(ClimberConfig.downTilt);
+    leftArmSolenoid.set(ClimberConfig.upTilt);
+    rightArmSolenoid.set(ClimberConfig.upTilt);
 
     leftLockSolenoid.set(ClimberConfig.unlockValue);
     rightLockSolenoid.set(ClimberConfig.unlockValue);
@@ -50,7 +50,7 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
 
-    setArmLimits(ClimberConfig.downTiltArmExtensionLimit, ClimberConfig.downTiltArmRetractionLimit);
+    setArmLimits(ClimberConfig.upTiltArmExtensionLimit, ClimberConfig.upTiltArmRetractionLimit);
 
     leftArmMotor.setNeutralMode(NeutralMode.Brake);
     rightArmMotor.setNeutralMode(NeutralMode.Brake);
@@ -110,7 +110,6 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void tiltArmsDown() {
-    if (isClimberEnabled == false) return;
 
     leftArmSolenoid.set(ClimberConfig.downTilt);
     rightArmSolenoid.set(ClimberConfig.downTilt);
@@ -139,6 +138,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
     leftArmMotor.set(ClimberConfig.retractArmSpeed);
     rightArmMotor.set(ClimberConfig.retractArmSpeed);
+  }
+
+  public void moveArms(double speed) {
+    if (isClimberEnabled == false) return;
+
+    double squaredSpeed = speed * Math.abs(speed);
+
+    leftArmMotor.set(squaredSpeed);
+    rightArmMotor.set(squaredSpeed);
   }
 
   public void stopArms() {

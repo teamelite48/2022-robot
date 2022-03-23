@@ -14,8 +14,10 @@ public final class ClimberConfig {
     public static Value unlockValue = Value.kForward;
 
     public static final int downTiltArmExtensionLimit = 225000;
-    public static final int downTiltArmRetractionLimit = 2048;
+    public static final int downTiltArmRetractionLimit = 4096;
 
     public static final int upTiltArmExtensionLimit = 125000;
-    public static final int upTiltArmRetractionLimit = 2048;
+    public static final int upTiltArmRetractionLimit = 4096;
+
+    public static final double armSpeedDeadband = 0.02;
 }
