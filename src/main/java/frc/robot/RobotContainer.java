@@ -23,7 +23,7 @@ import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ManualShooterFeedUp;
-import frc.robot.commands.turret.EnableAutoAim;
+import frc.robot.commands.turret.TurnAutoAimOn;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.config.subsystems.ClimberConfig;
@@ -106,7 +106,7 @@ public class RobotContainer {
         gamepad.getRightTrigger().whenHeld(new ShooterFeedDown());
 
         gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
-        gamepad.getDpadDownTrigger().whenActive(new EnableAutoAim());
+        gamepad.getDpadDownTrigger().whenActive(new TurnAutoAimOn());
 
         gamepad.getDpadLeftTrigger()
             .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
@@ -122,6 +122,9 @@ public class RobotContainer {
         new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
             .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))
             .whenInactive(new InstantCommand(climberSubsystem::stopArms));
+
+        gamepad.getBackButton().whenPressed(new InstantCommand(turretSubsystem::disableAutoAim, turretSubsystem));
+        gamepad.getStartButton().whenPressed(new InstantCommand(turretSubsystem::enableAutoAim, turretSubsystem));
 
         gamepad.getAButton().whenPressed(new ShootNear());
         gamepad.getBButton().whenPressed(new ShooterOff());

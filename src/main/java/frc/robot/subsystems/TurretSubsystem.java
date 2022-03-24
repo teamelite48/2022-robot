@@ -33,7 +33,9 @@ public class TurretSubsystem extends SubsystemBase {
   final NetworkTableEntry ledMode = table.getEntry("ledMode");
   final NetworkTableEntry camMode = table.getEntry("camMode");
 
-  boolean isAutoAimEnabled = false;
+  boolean isAutoAimEnabled = true;
+  boolean isAutoAimOn = false;
+  
   long lastSimulationPeriodicMillis = 0;
   boolean isTurretEnabled = true;
 
@@ -50,7 +52,7 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    if (isAutoAimEnabled) {
+    if (isAutoAimOn) {
       ledMode.setNumber(3);
       camMode.setNumber(0);
       autoAim();
@@ -63,7 +65,8 @@ public class TurretSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Turret Degrees", getPositionInDegrees());
     SmartDashboard.putNumber("Turret tx", tx.getDouble(0.0));
-    SmartDashboard.putBoolean("Auto Aim", isAutoAimEnabled);
+    SmartDashboard.putBoolean("Auto Aim Enabled", isAutoAimEnabled);
+    SmartDashboard.putBoolean("Auto Aim On", isAutoAimOn);
     SmartDashboard.putBoolean("Target Acquired", isTargetAcquired());
   }
 
@@ -80,7 +83,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void disableTurret() {
     isTurretEnabled = false;
-    disableAutoAim();
+    turnAutoAimOff();
   }
 
   public void enableAutoAim() {
@@ -89,6 +92,17 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void disableAutoAim() {
     isAutoAimEnabled = false;
+    isAutoAimOn = false;
+  }
+
+  public void turnAutoAimOn() {
+    if (isAutoAimEnabled == false) return;
+
+    isAutoAimOn = true;
+  }
+
+  public void turnAutoAimOff() {
+    isAutoAimOn = false;
   }
 
   public void autoAim() {
@@ -120,24 +134,24 @@ public class TurretSubsystem extends SubsystemBase {
   public void manualTurret(double leftX) {
 
     if (Math.abs(leftX) >= TurretConfig.inputDeadzone) {
-      disableAutoAim();
+      turnAutoAimOff();
 
       double scaledInput = leftX * Math.abs(leftX) * TurretConfig.motorMaxOutput;
 
       setMotor(scaledInput);
     }
-    else if (isAutoAimEnabled == false) {
+    else if (isAutoAimOn == false) {
       stop();
     }
   }
 
   public void rotateClockwise() {
-    disableAutoAim();
+    turnAutoAimOff();
     setMotor(TurretConfig.clockwiseSpeed);
   }
 
   public void rotateCounterClockwise() {
-    disableAutoAim();
+    turnAutoAimOff();
     setMotor(TurretConfig.counterClockwiseSpeed);
   }
 

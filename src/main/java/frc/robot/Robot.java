@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.shooter.ShooterOff;
+import frc.robot.commands.shooterfeed.ShooterFeedStop;
+import frc.robot.commands.sorter.SorterStop;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.roborio.PowerDistributionChannel;
 
@@ -65,11 +68,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+    
     RobotContainer.climberSubsystem.tiltArmsDown();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+
+      new ShooterFeedStop().schedule();
+      new SorterStop().schedule();     
+      new ShooterOff().schedule();
     }
   }
 
