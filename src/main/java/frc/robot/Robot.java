@@ -4,17 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.sorter.SorterStop;
-import frc.robot.config.roborio.CanBusId;
-import frc.robot.config.roborio.PowerDistributionChannel;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,7 +21,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private PowerDistribution powerDistribution = new PowerDistribution(CanBusId.PowerDistributionHub, ModuleType.kRev);
 
   @Override
   public void robotInit() {
@@ -38,8 +32,6 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
 
     CommandScheduler.getInstance().run();
-
-    SmartDashboard.putNumber("Sorter Current", powerDistribution.getCurrent(PowerDistributionChannel.SorterMotor));
   }
 
 
