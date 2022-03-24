@@ -10,7 +10,6 @@ import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallStraightAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallShortAuto;
-
 import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.drive.ShiftHighGear;

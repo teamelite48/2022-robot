@@ -18,6 +18,7 @@ public class BackOffLineAuto extends SequentialCommandGroup {
     public BackOffLineAuto() {
         addCommands(
             new ResetOdometry(10.5, 3.45, 180),
+            new WaitCommand(1),
             new ShootMedium(),
             new ShooterOn(),
             new FollowPath(PathType.BackOffLine),

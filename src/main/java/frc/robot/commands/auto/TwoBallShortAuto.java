@@ -21,6 +21,7 @@ public class TwoBallShortAuto extends SequentialCommandGroup {
         addCommands(
             new ResetOdometry(8.8, 6.5, 100),
             new AutoIntake(),
+            new WaitCommand(1),
             new SorterIn(),
             new ShootMedium(),
             new ShooterOn(),
