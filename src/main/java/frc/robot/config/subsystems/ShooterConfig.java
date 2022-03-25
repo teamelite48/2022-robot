@@ -4,7 +4,7 @@ public final class ShooterConfig {
 
     public static final double lowRPM = 1900;
     public static final double mediumRPM = 4300;
-    public static final double highRPM = 4600;
+    public static final double highRPM = 4700;
 
     public static final double rpmBump = 100;
 
