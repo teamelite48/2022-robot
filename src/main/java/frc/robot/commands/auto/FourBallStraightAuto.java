@@ -4,6 +4,7 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
@@ -11,12 +12,10 @@ import frc.robot.commands.drive.FollowPath;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.AutoIntake;
 import frc.robot.commands.intake.RetractIntake;
-import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.AutoShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
-import frc.robot.commands.sorter.SorterStop;
 import frc.robot.pathfollowing.PathType;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -29,10 +28,12 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
     addCommands(
       new ResetOdometry(9.9, 5.6, 160),
       new AutoIntake(),
-      new WaitCommand(.75),
       new SorterIn(),
-      new ShootMedium(),
+      new InstantCommand(RobotContainer.shooterSubsystem::setHighSpeed),
+      new InstantCommand(RobotContainer.shooterSubsystem::shooterOn),
+      new WaitCommand(1),
       new FollowPath(PathType.FourBallStraight1),
+      new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
       new RetractIntake(),
       new WaitCommand(.3),
       new AutoShooterFeedUp(),
@@ -43,14 +44,12 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new FollowPath(PathType.FourBallStraight3),
       new WaitCommand(1.3),
       new RetractIntake(),
+      new InstantCommand(RobotContainer.shooterSubsystem::setMediumSpeed),
+      new InstantCommand(RobotContainer.shooterSubsystem::shooterOn),
       new FollowPath(PathType.FourBallStraight4),
-      new ShootMedium(),
+      new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
       new WaitCommand(.3),
-      new AutoShooterFeedUp(),
-      new WaitCommand(3),
-      new ShooterFeedStop(),
-      new SorterStop(),
-      new ShooterOff()
+      new AutoShooterFeedUp()
     );
   }
 }

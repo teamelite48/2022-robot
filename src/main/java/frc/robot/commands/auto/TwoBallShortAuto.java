@@ -1,18 +1,15 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 import frc.robot.commands.drive.FollowPath;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.AutoIntake;
 import frc.robot.commands.intake.RetractIntake;
-import frc.robot.commands.shooter.ShootMedium;
-import frc.robot.commands.shooter.ShooterOff;
-import frc.robot.commands.shooter.ShooterOn;
-import frc.robot.commands.shooterfeed.ShooterFeedStop;
 import frc.robot.commands.shooterfeed.AutoShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
-import frc.robot.commands.sorter.SorterStop;
 import frc.robot.pathfollowing.PathType;
 
 public class TwoBallShortAuto extends SequentialCommandGroup {
@@ -21,18 +18,16 @@ public class TwoBallShortAuto extends SequentialCommandGroup {
         addCommands(
             new ResetOdometry(8.8, 6.5, 100),
             new AutoIntake(),
-            new WaitCommand(1),
             new SorterIn(),
-            new ShootMedium(),
-            new ShooterOn(),
+            new InstantCommand(RobotContainer.shooterSubsystem::setMediumSpeed),
+            new InstantCommand(RobotContainer.shooterSubsystem::shooterOn),
+            new WaitCommand(1),
             new FollowPath(PathType.TwoBallShort1),
+            new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn), 
+            new WaitCommand(0.5),
             new AutoShooterFeedUp(),
             new WaitCommand(2),
-            new RetractIntake(),
-            new WaitCommand(2),
-            new ShooterFeedStop(),
-            new SorterStop(),
-            new ShooterOff()
+            new RetractIntake()
         );
     }
 }

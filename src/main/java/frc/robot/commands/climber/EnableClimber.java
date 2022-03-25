@@ -22,7 +22,7 @@ public class EnableClimber extends SequentialCommandGroup {
     addCommands(
       new MoveTurretToDegrees(TurretConfig.degreesAtCenter),
       new InstantCommand(turretSubsystem::disableTurret, turretSubsystem),
-      new InstantCommand(climberSubsystem::enableClimber, climberSubsystem)
+      new InstantCommand(climberSubsystem::enableClimber)
     );
   }
 }

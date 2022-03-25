@@ -5,7 +5,7 @@
 - C++ Iterative Robot
 - 3 Students
 - 2 Mentors
-- 2002 Lines of Code
+- 2002 Lines of Code - 5MB compiled
 - 145 Commits
 - 7 Subsystems
 - 40 Commands
