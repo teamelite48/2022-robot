@@ -7,8 +7,8 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.drive.FollowPath;
 import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.AutoIntake;
-import frc.robot.commands.intake.RetractIntake;
-import frc.robot.commands.shooterfeed.AutoShooterFeedUp;
+import frc.robot.commands.shooter.ShooterOff;
+import frc.robot.commands.shooterfeed.ShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
 import frc.robot.pathfollowing.PathType;
 
@@ -25,9 +25,8 @@ public class TwoBallShortAuto extends SequentialCommandGroup {
             new FollowPath(PathType.TwoBallShort1),
             new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn), 
             new WaitCommand(0.5),
-            new AutoShooterFeedUp(),
-            new WaitCommand(2),
-            new RetractIntake()
+            new ShooterFeedUp().withTimeout(3),
+            new ShooterOff()
         );
     }
 }

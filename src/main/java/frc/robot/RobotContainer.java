@@ -22,7 +22,7 @@ import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.ShootFar;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
-import frc.robot.commands.shooterfeed.ManualShooterFeedUp;
+import frc.robot.commands.shooterfeed.ShooterFeedUp;
 import frc.robot.commands.turret.TurnAutoAimOn;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.config.roborio.JoystickPort;
@@ -102,7 +102,7 @@ public class RobotContainer {
         gamepad.getLeftBumper().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
         gamepad.getLeftTrigger().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
-        gamepad.getRightBumper().whenHeld(new ManualShooterFeedUp());
+        gamepad.getRightBumper().whenHeld(new ShooterFeedUp());
         gamepad.getRightTrigger().whenHeld(new ShooterFeedDown());
 
         gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));

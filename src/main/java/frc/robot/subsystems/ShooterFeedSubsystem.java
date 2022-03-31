@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,7 +20,9 @@ public class ShooterFeedSubsystem extends SubsystemBase {
   final CANSparkMax motor = new CANSparkMax(CanBusId.ShooterFeedMotor, MotorType.kBrushless);
   final DigitalInput ballSensor = new DigitalInput(DioPort.BallSensor);
 
-  public ShooterFeedSubsystem() {}
+  public ShooterFeedSubsystem() {
+    motor.setIdleMode(IdleMode.kBrake);
+  }
 
   @Override
   public void periodic() {

@@ -13,8 +13,7 @@ import frc.robot.commands.drive.ResetOdometry;
 import frc.robot.commands.intake.AutoIntake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShooterOff;
-import frc.robot.commands.shooterfeed.ShooterFeedStop;
-import frc.robot.commands.shooterfeed.AutoShooterFeedUp;
+import frc.robot.commands.shooterfeed.ShooterFeedUp;
 import frc.robot.commands.sorter.SorterIn;
 import frc.robot.pathfollowing.PathType;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -36,11 +35,10 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
       new RetractIntake(),
       new WaitCommand(.5),
-      new AutoShooterFeedUp(),
-      new WaitCommand(2),
-      new ShooterFeedStop(),
+      new ShooterFeedUp().withTimeout(2),
       new ShooterOff(),
       new AutoIntake(),
+      new SorterIn(),
       new FollowPath(PathType.FourBallStraight3),
       new WaitCommand(1.3),
       new RetractIntake(),
@@ -49,7 +47,8 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new FollowPath(PathType.FourBallStraight4),
       new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
       new WaitCommand(.3),
-      new AutoShooterFeedUp()
+      new ShooterFeedUp().withTimeout(3),
+      new ShooterOff()
     );
   }
 }

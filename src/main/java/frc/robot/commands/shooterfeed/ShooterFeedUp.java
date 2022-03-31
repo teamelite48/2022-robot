@@ -12,7 +12,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SorterSubsystem;
 import frc.robot.utils.CoolDownTimer;
 
-public class ManualShooterFeedUp extends CommandBase {
+public class ShooterFeedUp extends CommandBase {
 
   ShooterFeedSubsystem shooterFeedSubsystem = RobotContainer.shooterFeedSubsystem;
   ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
@@ -23,7 +23,7 @@ public class ManualShooterFeedUp extends CommandBase {
   boolean currentBallSensorValue;
   boolean lastBallSensorValue;
 
-  public ManualShooterFeedUp() {
+  public ShooterFeedUp() {
     addRequirements(shooterFeedSubsystem);
   }
 
