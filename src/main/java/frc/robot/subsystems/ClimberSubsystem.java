@@ -31,8 +31,9 @@ public class ClimberSubsystem extends SubsystemBase {
   final DoubleSolenoid leftArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftArmForward, PneumaticChannel.LeftArmReverse);
   final DoubleSolenoid rightArmSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightArmForward, PneumaticChannel.RightArmReverse);
 
-  final DoubleSolenoid leftLockSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.LeftClimbLockForward, PneumaticChannel.LeftClimbLockReverse);
-  final DoubleSolenoid rightLockSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.RightClimbLockForward, PneumaticChannel.RightClimbLockReverse);
+  final DoubleSolenoid lockSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.ClimbLockForward, PneumaticChannel.ClimbLockReverse);
+
+  final DoubleSolenoid secondaryHookSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PneumaticChannel.SecondaryHookForward, PneumaticChannel.SecondaryHookReverse);
 
   private boolean isClimberEnabled = false;
 
@@ -44,8 +45,9 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmSolenoid.set(ClimberConfig.upTilt);
     rightArmSolenoid.set(ClimberConfig.upTilt);
 
-    leftLockSolenoid.set(ClimberConfig.unlockValue);
-    rightLockSolenoid.set(ClimberConfig.unlockValue);
+    secondaryHookSolenoid.set(ClimberConfig.upTilt);
+
+    lockSolenoid.set(ClimberConfig.unlockValue);
 
     leftArmMotor.configFactoryDefault();
     rightArmMotor.configFactoryDefault();
@@ -94,8 +96,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void enableClimber() {
     isClimberEnabled = true;
 
-    leftLockSolenoid.set(ClimberConfig.unlockValue);
-    rightLockSolenoid.set(ClimberConfig.unlockValue);
+    lockSolenoid.set(ClimberConfig.unlockValue);
   }
 
   public void toggleArmPositions() {
@@ -154,15 +155,38 @@ public class ClimberSubsystem extends SubsystemBase {
     rightArmMotor.set(0);
   }
 
+  public void toggleHooksPosition() {
+    if (isClimberEnabled == false) return;
+
+    if (secondaryHookSolenoid.get() == ClimberConfig.downTilt) {
+      tiltHooksUp();
+    }
+    else {
+      tiltHooksDown();
+    }
+  }
+
+  public void tiltHooksDown() {
+
+    secondaryHookSolenoid.set(ClimberConfig.downTilt);
+  
+  }
+
+  public void tiltHooksUp() {
+    if (isClimberEnabled == false) return;
+
+    secondaryHookSolenoid.set(ClimberConfig.upTilt);
+    
+  }
+
   public void toggleArmLocks() {
     if(isClimberEnabled == false) return;
 
-    leftLockSolenoid.toggle();
-    rightLockSolenoid.toggle();
+    lockSolenoid.toggle();
   }
 
   public boolean isClimberLocked(){
-    return leftLockSolenoid.get() == ClimberConfig.lockValue;
+    return lockSolenoid.get() == ClimberConfig.lockValue;
   }
 
   public boolean isFullyExtended() {

@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     RobotContainer.climberSubsystem.tiltArmsDown();
+    RobotContainer.climberSubsystem.tiltHooksDown();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     
     RobotContainer.climberSubsystem.tiltArmsDown();
+    RobotContainer.climberSubsystem.tiltHooksDown();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
