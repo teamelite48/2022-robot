@@ -19,7 +19,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new ResetOdometry(10.3, 2.75, 200),
             new AutoIntake(),
             new SorterIn(),
-            new InstantCommand(RobotContainer.shooterSubsystem::setHighSpeed),
+            new InstantCommand(RobotContainer.shooterSubsystem::setMediumSpeed),
             new InstantCommand(RobotContainer.shooterSubsystem::shooterOn),
             new WaitCommand(1),
             new FollowPath(PathType.TwoBall1),
