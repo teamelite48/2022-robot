@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -12,22 +11,21 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
-import frc.robot.config.roborio.PneumaticChannel;
 import frc.robot.config.subsystems.ShooterConfig;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  final WPI_TalonFX leftMotor = new WPI_TalonFX(CanBusId.LeftShooterMotor);
-  final WPI_TalonFX rightMotor = new WPI_TalonFX(CanBusId.RightShooterMotor);
+  final WPI_TalonFX rearMotor = new WPI_TalonFX(CanBusId.RearShooterMotor);
+  final WPI_TalonFX frontMotor = new WPI_TalonFX(CanBusId.FrontShooterMotor);
 
-  final Solenoid deflectorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.Deflector);
-  final PIDController pidController = new PIDController(ShooterConfig.kP, ShooterConfig.kI, ShooterConfig.kD);
-  final SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(ShooterConfig.ks, ShooterConfig.kv, ShooterConfig.ka);
+  final PIDController frontPIDController = new PIDController(ShooterConfig.frontkP, ShooterConfig.frontkI, ShooterConfig.frontkD);
+  final SimpleMotorFeedforward frontFeedForward = new SimpleMotorFeedforward(ShooterConfig.frontks, ShooterConfig.frontkv, ShooterConfig.frontka);
+
+  final PIDController rearPIDController = new PIDController(ShooterConfig.rearkP, ShooterConfig.rearkI, ShooterConfig.rearkD);
+  final SimpleMotorFeedforward rearFeedForward = new SimpleMotorFeedforward(ShooterConfig.rearks, ShooterConfig.rearkv, ShooterConfig.rearka);
 
   boolean isShooterOn = false;
   double targetRPM = ShooterConfig.mediumRPM;
@@ -37,37 +35,49 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
 
-    leftMotor.configFactoryDefault();
-    rightMotor.configFactoryDefault();
+    rearMotor.configFactoryDefault();
+    frontMotor.configFactoryDefault();
 
-    rightMotor.setInverted(true);
-    leftMotor.follow(rightMotor);
-    leftMotor.setInverted(InvertType.OpposeMaster);
+    rearMotor.setInverted(true);
 
-    SmartDashboard.putNumber("Current RPM", 0);
-    SmartDashboard.putNumber("PIDValue", 0);
+    SmartDashboard.putNumber("Current Rear RPM", 0);
+    SmartDashboard.putNumber("Current Front RPM", 0);
   }
 
   @Override
   public void periodic() {
 
     if (isShooterOn == false) {
-      rightMotor.set(0);
-      
+      frontMotor.set(0);
+      rearMotor.set(0);
     }
     else {
-      double currentRPM = -1 * (rightMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
 
-      rightMotor.setVoltage(feedForward.calculate(targetRPM / 60) + pidController.calculate(currentRPM, targetRPM));
+      //TODO: distance RPM calculation
 
-      SmartDashboard.putNumber("Current RPM", currentRPM);
-      SmartDashboard.putNumber("PIDValue", pidController.calculate(currentRPM, targetRPM));
+      setFrontMotor(this.targetRPM);
+      setRearMotor(this.targetRPM);
     }
 
     SmartDashboard.putNumber("Target RPM", targetRPM);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
-    SmartDashboard.putString("Deflector Position", deflectorSolenoid.get() ? "Forward" : "Backward");
     SmartDashboard.putNumber("Shooter ty", ty.getDouble(0.0));
+  }
+
+  private void setRearMotor(double targetRPM) {
+    double rearCurrentRPM = -1 * (rearMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
+
+    rearMotor.setVoltage(rearFeedForward.calculate(targetRPM / 60) + rearPIDController.calculate(rearCurrentRPM, targetRPM));
+
+    SmartDashboard.putNumber("Current Rear RPM", rearCurrentRPM);
+  }
+
+  private void setFrontMotor(double targetRPM) {
+    double frontCurrentRPM = -1 * (frontMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
+
+    frontMotor.setVoltage(frontFeedForward.calculate(targetRPM / 60) + frontPIDController.calculate(frontCurrentRPM, targetRPM));
+
+    SmartDashboard.putNumber("Current Front RPM", frontCurrentRPM);
   }
 
   public void toggleShooter() {
@@ -84,25 +94,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setLowSpeed() {
     targetRPM = ShooterConfig.lowRPM;
-    moveDeflectorBackward();
   }
 
   public void setMediumSpeed() {
     targetRPM = ShooterConfig.mediumRPM;
-    moveDeflectorForward();
   }
 
   public void setHighSpeed() {
     targetRPM = ShooterConfig.highRPM;
-    moveDeflectorForward();
-  }
-
-  private void moveDeflectorForward() {
-    deflectorSolenoid.set(ShooterConfig.deflectorForwardValue);
-  }
-
-  private void moveDeflectorBackward() {
-    deflectorSolenoid.set(ShooterConfig.deflectorBackwardValue);
   }
 
   public boolean isShooterOn() {

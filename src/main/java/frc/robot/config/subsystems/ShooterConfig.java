@@ -11,11 +11,19 @@ public final class ShooterConfig {
     public static final boolean deflectorForwardValue = true;
     public static final boolean deflectorBackwardValue = false;
 
-    public static final double kP = 0.00015;
-    public static final double kI = 0.0000075;
-    public static final double kD = 0;
+    public static final double frontkP = 0.00015;
+    public static final double frontkI = 0.0000075;
+    public static final double frontkD = 0;
 
-    public static final double ks = 0.55338;
-    public static final double kv = 0.11097;
-    public static final double ka = 0.0066226;
+    public static final double frontks = 0.55338;
+    public static final double frontkv = 0.11097;
+    public static final double frontka = 0.0066226;
+
+    public static final double rearkP = 0.00015;
+    public static final double rearkI = 0.0000075;
+    public static final double rearkD = 0;
+
+    public static final double rearks = 0.55338;
+    public static final double rearkv = 0.11097;
+    public static final double rearka = 0.0066226;
 }

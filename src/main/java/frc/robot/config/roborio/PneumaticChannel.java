@@ -10,7 +10,6 @@ public class PneumaticChannel {
 
     public static final int Intake = 10;
     public static final int GearShift = 0;
-    public static final int Deflector = 5;
 
     public static final int ClimbLockReverse = 2;
     public static final int ClimbLockForward = 1;
