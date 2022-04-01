@@ -74,6 +74,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Climber Enabled", isClimberEnabled);
     SmartDashboard.putString("Left Arm Position", leftArmSolenoid.get() == ClimberConfig.upTilt ? "Up" : "Down");
     SmartDashboard.putString("Right Arm Position", rightArmSolenoid.get() == ClimberConfig.upTilt ? "Up" : "Down");
+    SmartDashboard.putString("Secondary Hook Position", secondaryHookSolenoid.get() == ClimberConfig.upTilt ? "Up" : "Down");
     SmartDashboard.putNumber("Left Arm Length", leftArmSensorCollection.getIntegratedSensorPosition());
     SmartDashboard.putNumber("Right Arm Length", -rightArmSensorCollection.getIntegratedSensorPosition());
     SmartDashboard.putBoolean("Climber Lock", isClimberLocked());

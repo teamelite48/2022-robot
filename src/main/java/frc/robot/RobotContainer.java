@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Joysticks.LogitechGamepad;
 import frc.robot.Joysticks.LogitechJoystick;
+import frc.robot.Joysticks.PS4Gamepad;
 import frc.robot.commands.auto.BackOffLineAuto;
 import frc.robot.commands.auto.FourBallStraightAuto;
 import frc.robot.commands.auto.TwoBallAuto;
@@ -57,7 +58,8 @@ public class RobotContainer {
 
     final LogitechJoystick leftJoystick = new LogitechJoystick(JoystickPort.LeftPilotJoystick);
     final LogitechJoystick rightJoystick = new LogitechJoystick(JoystickPort.RightPilotJoystick);
-    final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
+    //final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
+    final PS4Gamepad gamepad = new PS4Gamepad(JoystickPort.CopilotGamepad);
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -99,11 +101,11 @@ public class RobotContainer {
 
     private void configureCopilotButtonBindings() {
 
-        gamepad.getLeftBumper().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
-        gamepad.getLeftTrigger().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
+        gamepad.getR1Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
+        gamepad.getR2Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
-        gamepad.getRightBumper().whenHeld(new ShooterFeedUp());
-        gamepad.getRightTrigger().whenHeld(new ShooterFeedDown());
+        gamepad.getR1Button().whenHeld(new ShooterFeedUp());
+        gamepad.getR2Button().whenHeld(new ShooterFeedDown());
 
         gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
         gamepad.getDpadDownTrigger().whenActive(new TurnAutoAimOn());
@@ -116,8 +118,10 @@ public class RobotContainer {
             .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
             .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        gamepad.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
-        gamepad.getRightStickButton().whenPressed(new ToggleArmPositions());
+        gamepad.getLeftStickButton().whenPressed(new ToggleArmPositions());
+        gamepad.getRightStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleHooksPosition));
+
+        gamepad.getTouchpadButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
 
         new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
             .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))
@@ -126,10 +130,10 @@ public class RobotContainer {
         gamepad.getBackButton().whenPressed(new InstantCommand(turretSubsystem::disableAutoAim, turretSubsystem));
         gamepad.getStartButton().whenPressed(new InstantCommand(turretSubsystem::enableAutoAim, turretSubsystem));
 
-        gamepad.getAButton().whenPressed(new ShootNear());
-        gamepad.getBButton().whenPressed(new ShooterOff());
-        gamepad.getXButton().whenPressed(new ShootMedium());
-        gamepad.getYButton().whenPressed(new ShootFar());
+        gamepad.getCrossButton().whenPressed(new ShootNear());
+        gamepad.getCircleButton().whenPressed(new ShooterOff());
+        gamepad.getSquareButton().whenPressed(new ShootMedium());
+        gamepad.getTriangleButton().whenPressed(new ShootFar());
 
     }
 
@@ -144,12 +148,11 @@ public class RobotContainer {
     }
 
     private void inititialzeAutoChooser() {
-        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(1));
+        autoChooser.setDefaultOption("Do Nothing", new WaitCommand(3));
         autoChooser.addOption("Back Off Line Path", new BackOffLineAuto());
         autoChooser.addOption("Two Ball", new TwoBallAuto());
         autoChooser.addOption("Two Ball Short", new TwoBallShortAuto());
         autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto());
-        //autoChooser.addOption("Four Ball", new FourBallAuto());
         //autoChooser.addOption("Test", new TestAuto());
 
         SmartDashboard.putData(autoChooser);
