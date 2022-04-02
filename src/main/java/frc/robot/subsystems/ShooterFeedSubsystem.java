@@ -41,7 +41,7 @@ public class ShooterFeedSubsystem extends SubsystemBase {
     motor.set(0);
   }
 
-public boolean getBallSensorValue() {
-    return ballSensor.get();
-}
+  public boolean getBallSensorValue() {
+      return ballSensor.get();
+  }
 }

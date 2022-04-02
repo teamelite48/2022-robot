@@ -34,7 +34,7 @@ public class ShooterSubsystem extends SubsystemBase {
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry ty = table.getEntry("ty");
 
-  double distanceToTarget = 0.0;
+  double distanceToTargetInFeet = 0.0;
 
   public ShooterSubsystem() {
 
@@ -48,7 +48,10 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    distanceToTarget = Math.min((ShooterConfig.limelightToVisionTarget) / (Math.tan(ShooterConfig.limelightAngleInDegrees + (ty.getDouble(0.0)))), ShooterConfig.maxDistanceInFeet);
+    double angleToGoalInDegrees = ShooterConfig.limelightAngleInDegrees + (ty.getDouble(0.0));
+    double angleToGoalInRadians = Math.toRadians(angleToGoalInDegrees);
+
+    distanceToTargetInFeet = Math.min(ShooterConfig.limelightToVisionTargetInFeet / Math.tan(angleToGoalInRadians), ShooterConfig.maxDistanceInFeet);
 
     if (isShooterOn == false) {
       frontMotor.set(0);
@@ -66,8 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Target RPM", targetRPM);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
-    SmartDashboard.putNumber("Shooter ty", ty.getDouble(0.0));
-    SmartDashboard.putNumber("Distance to Target", distanceToTarget);
+    SmartDashboard.putNumber("Distance to Target", distanceToTargetInFeet);
   }
 
   private void setRearMotor(double targetRPM) {
@@ -111,10 +113,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getRPMByDistanceToTarget() {
 
-    double bottomRPM = ShooterConfig.distanceToRPMMap.getOrDefault((int)Math.floor(distanceToTarget), 0);
-    double topRPM = ShooterConfig.distanceToRPMMap.getOrDefault((int)Math.ceil(distanceToTarget), 0);
+    double bottomRPM = ShooterConfig.distanceToRPMMap.getOrDefault(Math.floor(distanceToTargetInFeet), 0.0);
+    double topRPM = ShooterConfig.distanceToRPMMap.getOrDefault(Math.ceil(distanceToTargetInFeet), 0.0);
 
-    targetRPM = bottomRPM + ((distanceToTarget - Math.floor(distanceToTarget)) * (topRPM - bottomRPM));
+    targetRPM = bottomRPM + ((distanceToTargetInFeet - Math.floor(distanceToTargetInFeet)) * (topRPM - bottomRPM));
 
     return targetRPM;
   }

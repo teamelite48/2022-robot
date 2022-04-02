@@ -117,12 +117,12 @@ public class RobotContainer {
             .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
             .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
 
-        gamepad.getLeftStickButton().whenPressed(new ToggleArmPositions());
-        gamepad.getRightStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleHooksPosition));
+        gamepad.getLeftStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleHooksPosition));
+        gamepad.getRightStickButton().whenPressed(new ToggleArmPositions());
 
         gamepad.getTouchpadButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
 
-        new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
+        new Trigger(() -> Math.abs(gamepad.getRightY()) > ClimberConfig.armSpeedDeadband)
             .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))
             .whenInactive(new InstantCommand(climberSubsystem::stopArms));
 
