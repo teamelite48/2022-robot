@@ -18,9 +18,9 @@ public class BackOffLineAuto extends SequentialCommandGroup {
             new ResetOdometry(10.5, 3.45, 180),
             new InstantCommand(RobotContainer.shooterSubsystem::setMediumSpeed),
             new ShooterOn(),
+            new InstantCommand(RobotContainer.shooterSubsystem::turnRangeBasedRPMOn),
             new FollowPath(PathType.BackOffLine),
             new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
-            new InstantCommand(RobotContainer.shooterSubsystem::turnRangeBasedRPMOn),
             new SorterIn(),
             new ShooterFeedUp().withTimeout(2),
             new ShooterOff()
