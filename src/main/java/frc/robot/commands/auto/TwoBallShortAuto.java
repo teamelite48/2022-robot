@@ -23,7 +23,8 @@ public class TwoBallShortAuto extends SequentialCommandGroup {
             new InstantCommand(RobotContainer.shooterSubsystem::shooterOn),
             new WaitCommand(1),
             new FollowPath(PathType.TwoBallShort1),
-            new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn), 
+            new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
+            new InstantCommand(RobotContainer.shooterSubsystem::turnRangeBasedRPMOn), 
             new WaitCommand(0.5),
             new ShooterFeedUp().withTimeout(3),
             new ShooterOff()

@@ -33,6 +33,7 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new WaitCommand(1),
       new FollowPath(PathType.FourBallStraight1),
       new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
+      new InstantCommand(RobotContainer.shooterSubsystem::turnRangeBasedRPMOn),
       new RetractIntake(),
       new WaitCommand(.5),
       new ShooterFeedUp().withTimeout(2),
@@ -46,6 +47,7 @@ public class FourBallStraightAuto extends SequentialCommandGroup {
       new InstantCommand(RobotContainer.shooterSubsystem::shooterOn),
       new FollowPath(PathType.FourBallStraight4),
       new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
+      new InstantCommand(RobotContainer.shooterSubsystem::turnRangeBasedRPMOn),
       new WaitCommand(.3),
       new ShooterFeedUp().withTimeout(3),
       new ShooterOff()

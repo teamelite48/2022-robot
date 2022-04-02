@@ -19,7 +19,8 @@ public class BackOffLineAuto extends SequentialCommandGroup {
             new InstantCommand(RobotContainer.shooterSubsystem::setMediumSpeed),
             new ShooterOn(),
             new FollowPath(PathType.BackOffLine),
-            new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn), 
+            new InstantCommand(RobotContainer.turretSubsystem::turnAutoAimOn),
+            new InstantCommand(RobotContainer.shooterSubsystem::turnRangeBasedRPMOn),
             new SorterIn(),
             new ShooterFeedUp().withTimeout(2),
             new ShooterOff()
