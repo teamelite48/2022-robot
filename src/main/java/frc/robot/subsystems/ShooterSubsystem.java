@@ -29,9 +29,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   boolean isShooterOn = false;
   double targetRPM = ShooterConfig.mediumRPM;
+  boolean isRangeBasedRPMOn = false;
 
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry ty = table.getEntry("ty");
+
+  double distanceToTarget = 0.0;
 
   public ShooterSubsystem() {
 
@@ -47,24 +50,29 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
+    distanceToTarget = Math.max((ShooterConfig.limelightToVisionTarget) / (Math.tan(ShooterConfig.limelightAngleInDegrees + (-1 * ty.getDouble(0.0)))), ShooterConfig.maxDistanceInFeet);
+
     if (isShooterOn == false) {
       frontMotor.set(0);
       rearMotor.set(0);
     }
     else {
 
-      //TODO: distance RPM calculation
+      if(isRangeBasedRPMOn){
+        targetRPM = getRPMByDistanceToTarget();
+      }
 
-      setFrontMotor(this.targetRPM);
-      setRearMotor(this.targetRPM);
+      setFrontMotor();
+      setRearMotor();
     }
 
     SmartDashboard.putNumber("Target RPM", targetRPM);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
-    SmartDashboard.putNumber("Shooter ty", ty.getDouble(0.0));
+    SmartDashboard.putNumber("Shooter ty", -1 * ty.getDouble(0.0));
+    SmartDashboard.putNumber("Distance to Target", distanceToTarget);
   }
 
-  private void setRearMotor(double targetRPM) {
+  private void setRearMotor() {
     double rearCurrentRPM = -1 * (rearMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
 
     rearMotor.setVoltage(rearFeedForward.calculate(targetRPM / 60) + rearPIDController.calculate(rearCurrentRPM, targetRPM));
@@ -72,7 +80,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Current Rear RPM", rearCurrentRPM);
   }
 
-  private void setFrontMotor(double targetRPM) {
+  private void setFrontMotor() {
     double frontCurrentRPM = -1 * (frontMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
 
     frontMotor.setVoltage(frontFeedForward.calculate(targetRPM / 60) + frontPIDController.calculate(frontCurrentRPM, targetRPM));
@@ -89,19 +97,36 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shooterOff() {
+    isRangeBasedRPMOn = false;
     isShooterOn = false;
   }
 
   public void setLowSpeed() {
+    isRangeBasedRPMOn = false;
     targetRPM = ShooterConfig.lowRPM;
   }
 
   public void setMediumSpeed() {
+    isRangeBasedRPMOn = false;
     targetRPM = ShooterConfig.mediumRPM;
   }
 
-  public void setHighSpeed() {
-    targetRPM = ShooterConfig.highRPM;
+  public double getRPMByDistanceToTarget() {
+
+    double bottomRPM = ShooterConfig.distanceToRPMMap.getOrDefault((int)Math.floor(distanceToTarget), 0);
+    double topRPM = ShooterConfig.distanceToRPMMap.getOrDefault((int)Math.ceil(distanceToTarget), 0);
+
+    targetRPM = bottomRPM + ((distanceToTarget - Math.floor(distanceToTarget)) * (topRPM - bottomRPM));
+
+    return targetRPM;
+  }
+
+  public void turnRangeBasedRPMOn() {
+    isRangeBasedRPMOn = true;
+  }
+
+  public void turnRangeBasedRPMOff() {
+    isRangeBasedRPMOn = false;
   }
 
   public boolean isShooterOn() {

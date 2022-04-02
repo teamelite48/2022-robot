@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Joysticks.LogitechGamepad;
 import frc.robot.Joysticks.LogitechJoystick;
 import frc.robot.Joysticks.PS4Gamepad;
 import frc.robot.commands.auto.BackOffLineAuto;
@@ -20,7 +19,7 @@ import frc.robot.commands.intake.Outtake;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShootNear;
 import frc.robot.commands.shooter.ShooterOff;
-import frc.robot.commands.shooter.ShootFar;
+import frc.robot.commands.shooter.AutoShoot;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ShooterFeedUp;
@@ -133,8 +132,7 @@ public class RobotContainer {
         gamepad.getCrossButton().whenPressed(new ShootNear());
         gamepad.getCircleButton().whenPressed(new ShooterOff());
         gamepad.getSquareButton().whenPressed(new ShootMedium());
-        gamepad.getTriangleButton().whenPressed(new ShootFar());
-
+        gamepad.getTriangleButton().whenPressed(new AutoShoot());
     }
 
     private void initializeCamera(){

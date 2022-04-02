@@ -11,16 +11,17 @@ import frc.robot.commands.turret.TurnAutoAimOn;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
-public class ShootFar extends SequentialCommandGroup {
+public class AutoShoot extends SequentialCommandGroup {
 
-  public ShootFar() {
+  public AutoShoot() {
 
     ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
 
     addCommands(
-      new InstantCommand(shooterSubsystem::setHighSpeed, shooterSubsystem),
-      new ShooterOn(),
-      new TurnAutoAimOn()
+      new TurnAutoAimOn(),
+      new InstantCommand(shooterSubsystem::turnRangeBasedRPMOn, shooterSubsystem),
+      new ShooterOn()
+      
     );
   }
 }
