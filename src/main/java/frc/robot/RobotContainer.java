@@ -100,8 +100,8 @@ public class RobotContainer {
 
     private void configureCopilotButtonBindings() {
 
-        gamepad.getR1Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
-        gamepad.getR2Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
+        gamepad.getL1Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
+        gamepad.getL2Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
 
         gamepad.getR1Button().whenHeld(new ShooterFeedUp());
         gamepad.getR2Button().whenHeld(new ShooterFeedDown());

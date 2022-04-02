@@ -41,8 +41,6 @@ public class ShooterSubsystem extends SubsystemBase {
     rearMotor.configFactoryDefault();
     frontMotor.configFactoryDefault();
 
-    rearMotor.setInverted(true);
-
     SmartDashboard.putNumber("Current Rear RPM", 0);
     SmartDashboard.putNumber("Current Front RPM", 0);
   }
@@ -50,7 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    distanceToTarget = Math.max((ShooterConfig.limelightToVisionTarget) / (Math.tan(ShooterConfig.limelightAngleInDegrees + (-1 * ty.getDouble(0.0)))), ShooterConfig.maxDistanceInFeet);
+    distanceToTarget = Math.min((ShooterConfig.limelightToVisionTarget) / (Math.tan(ShooterConfig.limelightAngleInDegrees + (ty.getDouble(0.0)))), ShooterConfig.maxDistanceInFeet);
 
     if (isShooterOn == false) {
       frontMotor.set(0);
@@ -62,30 +60,30 @@ public class ShooterSubsystem extends SubsystemBase {
         targetRPM = getRPMByDistanceToTarget();
       }
 
-      setFrontMotor();
-      setRearMotor();
+      setFrontMotor(targetRPM);
+      setRearMotor(targetRPM * 2.5);
     }
 
     SmartDashboard.putNumber("Target RPM", targetRPM);
     SmartDashboard.putBoolean("Shooter On", isShooterOn);
-    SmartDashboard.putNumber("Shooter ty", -1 * ty.getDouble(0.0));
+    SmartDashboard.putNumber("Shooter ty", ty.getDouble(0.0));
     SmartDashboard.putNumber("Distance to Target", distanceToTarget);
   }
 
-  private void setRearMotor() {
+  private void setRearMotor(double targetRPM) {
     double rearCurrentRPM = -1 * (rearMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
 
     rearMotor.setVoltage(rearFeedForward.calculate(targetRPM / 60) + rearPIDController.calculate(rearCurrentRPM, targetRPM));
 
-    SmartDashboard.putNumber("Current Rear RPM", rearCurrentRPM);
+    SmartDashboard.putNumber("Current Rear RPM", rearCurrentRPM * -1);
   }
 
-  private void setFrontMotor() {
+  private void setFrontMotor(double targetRPM) {
     double frontCurrentRPM = -1 * (frontMotor.getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048;
 
     frontMotor.setVoltage(frontFeedForward.calculate(targetRPM / 60) + frontPIDController.calculate(frontCurrentRPM, targetRPM));
 
-    SmartDashboard.putNumber("Current Front RPM", frontCurrentRPM);
+    SmartDashboard.putNumber("Current Front RPM", frontCurrentRPM * -1);
   }
 
   public void toggleShooter() {
