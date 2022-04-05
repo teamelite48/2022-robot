@@ -37,10 +37,11 @@ public final class ShooterConfig {
 
     public static final HashMap<Double, Double> distanceToRPMMap = new HashMap<Double, Double>() {{
 
-        put(0.0, 0.0);
-        put(5.0, 0.0);
+        put(0.0, 1100.0);
+        put(5.0, 1100.0);
+        put(7.0, 1900.0);
         put(8.0, 2000.0);
-        put(9.0, 2000.0);
+        put(9.0, 2025.0);
         put(10.0, 2000.0);
         put(11.0, 2050.0);
         put(12.0, 2100.0);
@@ -49,7 +50,11 @@ public final class ShooterConfig {
         put(15.0, 2350.0);
         put(16.0, 2500.0);
         put(17.0, 2900.0);
-        put(18.0, 3300.0);
+        put(18.0, 3450.0);
+        put(19.0, 3850.0);
+        put(20.0, 4100.0);
+        put(21.0, 4400.0);
+        put(22.0, 4750.0);
 
     }};
     

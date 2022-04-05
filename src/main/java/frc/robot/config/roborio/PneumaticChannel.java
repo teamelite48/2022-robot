@@ -14,6 +14,6 @@ public class PneumaticChannel {
     public static final int ClimbLockReverse = 2;
     public static final int ClimbLockForward = 1;
 
-    public static final int SecondaryHookReverse = 4;
-    public static final int SecondaryHookForward = 3;
+    public static final int SecondaryHookReverse = 3;
+    public static final int SecondaryHookForward = 4;
 }

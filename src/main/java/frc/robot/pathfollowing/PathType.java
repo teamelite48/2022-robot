@@ -12,5 +12,5 @@ public enum PathType {
     FourBallStraight1,
     FourBallStraight2,
     FourBallStraight3,
-    FourBallStraight4, TwoBallShort1
+    FourBallStraight4, TwoBallShort1, FourBallStraight5
 }
