@@ -39,8 +39,8 @@ public final class ShooterConfig {
 
         put(0.0, 1100.0);
         put(5.0, 1100.0);
-        put(7.0, 1900.0);
-        put(8.0, 2000.0);
+        put(7.0, 1800.0);
+        put(8.0, 1900.0);
         put(9.0, 2025.0);
         put(10.0, 2000.0);
         put(11.0, 2050.0);
@@ -57,5 +57,5 @@ public final class ShooterConfig {
         put(22.0, 4750.0);
 
     }};
-    
+
 }
