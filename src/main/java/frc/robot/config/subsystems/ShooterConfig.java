@@ -2,29 +2,21 @@ package frc.robot.config.subsystems;
 
 import java.util.HashMap;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
 public final class ShooterConfig {
 
     public static final double lowRPM = 1100;
     public static final double mediumRPM = 2000;
-    //public static final double highRPM = 4700;
 
     public static final double rpmBump = 100;
 
-    public static final double frontkP = 0.000015;
-    public static final double frontkI = 0;
-    public static final double frontkD = 0;
+    public static final SimpleMotorFeedforward frontMotorFeedForward = new SimpleMotorFeedforward(0.69687, 0.11441, 0.009925);
+    public static final SimpleMotorFeedforward rearMotorFeedForward = new SimpleMotorFeedforward(0.56945, 0.10931, 0.0027359);
 
-    public static final double frontks = 0.69687;
-    public static final double frontkv = 0.11441;
-    public static final double frontka = 0.009925;
-
-    public static final double rearkP = 0.000015;
-    public static final double rearkI = 0;
-    public static final double rearkD = 0;
-
-    public static final double rearks = 0.56945;
-    public static final double rearkv = 0.10931;
-    public static final double rearka = 0.0027359;
+    public static final PIDController frontMotorPIDController = new PIDController(0.000015, 0, 0);
+    public static final PIDController rearMotorPIDController = new PIDController(0.000015, 0, 0);
 
     public static final double limelightAngleInDegrees = 35;
     public static final double limelightHeightInFeet = 2.29166666;
@@ -35,8 +27,7 @@ public final class ShooterConfig {
 
     public static final double maxDistanceInFeet = 27;
 
-    public static final HashMap<Double, Double> distanceToRPMMap = new HashMap<Double, Double>() {{
-
+    public static final HashMap<Double, Double> distanceToRpmMap = new HashMap<Double, Double>() {{
         put(0.0, 1100.0);
         put(5.0, 1100.0);
         put(7.0, 1800.0);
@@ -57,5 +48,4 @@ public final class ShooterConfig {
         put(22.0, 4750.0);
 
     }};
-
 }

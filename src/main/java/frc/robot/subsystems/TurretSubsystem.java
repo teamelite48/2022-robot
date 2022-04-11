@@ -23,7 +23,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
   final RelativeEncoder encoder = motor.getEncoder();
-  final PIDController pidController = new PIDController(TurretConfig.kP, TurretConfig.kI, TurretConfig.kD);
+  final PIDController pidController = TurretConfig.pidController;
   final OutputLimiter motorOutputLimiter = new OutputLimiter(-TurretConfig.motorMaxOutput, TurretConfig.motorMaxOutput);
 
 
@@ -111,9 +111,10 @@ public class TurretSubsystem extends SubsystemBase {
 
     if(isTargetAcquired() == false) return;
 
-    double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
+    double motorSpeed = pidController.calculate(error, 0);
+    double limitedMotorSpeed = motorOutputLimiter.limit(motorSpeed);
 
-    setMotor(newMotorSpeed);
+    setMotor(limitedMotorSpeed);
   }
 
   public boolean isTargetAcquired(){

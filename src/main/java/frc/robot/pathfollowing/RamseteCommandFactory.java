@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.config.sysid.SysIdConfig;
+import frc.robot.config.subsystems.DriveConfig;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -28,16 +28,16 @@ public class RamseteCommandFactory {
     RamseteCommand ramseteCommand = new RamseteCommand(
       TrajectoryFactory.getTrajectory(pathType),
       driveSubsystem::getPose,
-      new RamseteController(SysIdConfig.kRamseteB, SysIdConfig.kRamseteZeta),
+      new RamseteController(DriveConfig.kRamseteB, DriveConfig.kRamseteZeta),
       new SimpleMotorFeedforward(
-        SysIdConfig.ksVolts,
-        SysIdConfig.kvVoltSecondsPerMeter,
-        SysIdConfig.kaVoltSecondsSquaredPerMeter
+        DriveConfig.ksVolts,
+        DriveConfig.kvVoltSecondsPerMeter,
+        DriveConfig.kaVoltSecondsSquaredPerMeter
       ),
-      SysIdConfig.kDriveKinematics,
+      DriveConfig.kDriveKinematics,
       driveSubsystem::getWheelSpeeds,
-      new PIDController(SysIdConfig.kPDriveVel, 0, 0),
-      new PIDController(SysIdConfig.kPDriveVel, 0, 0),
+      new PIDController(DriveConfig.kPDriveVel, 0, 0),
+      new PIDController(DriveConfig.kPDriveVel, 0, 0),
       driveSubsystem::tankDriveVolts,
       driveSubsystem
     );

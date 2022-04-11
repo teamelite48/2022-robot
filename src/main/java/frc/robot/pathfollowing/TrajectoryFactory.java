@@ -14,7 +14,7 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import frc.robot.config.sysid.SysIdConfig;
+import frc.robot.config.subsystems.DriveConfig;
 
 public final class TrajectoryFactory {
 
@@ -37,18 +37,18 @@ public final class TrajectoryFactory {
 
   private static final DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
     new SimpleMotorFeedforward(
-      SysIdConfig.ksVolts,
-      SysIdConfig.kvVoltSecondsPerMeter,
-      SysIdConfig.kaVoltSecondsSquaredPerMeter),
-      SysIdConfig.kDriveKinematics,
+      DriveConfig.ksVolts,
+      DriveConfig.kvVoltSecondsPerMeter,
+      DriveConfig.kaVoltSecondsSquaredPerMeter),
+      DriveConfig.kDriveKinematics,
       10
     );
 
   private static final TrajectoryConfig config = new TrajectoryConfig(
-    SysIdConfig.kMaxSpeedMetersPerSecond,
-    SysIdConfig.kMaxAccelerationMetersPerSecondSquared
+    DriveConfig.kMaxSpeedMetersPerSecond,
+    DriveConfig.kMaxAccelerationMetersPerSecondSquared
   )
-  .setKinematics(SysIdConfig.kDriveKinematics)
+  .setKinematics(DriveConfig.kDriveKinematics)
   .addConstraint(autoVoltageConstraint);
 
   private static final Trajectory testTrajectory = TrajectoryGenerator.generateTrajectory(
@@ -121,8 +121,6 @@ public final class TrajectoryFactory {
       }
 
     }
-
-
 
     return null;
   }

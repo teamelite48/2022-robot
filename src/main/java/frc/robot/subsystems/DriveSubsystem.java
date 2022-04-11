@@ -23,7 +23,6 @@ import frc.robot.config.roborio.DioPort;
 import frc.robot.config.roborio.PneumaticChannel;
 import frc.robot.config.roborio.PwmPort;
 import frc.robot.config.subsystems.DriveConfig;
-import frc.robot.config.sysid.SysIdConfig;
 import frc.robot.simulation.DriveSimulation;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -154,7 +153,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   private void initEncoders() {
-    double metersPerPulse = 2 * SysIdConfig.wheelRadiusInMeters * Math.PI / DriveConfig.encoderResolution;
+    double metersPerPulse = 2 * DriveConfig.wheelRadiusInMeters * Math.PI / DriveConfig.encoderResolution;
 
     leftEncoder.setDistancePerPulse(metersPerPulse);
     rightEncoder.setDistancePerPulse(metersPerPulse);

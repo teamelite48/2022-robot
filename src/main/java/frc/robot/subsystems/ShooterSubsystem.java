@@ -21,11 +21,12 @@ public class ShooterSubsystem extends SubsystemBase {
   final WPI_TalonFX rearMotor = new WPI_TalonFX(CanBusId.RearShooterMotor);
   final WPI_TalonFX frontMotor = new WPI_TalonFX(CanBusId.FrontShooterMotor);
 
-  final PIDController frontPIDController = new PIDController(ShooterConfig.frontkP, ShooterConfig.frontkI, ShooterConfig.frontkD);
-  final SimpleMotorFeedforward frontFeedForward = new SimpleMotorFeedforward(ShooterConfig.frontks, ShooterConfig.frontkv, ShooterConfig.frontka);
 
-  final PIDController rearPIDController = new PIDController(ShooterConfig.rearkP, ShooterConfig.rearkI, ShooterConfig.rearkD);
-  final SimpleMotorFeedforward rearFeedForward = new SimpleMotorFeedforward(ShooterConfig.rearks, ShooterConfig.rearkv, ShooterConfig.rearka);
+  final SimpleMotorFeedforward frontFeedForward = ShooterConfig.frontMotorFeedForward;
+  final SimpleMotorFeedforward rearFeedForward = ShooterConfig.rearMotorFeedForward;
+
+  final PIDController frontPIDController = ShooterConfig.frontMotorPIDController;
+  final PIDController rearPIDController = ShooterConfig.rearMotorPIDController;
 
   boolean isShooterOn = false;
   double targetRPM = ShooterConfig.mediumRPM;
@@ -113,8 +114,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getRPMByDistanceToTarget() {
 
-    double bottomRPM = ShooterConfig.distanceToRPMMap.getOrDefault(Math.floor(distanceToTargetInFeet), 0.0);
-    double topRPM = ShooterConfig.distanceToRPMMap.getOrDefault(Math.ceil(distanceToTargetInFeet), 0.0);
+    double bottomRPM = ShooterConfig.distanceToRpmMap.getOrDefault(Math.floor(distanceToTargetInFeet), 0.0);
+    double topRPM = ShooterConfig.distanceToRpmMap.getOrDefault(Math.ceil(distanceToTargetInFeet), 0.0);
 
     targetRPM = bottomRPM + ((distanceToTargetInFeet - Math.floor(distanceToTargetInFeet)) * (topRPM - bottomRPM));
 
