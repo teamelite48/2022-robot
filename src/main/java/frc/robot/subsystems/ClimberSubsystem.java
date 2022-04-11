@@ -190,16 +190,6 @@ public class ClimberSubsystem extends SubsystemBase {
     return lockSolenoid.get() == ClimberConfig.lockValue;
   }
 
-  public boolean isFullyExtended() {
-    return leftArmSensorCollection.getIntegratedSensorPosition() + 10 >= ClimberConfig.upTiltArmExtensionLimit && rightArmSensorCollection.getIntegratedSensorPosition() + 10 >= ClimberConfig.upTiltArmExtensionLimit;
-    // return this.leftArmMotor.isFwdLimitSwitchClosed() == 1 && this.rightArmMotor.isFwdLimitSwitchClosed() == 1;
-  }
-
-  public boolean isFullyRetracted() {
-    return leftArmSensorCollection.getIntegratedSensorPosition() - 10 <= ClimberConfig.upTiltArmRetractionLimit && rightArmSensorCollection.getIntegratedSensorPosition() - 10 <= ClimberConfig.upTiltArmRetractionLimit;
-    // return this.leftArmMotor.isRevLimitSwitchClosed() == 1 && this.rightArmMotor.isRevLimitSwitchClosed() == 1;
-  }
-
   private void setArmLimits(int extensionLimit, int retractionLimit) {
 
     leftArmMotor.configForwardSoftLimitThreshold(extensionLimit, 30);
