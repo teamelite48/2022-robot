@@ -35,7 +35,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   boolean isAutoAimEnabled = true;
   boolean isAutoAimOn = false;
-  
+
   long lastSimulationPeriodicMillis = 0;
   boolean isTurretEnabled = true;
 
@@ -110,7 +110,7 @@ public class TurretSubsystem extends SubsystemBase {
     double error = tx.getDouble(0.0);
 
     if(isTargetAcquired() == false) return;
-    
+
     double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
     setMotor(newMotorSpeed);

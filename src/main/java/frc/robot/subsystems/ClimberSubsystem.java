@@ -156,7 +156,7 @@ public class ClimberSubsystem extends SubsystemBase {
     rightArmMotor.set(0);
   }
 
-  public void toggleHooksPosition() {
+  public void toggleHookPositions() {
     if (isClimberEnabled == false) return;
 
     if (secondaryHookSolenoid.get() == ClimberConfig.downTilt) {
@@ -170,14 +170,14 @@ public class ClimberSubsystem extends SubsystemBase {
   public void tiltHooksDown() {
 
     secondaryHookSolenoid.set(ClimberConfig.downTilt);
-  
+
   }
 
   public void tiltHooksUp() {
     if (isClimberEnabled == false) return;
 
     secondaryHookSolenoid.set(ClimberConfig.upTilt);
-    
+
   }
 
   public void toggleArmLocks() {

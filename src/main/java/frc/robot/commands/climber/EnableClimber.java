@@ -7,6 +7,7 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.commands.turret.DisableTurret;
 import frc.robot.commands.turret.MoveTurretToDegrees;
 import frc.robot.config.subsystems.TurretConfig;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -21,7 +22,7 @@ public class EnableClimber extends SequentialCommandGroup {
   public EnableClimber() {
     addCommands(
       new MoveTurretToDegrees(TurretConfig.degreesAtCenter),
-      new InstantCommand(turretSubsystem::disableTurret, turretSubsystem),
+      new DisableTurret(),
       new InstantCommand(climberSubsystem::enableClimber)
     );
   }

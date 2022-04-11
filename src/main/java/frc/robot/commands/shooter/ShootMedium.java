@@ -4,22 +4,17 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.commands.turret.TurnAutoAimOn;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.turret.AutoAimOn;
 
 public class ShootMedium extends SequentialCommandGroup {
 
   public ShootMedium() {
 
-    ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
-
     addCommands(
-      new InstantCommand(shooterSubsystem::setMediumSpeed, shooterSubsystem),
+      new SetShooterSpeedToMedium(),
       new ShooterOn(),
-      new TurnAutoAimOn()
+      new AutoAimOn()
     );
   }
 }

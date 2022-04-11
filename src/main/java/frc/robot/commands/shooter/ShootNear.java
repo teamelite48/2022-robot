@@ -4,21 +4,16 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.commands.turret.TurnAutoAimOff;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.turret.AutoAimOff;
 
 public class ShootNear extends SequentialCommandGroup {
 
   public ShootNear() {
 
-    ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
-
     addCommands(
-      new TurnAutoAimOff(),
-      new InstantCommand(shooterSubsystem::setLowSpeed, shooterSubsystem),
+      new AutoAimOff(),
+      new SetShooterSpeedToLow(),
       new ShooterOn()
     );
   }

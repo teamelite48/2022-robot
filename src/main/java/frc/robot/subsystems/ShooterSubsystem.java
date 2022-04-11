@@ -140,5 +140,5 @@ public class ShooterSubsystem extends SubsystemBase {
   public void bumpRpmDown() {
     targetRPM -= ShooterConfig.rpmBump;
   }
-  
+
 }

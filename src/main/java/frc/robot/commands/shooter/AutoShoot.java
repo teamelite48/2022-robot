@@ -4,24 +4,18 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.commands.turret.TurnAutoAimOn;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.commands.turret.AutoAimOn;
 
 
 public class AutoShoot extends SequentialCommandGroup {
 
   public AutoShoot() {
 
-    ShooterSubsystem shooterSubsystem = RobotContainer.shooterSubsystem;
-
     addCommands(
-      new TurnAutoAimOn(),
-      new InstantCommand(shooterSubsystem::turnRangeBasedRPMOn, shooterSubsystem),
+      new AutoAimOn(),
+      new TurnRangeBasedShooterRpmOn(),
       new ShooterOn()
-      
     );
   }
 }

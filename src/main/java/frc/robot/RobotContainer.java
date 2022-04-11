@@ -11,7 +11,9 @@ import frc.robot.commands.auto.FourBallStraightAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallShortAuto;
 import frc.robot.commands.climber.ToggleArmPositions;
+import frc.robot.commands.climber.ToggleHookPositions;
 import frc.robot.commands.climber.EnableClimber;
+import frc.robot.commands.climber.ToggleArmLocks;
 import frc.robot.commands.drive.ShiftHighGear;
 import frc.robot.commands.drive.ShiftLowGear;
 import frc.robot.commands.intake.ManualIntake;
@@ -20,11 +22,17 @@ import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShootNear;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooter.AutoShoot;
+import frc.robot.commands.shooter.BumpShooterRpmDown;
+import frc.robot.commands.shooter.BumpShooterRpmUp;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ShooterFeedUp;
-import frc.robot.commands.turret.TurnAutoAimOn;
+import frc.robot.commands.turret.AutoAimOn;
+import frc.robot.commands.turret.DisableAutoAim;
+import frc.robot.commands.turret.EnableAutoAim;
 import frc.robot.commands.turret.MoveTurretToDegrees;
+import frc.robot.commands.turret.RotateTurretClockwise;
+import frc.robot.commands.turret.RotateTurretCounterClockwise;
 import frc.robot.config.roborio.JoystickPort;
 import frc.robot.config.subsystems.ClimberConfig;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -57,7 +65,6 @@ public class RobotContainer {
 
     final LogitechJoystick leftJoystick = new LogitechJoystick(JoystickPort.LeftPilotJoystick);
     final LogitechJoystick rightJoystick = new LogitechJoystick(JoystickPort.RightPilotJoystick);
-    //final LogitechGamepad gamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
     final PS4Gamepad gamepad = new PS4Gamepad(JoystickPort.CopilotGamepad);
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -95,39 +102,36 @@ public class RobotContainer {
 
         rightJoystick.getTrigger().whenPressed(new RetractIntake());
         rightJoystick.getButton2().whenHeld(new Outtake());
-        rightJoystick.getButton8().and(rightJoystick.getButton9()).whenActive(new EnableClimber());
+
+        rightJoystick.getButton8()
+            .and(rightJoystick.getButton9())
+            .whenActive(new EnableClimber());
     }
 
     private void configureCopilotButtonBindings() {
 
-        gamepad.getL1Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmUp));
-        gamepad.getL2Button().whenPressed(new InstantCommand(shooterSubsystem::bumpRpmDown));
+        gamepad.getL1Button().whenPressed(new BumpShooterRpmUp());
+        gamepad.getL2Button().whenPressed(new BumpShooterRpmDown());
 
         gamepad.getR1Button().whenHeld(new ShooterFeedUp());
         gamepad.getR2Button().whenHeld(new ShooterFeedDown());
 
         gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
-        gamepad.getDpadDownTrigger().whenActive(new TurnAutoAimOn());
-
-        gamepad.getDpadLeftTrigger()
-            .whenActive(new InstantCommand(turretSubsystem::rotateCounterClockwise, turretSubsystem))
-            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
-
-        gamepad.getDpadRightTrigger()
-            .whenActive(new InstantCommand(turretSubsystem::rotateClockwise, turretSubsystem))
-            .whenInactive(new InstantCommand(turretSubsystem::stop, turretSubsystem));
+        gamepad.getDpadDownTrigger().whenActive(new AutoAimOn());
+        gamepad.getDpadLeftTrigger().whenActive(new RotateTurretCounterClockwise());
+        gamepad.getDpadRightTrigger().whenActive(new RotateTurretClockwise());
 
         gamepad.getLeftStickButton().whenPressed(new ToggleArmPositions());
-        gamepad.getRightStickButton().whenPressed(new InstantCommand(climberSubsystem::toggleHooksPosition));
+        gamepad.getRightStickButton().whenPressed(new ToggleHookPositions());
 
-        gamepad.getTouchpadButton().whenPressed(new InstantCommand(climberSubsystem::toggleArmLocks));
+        gamepad.getTouchpadButton().whenPressed(new ToggleArmLocks());
 
         new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
             .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))
             .whenInactive(new InstantCommand(climberSubsystem::stopArms));
 
-        gamepad.getBackButton().whenPressed(new InstantCommand(turretSubsystem::disableAutoAim, turretSubsystem));
-        gamepad.getStartButton().whenPressed(new InstantCommand(turretSubsystem::enableAutoAim, turretSubsystem));
+        gamepad.getBackButton().whenPressed(new DisableAutoAim());
+        gamepad.getStartButton().whenPressed(new EnableAutoAim());
 
         gamepad.getCrossButton().whenPressed(new ShootNear());
         gamepad.getCircleButton().whenPressed(new ShooterOff());
@@ -151,7 +155,6 @@ public class RobotContainer {
         autoChooser.addOption("Two Ball", new TwoBallAuto());
         autoChooser.addOption("Two Ball Short", new TwoBallShortAuto());
         autoChooser.addOption("Four Ball Straight", new FourBallStraightAuto());
-        //autoChooser.addOption("Test", new TestAuto());
 
         SmartDashboard.putData(autoChooser);
     }

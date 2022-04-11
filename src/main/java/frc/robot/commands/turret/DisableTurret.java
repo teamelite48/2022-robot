@@ -9,16 +9,16 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.TurretSubsystem;
 
 
-public class TurnAutoAimOff extends InstantCommand {
+public class DisableTurret extends InstantCommand {
 
   TurretSubsystem turretSubsystem = RobotContainer.turretSubsystem;
 
-  public TurnAutoAimOff() {
+  public DisableTurret() {
     addRequirements(turretSubsystem);
   }
 
   @Override
   public void initialize() {
-    turretSubsystem.turnAutoAimOff();
+    turretSubsystem.disableTurret();
   }
 }

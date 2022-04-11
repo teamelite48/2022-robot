@@ -9,11 +9,11 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.TurretSubsystem;
 
 
-public class TurnAutoAimOn extends InstantCommand {
+public class AutoAimOn extends InstantCommand {
 
   TurretSubsystem turretSubsystem = RobotContainer.turretSubsystem;
 
-  public TurnAutoAimOn() {
+  public AutoAimOn() {
     addRequirements(turretSubsystem);
   }
 
