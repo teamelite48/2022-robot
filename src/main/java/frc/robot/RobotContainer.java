@@ -12,6 +12,7 @@ import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallShortAuto;
 import frc.robot.commands.climber.ToggleArmPositions;
 import frc.robot.commands.climber.ToggleHookPositions;
+import frc.robot.commands.climber.DisableClimber;
 import frc.robot.commands.climber.EnableClimber;
 import frc.robot.commands.climber.ToggleArmLocks;
 import frc.robot.commands.drive.ShiftHighGear;
@@ -48,6 +49,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -105,7 +107,7 @@ public class RobotContainer {
 
         rightJoystick.getButton8()
             .and(rightJoystick.getButton9())
-            .whenActive(new EnableClimber());
+            .whenActive(new ConditionalCommand(new DisableClimber(), new EnableClimber(), climberSubsystem::isEnabled));
     }
 
     private void configureCopilotButtonBindings() {
@@ -125,7 +127,9 @@ public class RobotContainer {
         gamepad.getRightStickButton().whenPressed(new ToggleHookPositions());
 
         gamepad.getTouchpadButton().whenPressed(new ToggleArmLocks());
-        gamepad.getPSButton().whenPressed(new EnableClimber());
+
+
+        gamepad.getPSButton().whenPressed(new ConditionalCommand(new DisableClimber(), new EnableClimber(), climberSubsystem::isEnabled));
 
         new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
             .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))

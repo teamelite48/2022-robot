@@ -81,6 +81,10 @@ public class TurretSubsystem extends SubsystemBase {
     lastSimulationPeriodicMillis = System.currentTimeMillis();
   }
 
+  public void enableTurret() {
+    isTurretEnabled = true;
+  }
+
   public void disableTurret() {
     isTurretEnabled = false;
     turnAutoAimOff();

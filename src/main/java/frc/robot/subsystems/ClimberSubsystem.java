@@ -100,6 +100,12 @@ public class ClimberSubsystem extends SubsystemBase {
     lockSolenoid.set(ClimberConfig.unlockValue);
   }
 
+  public void disableClimber() {
+    tiltArmsDown();
+    tiltHooksDown();
+    isClimberEnabled = false;
+  }
+
   public void toggleArmPositions() {
     if (isClimberEnabled == false) return;
 
@@ -188,6 +194,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public boolean isClimberLocked(){
     return lockSolenoid.get() == ClimberConfig.lockValue;
+  }
+
+  public boolean isEnabled() {
+    return isClimberEnabled;
   }
 
   private void setArmLimits(int extensionLimit, int retractionLimit) {
