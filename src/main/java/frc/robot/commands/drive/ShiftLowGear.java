@@ -13,9 +13,7 @@ public class ShiftLowGear extends InstantCommand {
 
   DriveSubsystem driveSubsystem  = RobotContainer.driveSubsystem;
 
-  public ShiftLowGear() {
-    addRequirements(driveSubsystem);
-  }
+  public ShiftLowGear() {}
 
   @Override
   public void initialize() {
