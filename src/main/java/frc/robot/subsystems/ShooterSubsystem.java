@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.subsystems.ShooterConfig;
+import frc.robot.utils.DiscreteInterpolator;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -35,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry ty = table.getEntry("ty");
 
+  DiscreteInterpolator distanceToRPMInterpolator = new DiscreteInterpolator(ShooterConfig.distanceToRpmMap);
   double distanceToTargetInFeet = 0.0;
 
   public ShooterSubsystem() {
@@ -61,7 +63,7 @@ public class ShooterSubsystem extends SubsystemBase {
     else {
 
       if(isRangeBasedRPMOn){
-        targetRPM = getRPMByDistanceToTarget();
+        targetRPM = distanceToRPMInterpolator.interpolate(distanceToTargetInFeet);
       }
 
       setFrontMotor(targetRPM);
@@ -110,16 +112,6 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setMediumSpeed() {
     isRangeBasedRPMOn = false;
     targetRPM = ShooterConfig.mediumRPM;
-  }
-
-  public double getRPMByDistanceToTarget() {
-
-    double bottomRPM = ShooterConfig.distanceToRpmMap.getOrDefault(Math.floor(distanceToTargetInFeet), 0.0);
-    double topRPM = ShooterConfig.distanceToRpmMap.getOrDefault(Math.ceil(distanceToTargetInFeet), 0.0);
-
-    targetRPM = bottomRPM + ((distanceToTargetInFeet - Math.floor(distanceToTargetInFeet)) * (topRPM - bottomRPM));
-
-    return targetRPM;
   }
 
   public void turnRangeBasedRPMOn() {

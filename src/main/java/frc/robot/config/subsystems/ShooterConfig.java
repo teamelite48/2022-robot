@@ -27,25 +27,29 @@ public final class ShooterConfig {
 
     public static final double maxDistanceInFeet = 27;
 
-    public static final HashMap<Double, Double> distanceToRpmMap = new HashMap<Double, Double>() {{
-        put(0.0, 1100.0);
-        put(5.0, 1100.0);
-        put(7.0, 1800.0);
-        put(8.0, 1900.0);
-        put(9.0, 2025.0);
-        put(10.0, 2000.0);
-        put(11.0, 2050.0);
-        put(12.0, 2100.0);
-        put(13.0, 2150.0);
-        put(14.0, 2200.0);
-        put(15.0, 2350.0);
-        put(16.0, 2500.0);
-        put(17.0, 2900.0);
-        put(18.0, 3450.0);
-        put(19.0, 3850.0);
-        put(20.0, 4100.0);
-        put(21.0, 4400.0);
-        put(22.0, 4750.0);
-
+    public static final HashMap<Integer, Integer> distanceToRpmMap = new HashMap<Integer, Integer>() {{
+        put(0, 1100);
+        put(1, 1100);
+        put(2, 1100);
+        put(3, 1100);
+        put(4, 1100);
+        put(5, 1100);
+        put(6, 1100);
+        put(7, 1800);
+        put(8, 1900);
+        put(9, 2025);
+        put(10, 2000);
+        put(11, 2050);
+        put(12, 2100);
+        put(13, 2150);
+        put(14, 2200);
+        put(15, 2350);
+        put(16, 2500);
+        put(17, 2900);
+        put(18, 3450);
+        put(19, 3850);
+        put(20, 4100);
+        put(21, 4400);
+        put(22, 4750);
     }};
 }
