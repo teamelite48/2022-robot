@@ -125,6 +125,7 @@ public class RobotContainer {
         gamepad.getRightStickButton().whenPressed(new ToggleHookPositions());
 
         gamepad.getTouchpadButton().whenPressed(new ToggleArmLocks());
+        gamepad.getPSButton().whenPressed(new EnableClimber());
 
         new Trigger(() -> Math.abs(gamepad.getLeftY()) > ClimberConfig.armSpeedDeadband)
             .whileActiveContinuous(new InstantCommand(() -> climberSubsystem.moveArms(gamepad.getLeftY() * -1), climberSubsystem))
