@@ -120,8 +120,8 @@ public class RobotContainer {
 
         gamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
         gamepad.getDpadDownTrigger().whenActive(new AutoAimOn());
-        gamepad.getDpadLeftTrigger().whenActive(new RotateTurretCounterClockwise());
-        gamepad.getDpadRightTrigger().whenActive(new RotateTurretClockwise());
+        gamepad.getDpadLeftTrigger().whileActiveOnce(new RotateTurretCounterClockwise());
+        gamepad.getDpadRightTrigger().whileActiveOnce(new RotateTurretClockwise());
 
         gamepad.getLeftStickButton().whenPressed(new ToggleArmPositions());
         gamepad.getRightStickButton().whenPressed(new ToggleHookPositions());
