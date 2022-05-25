@@ -2,15 +2,15 @@ package frc.robot.utils;
 
 import java.util.HashMap;
 
-public class DiscreteInterpolator {
+public class Interpolator {
 
     HashMap<Integer, Integer> domainAndRange;
 
-    public DiscreteInterpolator(HashMap<Integer, Integer> domainAndRange) {
+    public Interpolator(HashMap<Integer, Integer> domainAndRange) {
         this.domainAndRange = domainAndRange;
     }
 
-    public int interpolate(double x) {
+    public double calculate(double x) {
 
         double x1 = (int) x;
         double x2 = (int) (x + 1);
@@ -19,6 +19,6 @@ public class DiscreteInterpolator {
 
         double y = y1 + (x - x1) * (y2 - y1);
 
-        return (int) y;
+        return y;
     }
 }
