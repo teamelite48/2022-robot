@@ -60,7 +60,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Left Arm Length", leftArmSensorCollection.getIntegratedSensorPosition());
     SmartDashboard.putNumber("Right Arm Length", rightArmSensorCollection.getIntegratedSensorPosition());
 
-    rightArmMotor.setInverted(TalonFXInvertType.Clockwise);
+    leftArmMotor.setInverted(TalonFXInvertType.Clockwise);
 
     if (RobotBase.isSimulation() == true) {
       leftArmSim = leftArmMotor.getSimCollection();
