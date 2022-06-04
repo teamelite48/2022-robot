@@ -12,8 +12,8 @@ public class Interpolator {
 
     public double calculate(double x) {
 
-        double x1 = (int) x;
-        double x2 = (int) (x + 1);
+        int x1 = (int) Math.floor(x);
+        int x2 = (int) Math.ceil(x);
         double y1 = domainAndRange.getOrDefault(x1, 0);
         double y2 = domainAndRange.getOrDefault(x2, 0);
 
