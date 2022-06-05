@@ -111,14 +111,23 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void autoAim() {
 
+    // double error = tx.getDouble(0.0);
+
+    // if(isTargetAcquired() == false) return;
+
+    // double motorSpeed = pidController.calculate(error, 0);
+    // double limitedMotorSpeed = motorOutputLimiter.limit(motorSpeed);
+
+    // setMotor(limitedMotorSpeed);
+
     double error = tx.getDouble(0.0);
 
     if(isTargetAcquired() == false) return;
+    
+    double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
-    double motorSpeed = pidController.calculate(error, 0);
-    double limitedMotorSpeed = motorOutputLimiter.limit(motorSpeed);
+    setMotor(newMotorSpeed);
 
-    setMotor(limitedMotorSpeed);
   }
 
   public boolean isTargetAcquired(){
