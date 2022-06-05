@@ -28,7 +28,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new FollowPath(PathType.TwoBall2),
             new AutoShoot(),
             new WaitCommand(0.5),
-            //new RetractIntake(),
+            new RetractIntake(),
             new ShooterFeedUp().withTimeout(3),
             new ShooterOff()
         );
