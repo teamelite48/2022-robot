@@ -1,6 +1,5 @@
 package frc.robot.config.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
 
 public class TurretConfig {
 
@@ -22,8 +21,6 @@ public class TurretConfig {
     public static final double kP = 0.035;
     public static final double kI = 0.0005;
     public static final double kD = 0.00;
-
-    public static final PIDController pidController = new PIDController(0.035, 0.0005, 0.0);
 
     public static final double moveWithinDegrees = 3;
     public static final long moveCoolDown = 1000;

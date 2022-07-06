@@ -2,11 +2,11 @@ package frc.robot.utils;
 
 import java.util.HashMap;
 
-public class Interpolator {
+public class LinearInterpolator {
 
     HashMap<Integer, Integer> domainAndRange;
 
-    public Interpolator(HashMap<Integer, Integer> domainAndRange) {
+    public LinearInterpolator(HashMap<Integer, Integer> domainAndRange) {
         this.domainAndRange = domainAndRange;
     }
 

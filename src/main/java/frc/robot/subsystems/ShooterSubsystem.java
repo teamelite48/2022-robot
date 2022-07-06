@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.roborio.CanBusId;
 import frc.robot.config.subsystems.ShooterConfig;
-import frc.robot.utils.Interpolator;
+import frc.robot.utils.LinearInterpolator;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -36,7 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry ty = table.getEntry("ty");
 
-  Interpolator distanceToRPMInterpolator = new Interpolator(ShooterConfig.distanceToRpmMap);
+  LinearInterpolator distanceToRPMInterpolator = new LinearInterpolator(ShooterConfig.distanceToRpmMap);
   double distanceToTargetInFeet = 0.0;
 
   public ShooterSubsystem() {

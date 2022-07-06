@@ -23,9 +23,8 @@ public class TurretSubsystem extends SubsystemBase {
 
   final CANSparkMax motor = new CANSparkMax(CanBusId.TurretMotor, MotorType.kBrushless);
   final RelativeEncoder encoder = motor.getEncoder();
-  final PIDController pidController = TurretConfig.pidController;
+  final PIDController pidController = new PIDController(TurretConfig.kP, TurretConfig.kI, TurretConfig.kD);
   final OutputLimiter motorOutputLimiter = new OutputLimiter(-TurretConfig.motorMaxOutput, TurretConfig.motorMaxOutput);
-
 
   final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   final NetworkTableEntry tx = table.getEntry("tx");
@@ -61,7 +60,6 @@ public class TurretSubsystem extends SubsystemBase {
       ledMode.setNumber(1);
       camMode.setNumber(1);
     }
-
 
     SmartDashboard.putNumber("Turret Degrees", getPositionInDegrees());
     SmartDashboard.putNumber("Turret tx", tx.getDouble(0.0));
@@ -111,23 +109,12 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void autoAim() {
 
-    // double error = tx.getDouble(0.0);
-
-    // if(isTargetAcquired() == false) return;
-
-    // double motorSpeed = pidController.calculate(error, 0);
-    // double limitedMotorSpeed = motorOutputLimiter.limit(motorSpeed);
-
-    // setMotor(limitedMotorSpeed);
+    if(isTargetAcquired() == false) return;
 
     double error = tx.getDouble(0.0);
-
-    if(isTargetAcquired() == false) return;
-    
     double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
     setMotor(newMotorSpeed);
-
   }
 
   public boolean isTargetAcquired(){
