@@ -15,10 +15,10 @@ public final class ShooterConfig {
     public static final SimpleMotorFeedforward frontMotorFeedForward = new SimpleMotorFeedforward(0.69687, 0.11441, 0.009925);
     public static final SimpleMotorFeedforward rearMotorFeedForward = new SimpleMotorFeedforward(0.56945, 0.10931, 0.0027359);
 
-    public static final PIDController frontMotorPIDController = new PIDController(0.000015, 0, 0);
-    public static final PIDController rearMotorPIDController = new PIDController(0.000015, 0, 0);
+    public static final PIDController frontMotorPIDController = new PIDController(0.00003, 0, 0);
+    public static final PIDController rearMotorPIDController = new PIDController(0.00003, 0, 0);
 
-    public static final double limelightAngleInDegrees = 35;
+    public static final double limelightAngleInDegrees = 45;
     public static final double limelightHeightInFeet = 2.29166666;
 
     public static final double middleOfVisionTargetInFeet = 8.5675;
@@ -35,19 +35,19 @@ public final class ShooterConfig {
         put(4, 1100);
         put(5, 1100);
         put(6, 1100);
-        put(7, 1800);
-        put(8, 1900);
-        put(9, 2025);
+        put(7, 1700);
+        put(8, 1800);
+        put(9, 1900);
         put(10, 2000);
         put(11, 2050);
         put(12, 2100);
-        put(13, 2150);
-        put(14, 2200);
+        put(13, 2175);
+        put(14, 2250);
         put(15, 2350);
-        put(16, 2500);
-        put(17, 2900);
-        put(18, 3450);
-        put(19, 3850);
+        put(16, 2450);
+        put(17, 2550);
+        put(18, 2850);
+        put(19, 3500);
         put(20, 4100);
         put(21, 4400);
         put(22, 4750);
