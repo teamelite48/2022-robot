@@ -132,20 +132,6 @@ public class TurretSubsystem extends SubsystemBase {
     setMotor(limitedMotorSpeed);
   }
 
-  public void manualTurret(double leftX) {
-
-    if (Math.abs(leftX) >= TurretConfig.inputDeadzone) {
-      turnAutoAimOff();
-
-      double scaledInput = leftX * Math.abs(leftX) * TurretConfig.motorMaxOutput;
-
-      setMotor(scaledInput);
-    }
-    else if (isAutoAimOn == false) {
-      stop();
-    }
-  }
-
   public void rotateClockwise() {
     turnAutoAimOff();
     setMotor(TurretConfig.clockwiseSpeed);
