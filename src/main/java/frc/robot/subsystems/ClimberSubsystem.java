@@ -153,6 +153,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
     double squaredSpeed = speed * Math.abs(speed);
 
+    if (squaredSpeed < 0) {
+     squaredSpeed =  squaredSpeed * 0.70;
+    }
+
     leftArmMotor.set(squaredSpeed);
     rightArmMotor.set(squaredSpeed);
   }
