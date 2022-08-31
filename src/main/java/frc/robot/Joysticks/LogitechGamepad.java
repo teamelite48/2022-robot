@@ -4,36 +4,60 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class LogitechGamepad extends GenericHID {
+public class LogitechGamepad {
+
+    public JoystickButton lb;
+    public JoystickButton rb;
+
+    public Trigger up;
+    public Trigger down;
+    public Trigger left;
+    public Trigger right;
+
+    public JoystickButton x;
+    public JoystickButton a;
+    public JoystickButton y;
+    public JoystickButton b;
+
+    public JoystickButton start;
+    public JoystickButton back;
+
+    private GenericHID hid;
 
     public LogitechGamepad(int port) {
-        super(port);
+        hid = new GenericHID(port);
+
+        lb = new JoystickButton(hid, 5);
+        rb = new JoystickButton(hid, 6);
+
+        start = new JoystickButton(hid, 8);
+        back = new JoystickButton(hid, 7);
+
+        x = new JoystickButton(hid, 3);
+        a = new JoystickButton(hid, 1);
+        y = new JoystickButton(hid, 4);
+        b = new JoystickButton(hid, 2);
     }
 
-    public double getLeftX() { return this.getRawAxis(0); }
-    public double getLeftY() { return this.getRawAxis(1); }
-    public double getRightX() { return this.getRawAxis(2); }
-    public double getRightY() { return this.getRawAxis(3); }
+    public double getLeftXAxis() {
+        return modifyAxis(hid.getRawAxis(0));
+    }
+    public double getRightXAxis(){
+        return modifyAxis(hid.getRawAxis(4));
+    }
 
-    public JoystickButton getXButton() { return new JoystickButton(this, 1); }
-    public JoystickButton getAButton() { return new JoystickButton(this, 2); }
-    public JoystickButton getBButton() { return new JoystickButton(this, 3); }
-    public JoystickButton getYButton() { return new JoystickButton(this, 4); }
+    public double getLeftYAxis() {
+        return modifyAxis(hid.getRawAxis(1));
+    }
 
-    public JoystickButton getLeftBumper() { return new JoystickButton(this, 5); }
-    public JoystickButton getLeftTrigger() { return new JoystickButton(this, 7); }
+    public double getRightYAxis(){
+        return modifyAxis(hid.getRawAxis(5));
+    }
 
-    public JoystickButton getRightBumper() { return new JoystickButton(this, 6); }
-    public JoystickButton getRightTrigger() { return new JoystickButton(this, 8); }
+    private double modifyAxis(double input) {
 
-    public JoystickButton getBackButton() { return new JoystickButton(this, 9); }
-    public JoystickButton getStartButton() { return new JoystickButton(this, 10); }
+        if (-0.5 <= input && input <= 0.5) return 0;
 
-    public JoystickButton getLeftStickButton() { return new JoystickButton(this, 11); }
-    public JoystickButton getRightStickButton() { return new JoystickButton(this, 12); }
-
-    public Trigger getDpadUpTrigger() { return new Trigger(() -> this.getPOV() == 0); }
-    public Trigger getDpadRightTrigger() { return new Trigger(() -> this.getPOV() == 90); }
-    public Trigger getDpadDownTrigger() { return new Trigger(() -> this.getPOV() == 180); }
-    public Trigger getDpadLeftTrigger() { return new Trigger(() -> this.getPOV() == 270); }
+        return input * Math.abs(input);
+      }
 }

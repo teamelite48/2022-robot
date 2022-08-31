@@ -45,9 +45,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    RobotContainer.climberSubsystem.tiltArmsDown();
-    RobotContainer.climberSubsystem.tiltHooksDown();
-
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 
@@ -62,15 +59,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    
-    RobotContainer.climberSubsystem.tiltArmsDown();
-    RobotContainer.climberSubsystem.tiltHooksDown();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
 
       new ShooterFeedStop().schedule();
-      new SorterStop().schedule();     
+      new SorterStop().schedule();
       new ShooterOff().schedule();
       new RetractIntake().schedule();
     }

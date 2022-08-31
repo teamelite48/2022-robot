@@ -1,43 +1,41 @@
 package frc.robot.config.subsystems;
 
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.numbers.N7;
 
 public final class DriveConfig {
-    public static final int encoderResolution = 360;
 
-	public static final boolean lowGearValue = true;
-    public static final boolean highGearValue = !lowGearValue;
+    /**
+     * The left-to-right distance between the drivetrain wheels
+     *
+     * Should be measured from center to center.
+     */
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.66675;
 
-    public static final double maxOutput = 1.0;
-    public static final double minOutput = 0.6;
-    public static final double shiftingMaxOutput = 0.2;
-    public static final int shiftCoolDownMillis = 500;
+    /**
+     * The front-to-back distance between the drivetrain wheels.
+     *
+     * Should be measured from center to center.
+     */
+    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.57785;
 
-    public static final boolean squareInputs = true;
+    public static final int DRIVETRAIN_PIGEON_ID = 0; // FIXME Set Pigeon ID
 
-    public static final double wheelRadiusInMeters = Units.inchesToMeters(2);
-    public static final double gearingReduction = 1;
+    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
+    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 22;
+    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 31;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0); // FIXME Measure and set front left steer offset
 
-    public static final double ksVolts = 0.75661;
-    public static final double kvVoltSecondsPerMeter = 2.2626;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.94481;
-    public static final double kPDriveVel = 3.5696;
+    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23;
+    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 24;
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 33;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0); // FIXME Measure and set front right steer offset
 
-    public static final double kvAngular = 2.3518;
-    public static final double kaAngular = 0.39292;
+    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 25;
+    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26;
+    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 35;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0); // FIXME Measure and set back left steer offset
 
-    public static final double trackWidthInMeters = 0.78688;
-    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(trackWidthInMeters);
-
-    public static final double kMaxSpeedMetersPerSecond = .1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = .1;
-
-    public static final double kRamseteB = 2;
-    public static final double kRamseteZeta = 0.7;
-
-    public static final Vector<N7> enocoderNoise = VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005);
+    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 27;
+    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 28;
+    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 37;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0); // FIXME Measure and set back right steer offset
 }
