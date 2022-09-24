@@ -85,7 +85,7 @@ public class RobotContainer {
         pilotGamepad.rb.whenHeld(new ManualIntake());
 
         pilotGamepad.a.whenPressed(new RetractIntake());
-        pilotGamepad.x.whenPressed(drivetrainSubsystem::zeroGyroscope);
+        pilotGamepad.start.whenPressed(drivetrainSubsystem::zeroGyroscope);
      }
 
     private void configureCopilotButtonBindings() {

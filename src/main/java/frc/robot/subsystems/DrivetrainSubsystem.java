@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.ctre.phoenix.sensors.Pigeon2;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -63,7 +63,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
   // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
   // cause the angle reading to increase until it wraps back over to zero.
-  private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
+  private final Pigeon2 m_pigeon = new Pigeon2(DRIVETRAIN_PIGEON_ID);
 
   // These are our modules. We initialize them in the constructor.
   private final SwerveModule m_frontLeftModule;
@@ -95,13 +95,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // By default we will use Falcon 500s in standard configuration. But if you use a different configuration or motors
     // you MUST change it. If you do not, your code will crash on startup.
-    m_frontLeftModule = Mk3SwerveModuleHelper.createNeo(
+
+    m_frontLeftModule = Mk4iSwerveModuleHelper.createNeo(
             // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
             tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(0, 0),
             // This can either be STANDARD or FAST depending on your gear configuration
-            Mk3SwerveModuleHelper.GearRatio.STANDARD,
+            Mk4iSwerveModuleHelper.GearRatio.L2,
             // This is the ID of the drive motor
             FRONT_LEFT_MODULE_DRIVE_MOTOR,
             // This is the ID of the steer motor
@@ -113,33 +114,33 @@ public class DrivetrainSubsystem extends SubsystemBase {
     );
 
     // We will do the same for the other modules
-    m_frontRightModule = Mk3SwerveModuleHelper.createFalcon500(
+    m_frontRightModule = Mk4iSwerveModuleHelper.createNeo(
         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(2, 0),
-        Mk3SwerveModuleHelper.GearRatio.STANDARD,
+        Mk4iSwerveModuleHelper.GearRatio.L2,
         FRONT_RIGHT_MODULE_DRIVE_MOTOR,
         FRONT_RIGHT_MODULE_STEER_MOTOR,
         FRONT_RIGHT_MODULE_STEER_ENCODER,
         FRONT_RIGHT_MODULE_STEER_OFFSET
     );
 
-    m_backLeftModule = Mk3SwerveModuleHelper.createFalcon500(
+    m_backLeftModule = Mk4iSwerveModuleHelper.createNeo(
         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(4, 0),
-        Mk3SwerveModuleHelper.GearRatio.STANDARD,
+        Mk4iSwerveModuleHelper.GearRatio.L2,
         BACK_LEFT_MODULE_DRIVE_MOTOR,
         BACK_LEFT_MODULE_STEER_MOTOR,
         BACK_LEFT_MODULE_STEER_ENCODER,
         BACK_LEFT_MODULE_STEER_OFFSET
     );
 
-    m_backRightModule = Mk3SwerveModuleHelper.createFalcon500(
+    m_backRightModule = Mk4iSwerveModuleHelper.createNeo(
         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(6, 0),
-        Mk3SwerveModuleHelper.GearRatio.STANDARD,
+        Mk4iSwerveModuleHelper.GearRatio.L2,
         BACK_RIGHT_MODULE_DRIVE_MOTOR,
         BACK_RIGHT_MODULE_STEER_MOTOR,
         BACK_RIGHT_MODULE_STEER_ENCODER,
@@ -152,11 +153,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * 'forwards' direction.
    */
   public void zeroGyroscope() {
-    m_pigeon.setFusedHeading(0.0);
+    m_pigeon.setYaw(0.0);
   }
 
   public Rotation2d getGyroscopeRotation() {
-    return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
+    return Rotation2d.fromDegrees(m_pigeon.getYaw());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {

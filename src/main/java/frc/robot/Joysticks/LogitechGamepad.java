@@ -24,6 +24,8 @@ public class LogitechGamepad {
 
     private GenericHID hid;
 
+    private double deadband = 0.02;
+
     public LogitechGamepad(int port) {
         hid = new GenericHID(port);
 
@@ -55,9 +57,8 @@ public class LogitechGamepad {
     }
 
     private double modifyAxis(double input) {
+        if ((-deadband <= input && input <= 0.0) || (0.0 <= input && input <= deadband)) return 0;
 
-        if (-0.5 <= input && input <= 0.5) return 0;
-
-        return input * Math.abs(input);
+        return input * Math.abs(input) / 4.0;
       }
 }
