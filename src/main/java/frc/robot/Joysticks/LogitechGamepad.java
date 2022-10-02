@@ -59,6 +59,6 @@ public class LogitechGamepad {
     private double modifyAxis(double input) {
         if ((-deadband <= input && input <= 0.0) || (0.0 <= input && input <= deadband)) return 0;
 
-        return input * Math.abs(input) / 4.0;
+        return input * Math.abs(input) * Math.abs(input) / 3.0;
       }
 }
