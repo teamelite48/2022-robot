@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,10 +16,10 @@ import frc.robot.config.subsystems.IntakeConfig;
 public class IntakeSubsystem extends SubsystemBase {
 
   final PWMSparkMax motor = new PWMSparkMax(PwmPort.IntakeMotor);
-  final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, PneumaticChannel.IntakeDeploy);
+  final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PneumaticChannel.IntakeDeploy, PneumaticChannel.IntakeRetract);
 
   public IntakeSubsystem() {
-    intakeSolenoid.set(IntakeConfig.retractValue);
+    solenoid.set(IntakeConfig.retractValue);
   }
 
   @Override
@@ -50,15 +50,15 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void deploy(){
-    intakeSolenoid.set(IntakeConfig.deployValue);
+    solenoid.set(IntakeConfig.deployValue);
   }
 
   public void retract(){
     stop();
-    intakeSolenoid.set(IntakeConfig.retractValue);
+    solenoid.set(IntakeConfig.retractValue);
   }
 
   public boolean isIntakeDeployed() {
-    return intakeSolenoid.get() == IntakeConfig.deployValue;
+    return solenoid.get() == IntakeConfig.deployValue;
   }
 }
