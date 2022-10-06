@@ -9,6 +9,9 @@ public class LogitechGamepad {
     public JoystickButton lb;
     public JoystickButton rb;
 
+    public Trigger lt;
+    public Trigger rt;
+
     public Trigger up;
     public Trigger down;
     public Trigger left;
@@ -31,6 +34,14 @@ public class LogitechGamepad {
 
         lb = new JoystickButton(hid, 5);
         rb = new JoystickButton(hid, 6);
+
+        lt = new Trigger(() -> hid.getRawAxis(2) > this.deadband);
+        rt = new Trigger(() -> hid.getRawAxis(3) > this.deadband);
+
+        up = new Trigger(() -> hid.getPOV() == 0);
+        right = new Trigger(() -> hid.getPOV() == 90);
+        down = new Trigger(() -> hid.getPOV() == 180);
+        left = new Trigger(() -> hid.getPOV() == 270);
 
         start = new JoystickButton(hid, 8);
         back = new JoystickButton(hid, 7);

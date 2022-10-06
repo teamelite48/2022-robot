@@ -49,7 +49,7 @@ public class RobotContainer {
     public static TurretSubsystem turretSubsystem;
 
     final LogitechGamepad pilotGamepad = new LogitechGamepad(JoystickPort.PilotGamepad);
-    final PS4Gamepad copilotGamepad = new PS4Gamepad(JoystickPort.CopilotGamepad);
+    final LogitechGamepad copilotGamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -90,24 +90,24 @@ public class RobotContainer {
 
     private void configureCopilotButtonBindings() {
 
-        copilotGamepad.getL1Button().whenPressed(new BumpShooterRpmUp());
-        copilotGamepad.getL2Button().whenPressed(new BumpShooterRpmDown());
+        copilotGamepad.lb.whenPressed(new BumpShooterRpmUp());
+        copilotGamepad.lt.whenActive(new BumpShooterRpmDown());
 
-        copilotGamepad.getR1Button().whenHeld(new ShooterFeedUp());
-        copilotGamepad.getR2Button().whenHeld(new ShooterFeedDown());
+        copilotGamepad.rb.whenHeld(new ShooterFeedUp());
+        copilotGamepad.rt.whenActive(new ShooterFeedDown());
 
-        copilotGamepad.getDpadUpTrigger().whenActive(new MoveTurretToDegrees(180));
-        copilotGamepad.getDpadDownTrigger().whenActive(new AutoAimOn());
-        copilotGamepad.getDpadLeftTrigger().whileActiveOnce(new RotateTurretCounterClockwise());
-        copilotGamepad.getDpadRightTrigger().whileActiveOnce(new RotateTurretClockwise());
+        copilotGamepad.up.whenActive(new MoveTurretToDegrees(180));
+        copilotGamepad.down.whenActive(new AutoAimOn());
+        copilotGamepad.left.whileActiveOnce(new RotateTurretCounterClockwise());
+        copilotGamepad.right.whileActiveOnce(new RotateTurretClockwise());
 
-        copilotGamepad.getBackButton().whenPressed(new DisableAutoAim());
-        copilotGamepad.getStartButton().whenPressed(new EnableAutoAim());
+        copilotGamepad.back.whenPressed(new DisableAutoAim());
+        copilotGamepad.start.whenPressed(new EnableAutoAim());
 
-        copilotGamepad.getCrossButton().whenPressed(new ShootNear());
-        copilotGamepad.getCircleButton().whenPressed(new ShooterOff());
-        copilotGamepad.getSquareButton().whenPressed(new ShootMedium());
-        copilotGamepad.getTriangleButton().whenPressed(new AutoShoot());
+        copilotGamepad.a.whenPressed(new ShootNear());
+        copilotGamepad.b.whenPressed(new ShooterOff());
+        copilotGamepad.x.whenPressed(new ShootMedium());
+        copilotGamepad.y.whenPressed(new AutoShoot());
     }
 
     private void initializeCamera(){
