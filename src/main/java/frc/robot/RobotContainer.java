@@ -33,6 +33,7 @@ import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,6 +54,10 @@ public class RobotContainer {
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+    final SlewRateLimiter rateLimiterX = new SlewRateLimiter(2);
+    final SlewRateLimiter rateLimiterY = new SlewRateLimiter(2);
+    final SlewRateLimiter rateLimiterRotation = new SlewRateLimiter(2);
+
     public RobotContainer() {
 
         drivetrainSubsystem = new DrivetrainSubsystem();
@@ -64,9 +69,9 @@ public class RobotContainer {
 
         drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             drivetrainSubsystem,
-            () -> pilotGamepad.getLeftYAxis(),
-            () -> pilotGamepad.getLeftXAxis(),
-            () -> pilotGamepad.getRightXAxis()
+            () -> rateLimiterY.calculate(pilotGamepad.getLeftYAxis()),
+            () -> rateLimiterX.calculate(pilotGamepad.getLeftXAxis()),
+            () -> rateLimiterRotation.calculate(pilotGamepad.getRightXAxis())
         ));
 
         configurePilotButtonBindings();
@@ -91,10 +96,10 @@ public class RobotContainer {
     private void configureCopilotButtonBindings() {
 
         copilotGamepad.lb.whenPressed(new BumpShooterRpmUp());
-        copilotGamepad.lt.whenActive(new BumpShooterRpmDown());
+        copilotGamepad.lt.whileActiveOnce(new BumpShooterRpmDown());
 
         copilotGamepad.rb.whenHeld(new ShooterFeedUp());
-        copilotGamepad.rt.whenActive(new ShooterFeedDown());
+        copilotGamepad.rt.whileActiveContinuous(new ShooterFeedDown());
 
         copilotGamepad.up.whenActive(new MoveTurretToDegrees(180));
         copilotGamepad.down.whenActive(new AutoAimOn());
