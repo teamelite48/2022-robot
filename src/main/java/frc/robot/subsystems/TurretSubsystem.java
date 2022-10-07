@@ -111,7 +111,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     if(isTargetAcquired() == false) return;
 
-    double error = tx.getDouble(0.0);
+    double error = -tx.getDouble(0.0);
     double newMotorSpeed = motorOutputLimiter.limit(error * TurretConfig.kP);
 
     setMotor(newMotorSpeed);

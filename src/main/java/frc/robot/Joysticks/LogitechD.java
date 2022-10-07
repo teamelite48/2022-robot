@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class LogitechGamepad {
+public class LogitechD {
 
     public JoystickButton lb;
     public JoystickButton rb;
@@ -29,7 +29,7 @@ public class LogitechGamepad {
 
     private double deadband = 0.02;
 
-    public LogitechGamepad(int port) {
+    public LogitechD(int port) {
         hid = new GenericHID(port);
 
         lb = new JoystickButton(hid, 5);
@@ -43,11 +43,11 @@ public class LogitechGamepad {
         down = new Trigger(() -> hid.getPOV() == 180);
         left = new Trigger(() -> hid.getPOV() == 270);
 
-        start = new JoystickButton(hid, 8);
+        start = new JoystickButton(hid, 10);
         back = new JoystickButton(hid, 7);
 
         x = new JoystickButton(hid, 3);
-        a = new JoystickButton(hid, 1);
+        a = new JoystickButton(hid, 2);
         y = new JoystickButton(hid, 4);
         b = new JoystickButton(hid, 2);
     }
@@ -56,7 +56,7 @@ public class LogitechGamepad {
         return modifyAxis(hid.getRawAxis(0));
     }
     public double getRightXAxis(){
-        return modifyAxis(hid.getRawAxis(4));
+        return modifyAxis(hid.getRawAxis(2));
     }
 
     public double getLeftYAxis() {
@@ -64,7 +64,7 @@ public class LogitechGamepad {
     }
 
     public double getRightYAxis(){
-        return modifyAxis(hid.getRawAxis(5));
+        return modifyAxis(hid.getRawAxis(3));
     }
 
     private double modifyAxis(double input) {

@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import frc.robot.Joysticks.LogitechGamepad;
-import frc.robot.Joysticks.PS4Gamepad;
+import frc.robot.Joysticks.LogitechD;
+import frc.robot.Joysticks.LogitechX;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.commands.intake.ManualIntake;
 import frc.robot.commands.intake.Outtake;
@@ -48,8 +48,8 @@ public class RobotContainer {
     public static SorterSubsystem sorterSubsystem;
     public static TurretSubsystem turretSubsystem;
 
-    final LogitechGamepad pilotGamepad = new LogitechGamepad(JoystickPort.PilotGamepad);
-    final LogitechGamepad copilotGamepad = new LogitechGamepad(JoystickPort.CopilotGamepad);
+    final LogitechD pilotGamepad = new LogitechD(JoystickPort.PilotGamepad);
+    final LogitechX copilotGamepad = new LogitechX(JoystickPort.CopilotGamepad);
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
