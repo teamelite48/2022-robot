@@ -38,6 +38,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
@@ -54,9 +56,11 @@ public class RobotContainer {
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-    final SlewRateLimiter rateLimiterX = new SlewRateLimiter(2);
-    final SlewRateLimiter rateLimiterY = new SlewRateLimiter(2);
-    final SlewRateLimiter rateLimiterRotation = new SlewRateLimiter(2);
+    final int slewRate = 3;
+
+    final SlewRateLimiter rateLimiterX = new SlewRateLimiter(slewRate);
+    final SlewRateLimiter rateLimiterY = new SlewRateLimiter(slewRate);
+    final SlewRateLimiter rateLimiterRotation = new SlewRateLimiter(slewRate);
 
     public RobotContainer() {
 
@@ -126,7 +130,24 @@ public class RobotContainer {
     }
 
     private void inititialzeAutoChooser() {
+
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(3));
+
+        autoChooser.addOption("Back Up & Shoot", new SequentialCommandGroup(
+
+            new RunCommand(() -> new DefaultDriveCommand(
+                drivetrainSubsystem,
+                () -> -0.5,
+                () -> 0.0,
+                () -> 0.0
+            )).withTimeout(2),
+
+            new AutoShoot(),
+            new WaitCommand(2),
+            new ShooterFeedUp(),
+            new WaitCommand(3),
+            new ShooterOff()
+        ));
 
         SmartDashboard.putData(autoChooser);
     }
