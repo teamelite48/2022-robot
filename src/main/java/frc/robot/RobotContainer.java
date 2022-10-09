@@ -56,7 +56,7 @@ public class RobotContainer {
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-    final int slewRate = 3;
+    final int slewRate = 2;
 
     final SlewRateLimiter rateLimiterX = new SlewRateLimiter(slewRate);
     final SlewRateLimiter rateLimiterY = new SlewRateLimiter(slewRate);
