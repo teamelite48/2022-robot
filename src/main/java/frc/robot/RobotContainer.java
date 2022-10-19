@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Joysticks.LogitechD;
 import frc.robot.Joysticks.LogitechX;
 import frc.robot.commands.drive.DefaultDriveCommand;
+import frc.robot.commands.drive.DriveBackwardsCommand;
 import frc.robot.commands.intake.ManualIntake;
 import frc.robot.commands.intake.Outtake;
 import frc.robot.commands.intake.RetractIntake;
@@ -71,12 +72,12 @@ public class RobotContainer {
         sorterSubsystem = new SorterSubsystem();
         turretSubsystem = new TurretSubsystem();
 
-        drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-            drivetrainSubsystem,
-            () -> rateLimiterY.calculate(pilotGamepad.getLeftYAxis()),
-            () -> rateLimiterX.calculate(pilotGamepad.getLeftXAxis()),
-            () -> rateLimiterRotation.calculate(pilotGamepad.getRightXAxis())
-        ));
+        // drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+        //     drivetrainSubsystem,
+        //     () -> rateLimiterY.calculate(pilotGamepad.getLeftYAxis()),
+        //     () -> rateLimiterX.calculate(pilotGamepad.getLeftXAxis()),
+        //     () -> rateLimiterRotation.calculate(pilotGamepad.getRightXAxis())
+        // ));
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
@@ -134,14 +135,7 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(3));
 
         autoChooser.addOption("Back Up & Shoot", new SequentialCommandGroup(
-
-            new RunCommand(() -> new DefaultDriveCommand(
-                drivetrainSubsystem,
-                () -> -0.5,
-                () -> 0.0,
-                () -> 0.0
-            )).withTimeout(2),
-
+            new DriveBackwardsCommand(1),
             new AutoShoot(),
             new WaitCommand(2),
             new ShooterFeedUp(),
