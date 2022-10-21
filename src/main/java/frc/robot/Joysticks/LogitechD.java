@@ -70,6 +70,6 @@ public class LogitechD {
     private double modifyAxis(double input) {
         if ((-deadband <= input && input <= 0.0) || (0.0 <= input && input <= deadband)) return 0;
 
-        return input * Math.abs(input) * 0.6;
+        return input * Math.abs(input) * 0.65;
       }
 }
