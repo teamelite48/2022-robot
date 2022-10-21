@@ -8,6 +8,7 @@ import frc.robot.Joysticks.LogitechD;
 import frc.robot.Joysticks.LogitechX;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.commands.drive.DriveBackwardsCommand;
+import frc.robot.commands.intake.AutoIntake;
 import frc.robot.commands.intake.ManualIntake;
 import frc.robot.commands.intake.Outtake;
 import frc.robot.commands.intake.RetractIntake;
@@ -19,6 +20,7 @@ import frc.robot.commands.shooter.BumpShooterRpmUp;
 import frc.robot.commands.shooter.ShootMedium;
 import frc.robot.commands.shooterfeed.ShooterFeedDown;
 import frc.robot.commands.shooterfeed.ShooterFeedUp;
+import frc.robot.commands.sorter.SorterIn;
 import frc.robot.commands.turret.AutoAimOn;
 import frc.robot.commands.turret.DisableAutoAim;
 import frc.robot.commands.turret.EnableAutoAim;
@@ -52,16 +54,10 @@ public class RobotContainer {
     public static SorterSubsystem sorterSubsystem;
     public static TurretSubsystem turretSubsystem;
 
-    final LogitechD pilotGamepad = new LogitechD(JoystickPort.PilotGamepad);
-    final LogitechX copilotGamepad = new LogitechX(JoystickPort.CopilotGamepad);
+    final public static LogitechD pilotGamepad = new LogitechD(JoystickPort.PilotGamepad);
+    final public static LogitechX copilotGamepad = new LogitechX(JoystickPort.CopilotGamepad);
 
     final SendableChooser<Command> autoChooser = new SendableChooser<>();
-
-    final int slewRate = 2;
-
-    final SlewRateLimiter rateLimiterX = new SlewRateLimiter(slewRate);
-    final SlewRateLimiter rateLimiterY = new SlewRateLimiter(slewRate);
-    final SlewRateLimiter rateLimiterRotation = new SlewRateLimiter(slewRate);
 
     public RobotContainer() {
 
@@ -71,13 +67,6 @@ public class RobotContainer {
         shooterFeedSubsystem = new ShooterFeedSubsystem();
         sorterSubsystem = new SorterSubsystem();
         turretSubsystem = new TurretSubsystem();
-
-        // drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-        //     drivetrainSubsystem,
-        //     () -> rateLimiterY.calculate(pilotGamepad.getLeftYAxis()),
-        //     () -> rateLimiterX.calculate(pilotGamepad.getLeftXAxis()),
-        //     () -> rateLimiterRotation.calculate(pilotGamepad.getRightXAxis())
-        // ));
 
         configurePilotButtonBindings();
         configureCopilotButtonBindings();
@@ -135,12 +124,17 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Do Nothing", new WaitCommand(3));
 
         autoChooser.addOption("Back Up & Shoot", new SequentialCommandGroup(
-            new DriveBackwardsCommand(1),
+            new AutoIntake(),
+            new SorterIn(),
+            new WaitCommand(1),
+            new DriveBackwardsCommand(0.25),
+            new WaitCommand(1),
+            new DriveBackwardsCommand(0.75),
             new AutoShoot(),
             new WaitCommand(2),
-            new ShooterFeedUp(),
-            new WaitCommand(3),
-            new ShooterOff()
+            new ShooterFeedUp().withTimeout(3),
+            new ShooterOff(),
+            new RetractIntake()
         ));
 
         SmartDashboard.putData(autoChooser);

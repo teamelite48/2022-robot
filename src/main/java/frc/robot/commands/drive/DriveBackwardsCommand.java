@@ -14,25 +14,24 @@ public class DriveBackwardsCommand extends CommandBase {
 
   DrivetrainSubsystem drivetrainSubsystem = RobotContainer.drivetrainSubsystem;
   CoolDownTimer coolDownTimer;
-  double seconds;
 
   public DriveBackwardsCommand(double seconds) {
-    addRequirements(drivetrainSubsystem);
+    // addRequirements(drivetrainSubsystem);
 
-    this.seconds = seconds;
+    this.coolDownTimer = new CoolDownTimer((long) (seconds * 1000));
   }
 
   @Override
   public void initialize() {
     drivetrainSubsystem.zeroGyroscope();
-    coolDownTimer = new CoolDownTimer((long) seconds * 1000);
+    coolDownTimer.start();
   }
 
   @Override
   public void execute() {
     drivetrainSubsystem.drive(
       ChassisSpeeds.fromFieldRelativeSpeeds(
-          -0.25 * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+          0.5 * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
           0,
           0,
           drivetrainSubsystem.getGyroscopeRotation()

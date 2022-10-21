@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.commands.intake.RetractIntake;
 import frc.robot.commands.shooter.ShooterOff;
 import frc.robot.commands.shooterfeed.ShooterFeedStop;
@@ -19,6 +21,13 @@ import frc.robot.commands.sorter.SorterStop;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  final int slewRate = 2;
+
+  final SlewRateLimiter rateLimiterX = new SlewRateLimiter(slewRate);
+  final SlewRateLimiter rateLimiterY = new SlewRateLimiter(slewRate);
+  final SlewRateLimiter rateLimiterRotation = new SlewRateLimiter(slewRate);
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -68,6 +77,13 @@ public class Robot extends TimedRobot {
       new ShooterOff().schedule();
       new RetractIntake().schedule();
     }
+
+    RobotContainer.drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+      RobotContainer.drivetrainSubsystem,
+      () -> rateLimiterY.calculate(RobotContainer.pilotGamepad.getLeftYAxis()),
+      () -> rateLimiterX.calculate(RobotContainer.pilotGamepad.getLeftXAxis()),
+      () -> rateLimiterRotation.calculate(RobotContainer.pilotGamepad.getRightXAxis())
+    ));
   }
 
   @Override
